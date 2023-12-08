@@ -26,7 +26,7 @@ class AuthenticationScreen extends StatelessWidget {
                   const Expanded(child: SizedBox()),
                   Extrude(
                     pressed: true,
-                    onPress: (){
+                    onPress: () {
                       AppTheme().switchTheme();
                     },
                     radius: 100,
@@ -53,22 +53,38 @@ class AuthenticationScreen extends StatelessWidget {
           const SizedBox(height: 10),
           Text("Be in control of your food", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Theme.of(context).textTheme.bodyLarge!.color)),
           SizedBox(height: AppSize.height(5)),
-          AppTextField(hint: "Email", icon: Icons.email_outlined,)
+          const AppTextField(hint: "Email", icon: Icons.email_outlined),
+          const SizedBox(height: 15),
+          const AppTextField(hint: "Password", secured: true),
         ],
       )),
     );
   }
 }
 
-class AppTextField extends StatelessWidget {
+class AppTextField extends StatefulWidget {
   final String hint;
   final TextEditingController? controller;
   final bool secured;
   final IconData? icon;
-  
+
   const AppTextField({
-    super.key, required this.hint, this.controller, this.secured = false, this.icon,
+    super.key,
+    required this.hint,
+    this.controller,
+    this.secured = false,
+    this.icon,
   });
+
+  @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  bool _visibility = false;
+  toggle() {
+    _visibility = !_visibility;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +99,16 @@ class AppTextField extends StatelessWidget {
               width: double.infinity,
               height: 52,
               child: TextField(
+                obscureText: widget.secured ? _visibility : false,
                 decoration: InputDecoration(
-                    hintText: hint,
-                    suffixIcon: icon != null ? Container(
-                      padding: const EdgeInsets.only(
-                        right: 1,
-                        top: 14,
-                        bottom: 10
-                      ),
-                      child: Icon(icon)
-                    ): Container(),
+                    hintText: widget.hint,
+                    suffixIcon: widget.icon != null
+                        ? Container(padding: const EdgeInsets.only(right: 1, top: 16, bottom: 10), child: Icon(widget.icon))
+                        : widget.secured
+                            ? GestureDetector(onTap: () {}, child: Container(padding: const EdgeInsets.only(right: 1, top: 16, bottom: 10), child: const Icon(Icons.visibility)))
+                            : Container(),
                     border: InputBorder.none,
-                    contentPadding: const  EdgeInsets.only(top: 19)),
+                    contentPadding: const EdgeInsets.only(top: 19)),
               ),
             ),
           ),
