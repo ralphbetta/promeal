@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
+import 'package:promeal/config/route.config.dart';
+import 'package:promeal/config/size.config.dart';
 import 'package:promeal/provider/theme.provider.dart';
+import 'package:promeal/screen/authentication.screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,16 +14,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
-      valueListenable: ThemeClass.themeNotifier,
-      builder: (_,ThemeMode currentMode, __) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          themeMode: currentMode,
-          theme: ThemeClass.lightTheme,
-          darkTheme: ThemeClass.darkTheme,
-          home: const MyHomePage(title: 'Component Home'),
-        );
+        valueListenable: ThemeClass.themeNotifier,
+        builder: (_, ThemeMode currentMode, __) {
+          return MaterialApp(
+            title: 'ProMeal App',
+            themeMode: currentMode,
+            theme: ThemeClass.lightTheme,
+            darkTheme: ThemeClass.darkTheme,
+            home: const StartUp(),
+          );
+        });
+  }
+}
+
+class StartUp extends StatelessWidget {
+  const StartUp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    timeOut() async {
+      AppSize().init(context);
+      await Future.delayed(const Duration(seconds: 2));
+      if (context.mounted) {
+        AppRoutes.irreversibleNavigate(context, const AuthenticationScreen());
       }
+    }
+
+    timeOut();
+
+    return Scaffold(
+      body: Container(),
     );
   }
 }
@@ -54,11 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-         const SizedBox(height: 20),
+          const SizedBox(height: 20),
           AppButton(
               pressed: _press,
               onPress: () {
-               
                 toggle();
               })
         ],
@@ -66,4 +88,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

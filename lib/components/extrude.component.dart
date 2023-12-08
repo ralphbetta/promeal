@@ -5,12 +5,12 @@ import 'package:promeal/provider/theme.provider.dart';
 //This File contains Extrusion n first extrution
 
 class Extrude extends StatelessWidget {
-  final Widget body;
+  final Widget child;
   final double radius;
   final bool pressed;
   final double inset;
   final Function()? onPress;
-  const Extrude({super.key, this.inset = 5, this.body = const SizedBox(), this.radius = 10, required this.pressed, this.onPress});
+  const Extrude({super.key, this.inset = 5, this.child = const SizedBox(), this.radius = 10, this.pressed=false, this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,11 @@ class Extrude extends StatelessWidget {
                 onTap: onPress,
                 child: Center(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.circular(radius), boxShadow: [
+                    decoration: 
+                    BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(radius), 
+                      boxShadow: [
                       //top region
                       BoxShadow(
                         offset: -extrueDistance,
@@ -45,7 +48,7 @@ class Extrude extends StatelessWidget {
                         blurRadius: extrudeBlurRadius,
                       ),
                     ]),
-                    child: body,
+                    child: child,
                   ),
                 ),
               )
@@ -53,19 +56,17 @@ class Extrude extends StatelessWidget {
             //intrude
             : GestureDetector(
                 onTap: onPress,
-                child: Center(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(color: Theme.of(context).shadowColor, offset: const Offset(1, 2)),
-                        BoxShadow(offset: insertDistance, blurRadius: inset, color: Theme.of(context).scaffoldBackgroundColor // background color
-                            ),
-                      ],
-                      borderRadius: BorderRadius.circular(radius),
-                    ),
-                    child: body,
+                child: Container(
+                  // margin: const EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(color: Theme.of(context).shadowColor, offset: const Offset(1, 2)),
+                      BoxShadow(offset: insertDistance, blurRadius: inset, color: Theme.of(context).scaffoldBackgroundColor // background color
+                          ),
+                    ],
+                    borderRadius: BorderRadius.circular(radius),
                   ),
+                  child: child,
                 ),
               ),
       ],

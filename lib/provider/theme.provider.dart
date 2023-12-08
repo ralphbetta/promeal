@@ -31,6 +31,11 @@ class ThemeClass {
         seedColor:  AppColors.primary,
         primary:
              AppColors.primary).copyWith(background: AppColors.scaffoldWOff),
+    textTheme:  const TextTheme(
+      bodyLarge: TextStyle(color: Color(0xFF4E545D)),
+      titleLarge: TextStyle(
+          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(

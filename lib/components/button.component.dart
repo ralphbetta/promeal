@@ -13,7 +13,7 @@ class AppButton extends StatelessWidget {
       onTap: onPress,
       child: Extrude(
         pressed: pressed,
-        body: Container(
+        child: Container(
             padding: const EdgeInsets.symmetric(vertical: 17),
             width: double.infinity,
             child: Row(
