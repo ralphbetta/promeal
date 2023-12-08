@@ -14,7 +14,7 @@ static Future<dynamic> push(BuildContext context, screen) {
     return screen;
   },
    settings: RouteSettings(
-      name: "${screen}",
+      name: screen,
     ),
   ));
 }

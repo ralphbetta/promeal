@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
-import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/config/theme.config.dart';
 import 'package:promeal/provider/theme.provider.dart';
 
 void main() {
@@ -47,10 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    // const backgroundColor = Color(0xFFF2F2F2);
-
-
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -60,8 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          FirstExtrude(),
-          SizedBox(height: 20),
+         const SizedBox(height: 20),
           AppButton(
               pressed: _press,
               onPress: () {
