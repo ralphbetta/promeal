@@ -8,7 +8,7 @@ class UserScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(child: Column(
-        children: [],
+        children: const [],
       )),
     );
   }
