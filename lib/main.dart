@@ -4,13 +4,12 @@ import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
-import 'package:promeal/screen/authentication.screen.dart';
+import 'package:promeal/screen/login.screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
-
   ], child: const MyApp()));
 }
 
@@ -41,7 +40,7 @@ class StartUp extends StatelessWidget {
       AppSize().init(context);
       await Future.delayed(const Duration(seconds: 2));
       if (context.mounted) {
-        AppRoutes.irreversibleNavigate(context, const AuthenticationScreen());
+        AppRoutes.irreversibleNavigate(context, const LoginScreen());
       }
     }
 

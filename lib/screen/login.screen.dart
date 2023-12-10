@@ -5,21 +5,24 @@ import 'package:promeal/components/input.component.dart';
 import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/theme.config.dart';
+import 'package:promeal/provider/app.provider.dart';
+import 'package:provider/provider.dart';
 
-class AuthenticationScreen extends StatelessWidget {
-  const AuthenticationScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appListener = context.watch<AppProvider>();
 
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             Extrude(
               radius: 100,
               child: SizedBox(
@@ -53,7 +56,11 @@ class AuthenticationScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: AppSize.height(7)),
-            Text("Login", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 24, color: Theme.of(context).textTheme.bodyLarge!.color)),
+            Text("Login",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 24,
+                    color: Theme.of(context).textTheme.bodyLarge!.color)),
             const SizedBox(height: 10),
             Text("Be in control of your food", style: appStyle(context)),
             SizedBox(height: AppSize.height(5)),
@@ -67,10 +74,17 @@ class AuthenticationScreen extends StatelessWidget {
                   SizedBox(height: AppSize.height(4)),
                   Row(
                     children: [
+
+                      /*-----------------------------
+                      Extrude handles ontap actions
+                      -----------------------------*/ 
                       Extrude(
+                        onPress: () {
+                          context.read<AppProvider>().checkBox();
+                        },
                         pressed: true,
                         radius: 3,
-                        child: appCheckbox(onTap: () {}),
+                        child: appCheckbox(checked: appListener.checked),
                       ),
                       const SizedBox(width: 10),
                       Text(
@@ -78,7 +92,9 @@ class AuthenticationScreen extends StatelessWidget {
                         style: appStyle(context),
                       ),
                       const Spacer(),
-                      Text("Forgot Password?", style: appStyle(context, color: Theme.of(context).primaryColor)),
+                      Text("Forgot Password?",
+                          style: appStyle(context,
+                              color: Theme.of(context).primaryColor)),
                     ],
                   ),
                   SizedBox(height: AppSize.height(8)),
@@ -90,16 +106,17 @@ class AuthenticationScreen extends StatelessWidget {
                       Text("Don't have an account ", style: appStyle(context)),
                       Text(
                         "Signup",
-                        style: appStyle(context, color: Theme.of(context).primaryColor),
+                        style: appStyle(context,
+                            color: Theme.of(context).primaryColor),
                       )
                     ],
                   )
                 ],
               ),
             )
-                  ],
-                ),
-          )),
+          ],
+        ),
+      )),
     );
   }
 }
@@ -116,4 +133,8 @@ appCheckbox({bool checked = true, Function()? onTap}) {
   );
 }
 
-TextStyle appStyle(BuildContext context, {double size = 16, Color? color}) => TextStyle(fontSize: size, fontWeight: FontWeight.w400, color: color ?? Theme.of(context).textTheme.bodyLarge!.color);
+TextStyle appStyle(BuildContext context, {double size = 16, Color? color}) =>
+    TextStyle(
+        fontSize: size,
+        fontWeight: FontWeight.w400,
+        color: color ?? Theme.of(context).textTheme.bodyLarge!.color);
