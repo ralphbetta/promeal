@@ -93,7 +93,7 @@ class SignupScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: AppSize.height(5)),
-                  AppButton(pressed: false, onPress: () {}, title: "Login"),
+                  AppButton(pressed: false, onPress: () {}, title: "SIGN UP", primary: true,),
                   const SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -157,6 +157,7 @@ class _AppToggleState extends State<AppToggle> with SingleTickerProviderStateMix
           left: !widget.active ? 1 : 20,
           child:   Extrude(inset: 2, 
           onPress:()=> widget.onTap!(),
+          primary: widget.active, 
         child: const SizedBox(height: 20, width: 20)))
       ],
     );

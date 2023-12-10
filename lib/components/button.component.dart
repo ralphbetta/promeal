@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
+import 'package:promeal/screen/login.screen.dart';
 
 class AppButton extends StatelessWidget {
   final bool pressed;
   final String title;
+  final bool primary;
   final Function()? onPress;
-  const AppButton({super.key, required this.pressed, this.onPress, this.title = "Submit"});
+  const AppButton({super.key, required this.pressed, this.onPress, this.title = "Submit", this.primary = false});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,7 @@ class AppButton extends StatelessWidget {
       onTap: onPress,
       child: Extrude(
         pressed: pressed,
+        primary: primary,
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 17),
             width: double.infinity,
@@ -31,7 +34,7 @@ class AppButton extends StatelessWidget {
                 //       )
                 //     : const SizedBox(),
                 const SizedBox(width: 15),
-                Text(title),
+                Text(title, style: appStyle(context, color: primary ? Colors.white: null )),
               ],
             )),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:promeal/config/color.config.dart';
 import 'package:promeal/config/theme.config.dart';
 import 'package:promeal/provider/theme.provider.dart';
 
@@ -9,8 +10,16 @@ class Extrude extends StatelessWidget {
   final double radius;
   final bool pressed;
   final double inset;
+  final bool primary;
   final Function()? onPress;
-  const Extrude({super.key, this.inset = 5, this.child = const SizedBox(), this.radius = 10, this.pressed=false, this.onPress});
+  const Extrude(
+      {super.key,
+      this.inset = 5,
+      this.child = const SizedBox(),
+      this.radius = 10,
+      this.pressed = false,
+      this.onPress,
+      this.primary = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +39,36 @@ class Extrude extends StatelessWidget {
                 onTap: onPress,
                 child: Center(
                   child: Container(
-                    decoration: 
-                    BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.circular(radius), 
-                      boxShadow: [
-                      //top region
-                      BoxShadow(
-                        offset: -extrueDistance,
-                        color: Theme.of(context).secondaryHeaderColor,
-                        blurRadius: extrudeBlurRadius,
-                      ),
-                      //bottom region
-                      BoxShadow(
-                        offset: extrueDistance,
-                        color: Theme.of(context).shadowColor,
-                        blurRadius: extrudeBlurRadius,
-                      ),
-                    ]),
+                    decoration: BoxDecoration(
+                        color: primary
+                            ? null
+                            : Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(radius),
+                        gradient: primary
+                            ? LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                    AppColors.primaryDark,
+                                     AppColors.primaryDark,
+                             
+                                    AppColors.primary,
+                                  ])
+                            : null,
+                        boxShadow: [
+                          //top region
+                          BoxShadow(
+                            offset: -extrueDistance,
+                            color: Theme.of(context).secondaryHeaderColor,
+                            blurRadius: extrudeBlurRadius,
+                          ),
+                          //bottom region
+                          BoxShadow(
+                            offset: extrueDistance,
+                            color: Theme.of(context).shadowColor,
+                            blurRadius: extrudeBlurRadius,
+                          ),
+                        ]),
                     child: child,
                   ),
                 ),
@@ -60,8 +81,14 @@ class Extrude extends StatelessWidget {
                   // margin: const EdgeInsets.symmetric(horizontal: 15),
                   decoration: BoxDecoration(
                     boxShadow: [
-                      BoxShadow(color: Theme.of(context).shadowColor, offset: const Offset(1, 2)),
-                      BoxShadow(offset: insertDistance, blurRadius: inset, color: Theme.of(context).scaffoldBackgroundColor // background color
+                      BoxShadow(
+                          color: Theme.of(context).shadowColor,
+                          offset: const Offset(1, 2)),
+                      BoxShadow(
+                          offset: insertDistance,
+                          blurRadius: inset,
+                          color: Theme.of(context)
+                              .scaffoldBackgroundColor // background color
                           ),
                     ],
                     borderRadius: BorderRadius.circular(radius),
@@ -81,7 +108,12 @@ class Extrude2 extends StatelessWidget {
   final double radius;
   final bool pressed;
   final Function()? onPress;
-  const Extrude2({super.key, this.body = const SizedBox(), this.radius = 10, required this.pressed, this.onPress});
+  const Extrude2(
+      {super.key,
+      this.body = const SizedBox(),
+      this.radius = 10,
+      required this.pressed,
+      this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -110,17 +142,21 @@ class Extrude2 extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             offset: -extrueDistance,
-                            color: ThemeClass.themeNotifier.value == ThemeMode.dark
-                                ? //Theme.of(context).shadowColor
-                                Colors.grey.withOpacity(0.09)
-                                : Theme.of(context).colorScheme.background,
+                            color:
+                                ThemeClass.themeNotifier.value == ThemeMode.dark
+                                    ? //Theme.of(context).shadowColor
+                                    Colors.grey.withOpacity(0.09)
+                                    : Theme.of(context).colorScheme.background,
 
                             //Theme.of(context).shadowColor,
                             blurRadius: blurRadius,
                           ),
                           BoxShadow(
                               offset: extrueDistance,
-                              color: ThemeClass.themeNotifier.value != ThemeMode.dark ? Theme.of(context).shadowColor : Theme.of(context).colorScheme.background,
+                              color: ThemeClass.themeNotifier.value !=
+                                      ThemeMode.dark
+                                  ? Theme.of(context).shadowColor
+                                  : Theme.of(context).colorScheme.background,
                               //Theme.of(context).colorScheme.background,
                               blurRadius: blurRadius)
                         ]),
@@ -138,7 +174,11 @@ class Extrude2 extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(color: Theme.of(context).shadowColor),
-                        BoxShadow(offset: insertDistance, blurRadius: blurRadius - 4, color: Theme.of(context).scaffoldBackgroundColor // background color
+                        BoxShadow(
+                            offset: insertDistance,
+                            blurRadius: blurRadius - 4,
+                            color: Theme.of(context)
+                                .scaffoldBackgroundColor // background color
                             ),
                       ],
                       borderRadius: BorderRadius.circular(radius),
@@ -190,14 +230,20 @@ class _FirstExtrudeState extends State<FirstExtrude> {
                 },
                 child: Center(
                   child: Container(
-                    decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(borderRadius), boxShadow: [
-                      BoxShadow(
-                        offset: -distance,
-                        color: leftLightShadowColor,
-                        blurRadius: blurRadius,
-                      ),
-                      BoxShadow(offset: distance, color: rightLightShadowColor, blurRadius: blurRadius)
-                    ]),
+                    decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: -distance,
+                            color: leftLightShadowColor,
+                            blurRadius: blurRadius,
+                          ),
+                          BoxShadow(
+                              offset: distance,
+                              color: rightLightShadowColor,
+                              blurRadius: blurRadius)
+                        ]),
                     child: SizedBox(
                       width: size,
                       height: size,
@@ -214,7 +260,10 @@ class _FirstExtrudeState extends State<FirstExtrude> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         const BoxShadow(color: rightLightShadowColor),
-                        BoxShadow(offset: insertDistance, blurRadius: blurRadius - 4, color: backgroundColor // background color
+                        BoxShadow(
+                            offset: insertDistance,
+                            blurRadius: blurRadius - 4,
+                            color: backgroundColor // background color
                             ),
                       ],
                       borderRadius: BorderRadius.circular(borderRadius),

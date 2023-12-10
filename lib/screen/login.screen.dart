@@ -100,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: AppSize.height(8)),
-                  AppButton(pressed: false, onPress: () {}, title: "Login"),
+                  AppButton(pressed: false, onPress: () {}, title: "LOGIN", primary: true,),
                   const SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
