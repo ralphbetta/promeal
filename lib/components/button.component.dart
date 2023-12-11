@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/screen/login.screen.dart';
+import 'package:promeal/config/style.config.dart';
 
 class AppButton extends StatelessWidget {
   final bool pressed;
@@ -22,19 +22,19 @@ class AppButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // pressed
-                //     ? SizedBox(
-                //         width: 15,
-                //         height: 15,
-                //         child: CircularProgressIndicator(
-                //           strokeWidth: 2,
-                //           backgroundColor: Theme.of(context).primaryColor,
-                //           color: Colors.white,
-                //         ),
-                //       )
-                //     : const SizedBox(),
+                pressed
+                    ? SizedBox(
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(width: 15),
-                Text(title, style: appStyle(context, color: primary ? Colors.white: null )),
+                Text(title, style: AppStyle.apply(context, color: primary ? Colors.white: null )),
               ],
             )),
       ),

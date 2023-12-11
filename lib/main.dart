@@ -4,7 +4,7 @@ import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
-import 'package:promeal/screen/login.screen.dart';
+import 'package:promeal/screen/authscreen/auth.screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
