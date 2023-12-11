@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
 import 'package:promeal/components/extrude.component.dart';

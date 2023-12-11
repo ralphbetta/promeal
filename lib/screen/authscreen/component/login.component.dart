@@ -2,15 +2,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:promeal/components/button.component.dart';
 import 'package:promeal/components/checkbox.component.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/input.component.dart';
-import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/app.provider.dart';
-import 'package:promeal/screen/signup.screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginSection extends StatelessWidget {
