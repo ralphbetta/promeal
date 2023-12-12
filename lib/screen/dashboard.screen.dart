@@ -41,8 +41,8 @@ class Dashboard extends StatelessWidget {
           padding: EdgeInsets.only(
               left: AppSize.width(4),
               right: AppSize.width(4),
-              top: AppSize.height(2)),
-          height: AppSize.height(13),
+              top: AppSize.height(1)),
+          height: AppSize.height(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
