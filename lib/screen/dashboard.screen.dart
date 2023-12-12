@@ -4,7 +4,9 @@ import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/screen/history.screen.dart';
 import 'package:promeal/screen/home.screen.dart';
+import 'package:promeal/screen/setting.screen.dart';
 import 'package:promeal/screen/users.screen.dart';
 import 'package:promeal/screen/widgets/appbar.widget.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,7 @@ class Dashboard extends StatelessWidget {
 
     const List<String> title = ["DASHBOARD", "USERS", "HISTORY", "SETTINGS"];
 
-    const List<Widget> screens = [HomeScreen(), UserScreen(),HomeScreen(), UserScreen(),];
+    const List<Widget> screens = [HomeScreen(), UserScreen(),HistoryScreen(), SettingScreen(),];
 
     final appListener = context.watch<AppProvider>();
 
@@ -26,7 +28,6 @@ class Dashboard extends StatelessWidget {
         appBar: customAppBar(context, title: title[appListener.bottomNavIndex]),
         body: screens[appListener.bottomNavIndex],
 
-        //HomeScreen(),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             boxShadow: [

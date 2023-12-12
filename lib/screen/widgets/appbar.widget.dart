@@ -30,12 +30,12 @@ customAppBar(BuildContext context, {String title=""}) {
                 },
                 primary: true,
                 radius: 8,
-                child: SizedBox(
+                child: const SizedBox(
                   width: appbar + 5,
                   height: appbar,
                   child: Icon(
                     Icons.brightness_2_outlined,
-                    color: Theme.of(context).colorScheme.background,
+                    color: Colors.white,
                   ),
                 ),
               )
@@ -43,7 +43,7 @@ customAppBar(BuildContext context, {String title=""}) {
           ),
           const SizedBox(width: 20),
           Row(
-            children: [
+            children: const [
               Extrude(
                 primary: true,
                 radius: 8,
@@ -52,7 +52,7 @@ customAppBar(BuildContext context, {String title=""}) {
                   height: appbar,
                   child: Icon(
                     Icons.notifications_outlined,
-                    color: Theme.of(context).colorScheme.background,
+                    color: Colors.white
                   ),
                 ),
               )

@@ -1,14 +1,11 @@
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
-import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 
-class UserScreen extends StatelessWidget {
-  const UserScreen({
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({
     super.key,
   });
 
@@ -36,7 +33,7 @@ class UserScreen extends StatelessWidget {
                     child: TextField(
                       obscureText: false,
                       decoration: InputDecoration(
-                        hintText: "I'm looking for...",
+                        hintText: "Make your search...",
                         border: InputBorder.none,
                       ),
                     ),
@@ -75,35 +72,15 @@ class UserScreen extends StatelessWidget {
             child: ListView.builder(
                 itemCount: 25,
                 itemBuilder: (BuildContext context, index) {
-                  return BounceInRight(
-                    delay: Duration(milliseconds: index*100),
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        bottom: AppSize.height(2),
-                        top: index == 0? AppSize.height(1): 0,
-                        left: AppSize.width(4),
-                        right: AppSize.width(4),
-                      ),
-                      width: double.infinity,
-                      child: Extrude(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppSize.width(2),
-                            vertical: AppSize.height(1.3),
-                          ),
-                          child: Row(
-                            children: [
-                              Image(
-                                image: AssetImage(AppAsset.profile),
-                                height: 30,
-                              ),
-                              const SizedBox(width: 10),
-                              Text("John Doe", style: AppStyle.apply(context))
-                            ],
-                          ),
-                        ),
-                      ),
+                  return Container(
+                    margin: EdgeInsets.only(
+                      bottom: AppSize.height(2),
+                      top: index == 0? AppSize.height(1): 0,
+                      left: AppSize.width(4),
+                      right: AppSize.width(4),
                     ),
+                    width: double.infinity,
+                    
                   );
                 }))
       ],

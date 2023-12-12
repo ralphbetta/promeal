@@ -1,4 +1,4 @@
-
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
@@ -12,13 +12,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const List<String> meals = ['Breakfast', 'Lunch', 'Dinner'];
+
     return Column(
       children: [
         Expanded(
           child: ListView.builder(
               itemCount: 3,
               itemBuilder: (BuildContext context, index) {
-                return const MealCard();
+                return FadeInUp(
+                    delay: Duration(milliseconds: index * 30),
+                    child: MealCard(meal: meals[index]));
               }),
         ),
       ],
@@ -26,11 +30,11 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-
-
 class MealCard extends StatelessWidget {
+  final String meal;
   const MealCard({
     super.key,
+    this.meal = "",
   });
 
   @override
@@ -55,7 +59,7 @@ class MealCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Breakfast".toUpperCase(),
+                    meal.toUpperCase(),
                     style: AppStyle.apply(context,
                         fontWeight: FontWeight.w600, size: 18),
                   ),
@@ -66,8 +70,7 @@ class MealCard extends StatelessWidget {
               Row(
                 children: [
                   Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Card Owner",
                           style: AppStyle.apply(context,
@@ -76,8 +79,7 @@ class MealCard extends StatelessWidget {
                       Text(
                         "Itepu Mabel",
                         style: AppStyle.apply(context,
-                            fontWeight: FontWeight.w400,
-                            size: 20),
+                            fontWeight: FontWeight.w400, size: 20),
                       ),
                     ],
                   ),
