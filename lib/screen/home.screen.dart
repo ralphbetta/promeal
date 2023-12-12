@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
+import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
+import 'package:promeal/screen/scan.screen.dart';
 import 'package:promeal/screen/widgets/foodcounter.widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -45,6 +47,9 @@ class MealCard extends StatelessWidget {
           left: AppSize.width(4),
           right: AppSize.width(4)),
       child: Extrude(
+        onPress: (){
+          AppRoutes.push(context, const ScanScreen());
+        },
           child: SizedBox(
         height: AppSize.height(18),
         width: double.infinity,
