@@ -10,6 +10,9 @@ class AppProvider extends ChangeNotifier {
   bool _allowBiometric = true;
   bool get allowBiometric => _allowBiometric;
 
+  int _bottomNavIndex = 0;
+  int get bottomNavIndex => _bottomNavIndex;
+
   checkBox() {
     _checked = !_checked;
     notifyListeners();
@@ -22,6 +25,11 @@ class AppProvider extends ChangeNotifier {
 
   toggleBioMetic(){
     _allowBiometric = !_allowBiometric;
+    notifyListeners();
+  }
+
+  toggleBottomNav(int index){
+    _bottomNavIndex = index;
     notifyListeners();
   }
 

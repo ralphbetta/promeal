@@ -78,16 +78,15 @@ class Extrude extends StatelessWidget {
             : GestureDetector(
                 onTap: onPress,
                 child: Container(
-                  // margin: const EdgeInsets.symmetric(horizontal: 15),
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                          color: Theme.of(context).shadowColor,
+                          color: primary ? const Color(0xFF04794B) : Theme.of(context).shadowColor,
                           offset: const Offset(1, 2)),
                       BoxShadow(
                           offset: insertDistance,
                           blurRadius: inset,
-                          color: Theme.of(context)
+                          color: primary ? AppColors.primary : Theme.of(context)
                               .scaffoldBackgroundColor // background color
                           ),
                     ],
