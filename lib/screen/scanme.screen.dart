@@ -1,12 +1,6 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
-import 'package:promeal/config/style.config.dart';
-import 'package:promeal/constants.dart';
-import 'package:promeal/provider/app.provider.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ScanMeScreen extends StatelessWidget {
@@ -16,21 +10,16 @@ class ScanMeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appListener = context.watch<AppProvider>();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(height: AppSize.height(5)),
-      
-
-        /*-----------------------------------------------------------|
-          TOGGLE SECTION
-        |------------------------------------------------------------*/
+  
 
         Center(
           child: Extrude(
-            child: Container(
+            child: SizedBox(
               width: AppSize.width(70),
               height: AppSize.width(70),
              
@@ -60,7 +49,7 @@ class ScanMeScreen extends StatelessWidget {
               ],
             )),
 
-        Spacer(),
+        const Spacer(),
       ],
     );
   }
