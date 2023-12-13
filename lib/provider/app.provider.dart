@@ -13,6 +13,9 @@ class AppProvider extends ChangeNotifier {
   int _bottomNavIndex = 0;
   int get bottomNavIndex => _bottomNavIndex;
 
+  int _historyTabIndex = 0;
+  int get historyTabIndex => _historyTabIndex;
+
   checkBox() {
     _checked = !_checked;
     notifyListeners();
@@ -23,14 +26,23 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  toggleBioMetic(){
+  toggleBioMetic() {
     _allowBiometric = !_allowBiometric;
     notifyListeners();
   }
 
-  toggleBottomNav(int index){
-    _bottomNavIndex = index;
+  toggleBottomNav(int index) {
+    if (_bottomNavIndex == 4 && index == 4) {
+      _bottomNavIndex = 0;
+    } else {
+      _bottomNavIndex = index;
+    }
+
     notifyListeners();
   }
 
+  toggleHistoryTab(int index) {
+    _historyTabIndex = index;
+    notifyListeners();
+  }
 }
