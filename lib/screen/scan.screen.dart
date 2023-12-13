@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
+import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -32,6 +33,8 @@ class _ScanScreenState extends State<ScanScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
+      Navigator.pop(context);
+      showModal(context, () => null);
       setState(() {
         result = scanData;
       });
@@ -115,7 +118,7 @@ class _ScanScreenState extends State<ScanScreen> {
           const Spacer(),
           Extrude(
             onPress: () {
-              Navigator.pop(context);
+              showModal(context, () => null);
             },
             primary: true,
             radius: 8,
