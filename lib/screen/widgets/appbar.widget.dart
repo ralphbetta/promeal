@@ -3,8 +3,6 @@ import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/config/theme.config.dart';
-import 'package:promeal/provider/app.provider.dart';
-import 'package:provider/provider.dart';
 
 customAppBar(BuildContext context, {String title=""}) {
   const double appbar = 37;
@@ -46,31 +44,31 @@ customAppBar(BuildContext context, {String title=""}) {
               )
             ],
           ),
-          const SizedBox(width: 20),
-          Row(
-            children:  [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 6
-                ),
-                child: Extrude(
-                  onPress: (){
-                    context.read<AppProvider>().toggleBottomNav(4);
-                  },
-                  primary: context.watch<AppProvider>().bottomNavIndex == 4 ? true: false,
-                  radius: 8,
-                  child: const SizedBox(
-                    width: appbar + 5,
-                    height: appbar,
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      color: Colors.white
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
+          // const SizedBox(width: 20),
+          // Row(
+          //   children:  [
+          //     Padding(
+          //       padding: const EdgeInsets.only(
+          //         top: 6
+          //       ),
+          //       child: Extrude(
+          //         onPress: (){
+          //           context.read<AppProvider>().toggleBottomNav(4);
+          //         },
+          //         primary: context.watch<AppProvider>().bottomNavIndex == 4 ? true: false,
+          //         radius: 8,
+          //         child: const SizedBox(
+          //           width: appbar + 5,
+          //           height: appbar,
+          //           child: Icon(
+          //             Icons.notifications_outlined,
+          //             color: Colors.white
+          //           ),
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          // ),
           SizedBox(width: AppSize.width(4)),
         ],
         elevation: 0.9,
