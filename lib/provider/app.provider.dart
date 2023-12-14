@@ -16,6 +16,28 @@ class AppProvider extends ChangeNotifier {
   int _historyTabIndex = 0;
   int get historyTabIndex => _historyTabIndex;
 
+  bool _transferIsOpen = false;
+  bool get transferIsOpen => _transferIsOpen;
+
+  int? _transferIndex;
+  int? get transferIndex => _transferIndex;
+
+
+  toggleTransferOption(){
+
+    if(_transferIsOpen == true){
+      _transferIndex = null;
+    }
+    _transferIsOpen = !_transferIsOpen;
+    notifyListeners();
+  }
+
+  selectTransferOption(int index){
+    _transferIndex = index;
+    notifyListeners();
+  }
+
+
   checkBox() {
     _checked = !_checked;
     notifyListeners();
