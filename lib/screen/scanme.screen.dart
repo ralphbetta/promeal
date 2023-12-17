@@ -5,6 +5,8 @@ import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
+import 'package:promeal/provider/account.provider.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ScanMeScreen extends StatelessWidget {
@@ -28,7 +30,7 @@ class ScanMeScreen extends StatelessWidget {
                 width: AppSize.width(70),
                 height: AppSize.width(70),
                 child: QrImageView(
-                  data: 'This is a simple QR code',
+                  data: context.read<AccountProvider>().accountModel!.key ?? "unknown",
                   version: QrVersions.auto,
                   eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.square, color: Theme.of(context).textTheme.bodyMedium!.color),
                   dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Theme.of(context).textTheme.bodyMedium!.color),
