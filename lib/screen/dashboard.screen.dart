@@ -11,7 +11,7 @@ import 'package:promeal/screen/home.screen.dart';
 import 'package:promeal/screen/notification.screen.dart';
 import 'package:promeal/screen/scanme.screen.dart';
 import 'package:promeal/screen/setting.screen.dart';
-import 'package:promeal/screen/users.screen.dart';
+import 'package:promeal/screen/transfers_history.screen.dart';
 import 'package:promeal/screen/widgets/appbar.widget.dart';
 import 'package:provider/provider.dart';
 

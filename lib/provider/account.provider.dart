@@ -44,8 +44,6 @@ class AccountProvider extends ChangeNotifier {
     } else {
       _accounts = [];
     }
-
-    print("Account count ${_accounts.length}");
   }
 
   loadTransfer(token) async {
@@ -57,8 +55,6 @@ class AccountProvider extends ChangeNotifier {
       }
       notifyListeners();
     }
-
-    print("transfer count ${_transfers.length}");
   }
 
   initLoading(String token) {
@@ -84,6 +80,7 @@ class AccountProvider extends ChangeNotifier {
       _accountModel = AccountModel.fromJson(response.data['data']);
       _isToken = response.data['token'].toString();
       _isLoading = false;
+      initLoading(_isToken);
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
@@ -109,9 +106,11 @@ class AccountProvider extends ChangeNotifier {
       _accountModel = AccountModel.fromJson(response.data['data']);
       _isToken = response.data['token'].toString();
       _isLoading = false;
+      initLoading(_isToken);
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
+    
     } else {
       _isLoading = false;
       notifyListeners();

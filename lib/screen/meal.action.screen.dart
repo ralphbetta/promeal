@@ -11,7 +11,8 @@ import 'package:promeal/screen/transferto.screen.dart';
 import 'package:provider/provider.dart';
 
 class MealActionScreen extends StatefulWidget {
-  const MealActionScreen({super.key});
+  final bool fromTransfered;
+  const MealActionScreen({super.key, this.fromTransfered = false});
 
   @override
   State<MealActionScreen> createState() => _MealActionScreenState();
@@ -69,12 +70,13 @@ class _MealActionScreenState extends State<MealActionScreen> {
               AppRoutes.push(context, const ScanScreen());
             }),
           ),
-          SlideInUp(
+        !widget.fromTransfered ?  SlideInUp(
             duration: Duration(milliseconds: delay * 2),
             child: mealActionCard(context, () {
               context.read<AppProvider>().toggleTransferOption();
             }, title: "Transfer Breakfast", icon: Icons.share, isOpen: appListener.transferIsOpen),
-          ),
+          ):Container()
+          ,
           appListener.transferIsOpen ? dropdownAction(context, appListener) : const SizedBox(),
           SlideInUp(
             duration: Duration(milliseconds: delay * 3),
