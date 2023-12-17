@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/model/account.model.dart';
+import 'package:promeal/model/notification.model.dart';
 import 'package:promeal/model/transfer.model.dart';
 import 'package:promeal/screen/authscreen/auth.screen.dart';
 import 'package:promeal/screen/dashboard.screen.dart';
@@ -16,8 +17,8 @@ class AccountProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  String _isToken = "";
-  String get isToekn => _isToken;
+  String _token = "";
+  String get token => _token;
 
   AccountModel? _accountModel;
   AccountModel? get accountModel => _accountModel;
@@ -27,6 +28,9 @@ class AccountProvider extends ChangeNotifier {
 
   List<TransferModel> _transfers = [];
   List<TransferModel> get transfers => _transfers;
+
+  List<NotificationModel> _notifications = [];
+  List<NotificationModel> get notifications => _notifications;
 
   setLoading() {
     _isLoading = !_isLoading;
@@ -57,9 +61,23 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
+    loadNotification(token) async {
+    Response response = await APIRepo().notifications(token: token);
+    if (response.statusCode == 200) {
+      for (var item in response.data['data']) {
+        NotificationModel model = NotificationModel.fromJson(item);
+        _notifications.add(model);
+      }
+      notifyListeners();
+    }
+
+    print(_notifications.length);
+  }
+
   initLoading(String token) {
     loadAccounts();
     loadTransfer(token);
+    loadNotification(token);
   }
 
   login(context) async {
@@ -78,9 +96,9 @@ class AccountProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       await AppStorage().updateToken(response.data['token'].toString());
       _accountModel = AccountModel.fromJson(response.data['data']);
-      _isToken = response.data['token'].toString();
+      _token = response.data['token'].toString();
       _isLoading = false;
-      initLoading(_isToken);
+      initLoading(_token);
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
@@ -104,9 +122,9 @@ class AccountProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       await AppStorage().updateToken(response.data['token'].toString());
       _accountModel = AccountModel.fromJson(response.data['data']);
-      _isToken = response.data['token'].toString();
+      _token = response.data['token'].toString();
       _isLoading = false;
-      initLoading(_isToken);
+      initLoading(_token);
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
@@ -131,7 +149,7 @@ class AccountProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       await AppStorage().updateToken(response.data['token'].toString());
       _accountModel = AccountModel.fromJson(response.data['data']);
-      _isToken = response.data['token'].toString();
+      _token = response.data['token'].toString();
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
@@ -141,7 +159,7 @@ class AccountProvider extends ChangeNotifier {
       return false;
     }
 
-    initLoading(_isToken);
+    initLoading(_token);
 
     return true;
   }

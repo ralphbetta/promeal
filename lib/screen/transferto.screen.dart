@@ -117,7 +117,7 @@ class _TransferToScreenState extends State<TransferToScreen> {
         SizedBox(height:AppSize.height(1)),
         Expanded(
             child: ListView.builder(
-                itemCount: accountListerner.accounts.length,
+                itemCount: accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).length,
 
                 itemBuilder: (BuildContext context, index) {
                   return BounceInRight(
@@ -131,6 +131,11 @@ class _TransferToScreenState extends State<TransferToScreen> {
                       ),
                       width: double.infinity,
                       child: Extrude(
+                        onPress: (){
+
+                          print(accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].key);
+
+                        },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: AppSize.width(2),
@@ -143,7 +148,7 @@ class _TransferToScreenState extends State<TransferToScreen> {
                                 height: 30,
                               ),
                               const SizedBox(width: 10),
-                              Text("${accountListerner.accounts[index].name}", style: AppStyle.apply(context))
+                              Text("${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].name}", style: AppStyle.apply(context))
                             ],
                           ),
                         ),

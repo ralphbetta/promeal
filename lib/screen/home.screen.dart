@@ -4,8 +4,10 @@ import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
+import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/screen/meal.action.screen.dart';
 import 'package:promeal/screen/widgets/foodcounter.widget.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -41,6 +43,7 @@ class MealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       margin: EdgeInsets.only(
           top: AppSize.height(3),
@@ -82,7 +85,7 @@ class MealCard extends StatelessWidget {
                               fontWeight: FontWeight.w400)),
                       const SizedBox(height: 4),
                       Text(
-                        "Itepu Mabel",
+                        "${context.read<AccountProvider>().accountModel!.name}",
                         style: AppStyle.apply(context,
                             fontWeight: FontWeight.w400, size: 20),
                       ),
