@@ -21,7 +21,7 @@ const List<IconData> bottomFill = [
 
 List<String> bottomPic = [
   AppAsset.homeout,
-  AppAsset.searchout,
+  AppAsset.transferout,
   AppAsset.dark,
   AppAsset.notificationout,
   AppAsset.settingsout,
@@ -29,7 +29,7 @@ List<String> bottomPic = [
 
 List<String> bottomFillPic = [
   AppAsset.home,
-  AppAsset.search,
+  AppAsset.transfer,
   AppAsset.dark,
   AppAsset.notification,
   AppAsset.settings,

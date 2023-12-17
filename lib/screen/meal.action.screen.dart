@@ -7,7 +7,7 @@ import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/scan.screen.dart';
-import 'package:promeal/utils/toast.utils.dart';
+import 'package:promeal/screen/transferto.screen.dart';
 import 'package:provider/provider.dart';
 
 class MealActionScreen extends StatefulWidget {
@@ -89,7 +89,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
               if(appListener.transferIndex == 1){
                  AppRoutes.push(context, const ScanScreen());
               }else{
-                showToast(context, "Coming soon");
+                AppRoutes.push(context, const TransferToScreen());
               }
 
             },

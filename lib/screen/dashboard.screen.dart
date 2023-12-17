@@ -23,7 +23,7 @@ class Dashboard extends StatelessWidget {
 
     const List<String> title = [
       "DASHBOARD",
-      "USERS",
+      "TRANSFERS",
       "SCAN ME",
       "NOTIFICATION",
       "SETTINGS",

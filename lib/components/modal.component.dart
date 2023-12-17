@@ -70,7 +70,7 @@ Future<void> showFoodDrop(context, Function()? onTap, { String message = ""}) as
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Image(image: AssetImage(AppAsset.fooddrop), gaplessPlayback: false,),
+                  Image(image: AssetImage(AppAsset.celebrate), gaplessPlayback: false,),
                   Text("Woo-hoo!", style: AppStyle.apply(context, size: 24, fontWeight: FontWeight.w500),),
                   Padding(
                       padding: EdgeInsets.symmetric(

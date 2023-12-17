@@ -6,6 +6,11 @@ import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/utils/email_to_name.utils.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
 
 class UserScreen extends StatelessWidget {
   const UserScreen({
@@ -14,66 +19,15 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    AccountProvider accountListener = context.watch<AccountProvider>();
     return Column(
       children: [
         SizedBox(height: AppSize.height(2)),
 
-        /*-----------------------------------------------------------|
-          SEARCH SECTION
-        |------------------------------------------------------------*/ 
-
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.width(4)),
-          child: Extrude(
-            pressed: true,
-            child: Container(
-              padding: const EdgeInsets.only(left: 14),
-              width: double.infinity,
-              height: 52,
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: TextField(
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: "I'm looking for...",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const Spacer(),
-                      Extrude(
-                        onPress: () {},
-                        primary: true,
-                        radius: 8,
-                        child: const SizedBox(
-                          width: appbar - 5,
-                          height: appbar - 5,
-                          child: Icon(
-                            Icons.search_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      )
-                      // Spacer(),
-                    ],
-                  ),
-                  SizedBox(width: AppSize.width(3))
-                ],
-              ),
-            ),
-          ),
-        ),
-        
-        SizedBox(height:AppSize.height(1)),
         Expanded(
             child: ListView.builder(
-                itemCount: 25,
+                itemCount: accountListener.transfers.length,
                 itemBuilder: (BuildContext context, index) {
                   return BounceInRight(
                     delay: Duration(milliseconds: index*100),
@@ -94,11 +48,22 @@ class UserScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               Image(
-                                image: AssetImage(AppAsset.profile),
+                                image: AssetImage(AppAsset.food),
                                 height: 30,
                               ),
-                              const SizedBox(width: 10),
-                              Text("John Doe", style: AppStyle.apply(context))
+                              const SizedBox(width: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(capitalize(accountListener.transfers[index].meal ?? ""), style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 20)),
+                                  const SizedBox(height: 7),
+                                  Text("From: ${formatNameFromEmail(accountListener.transfers[index].sender!)}", style: AppStyle.apply(context)),
+                                ],
+                              ),
+
+                              const Spacer(),
+
+                              Text(formatTime(accountListener.transfers[index].createdAt!), style: AppStyle.apply(context),)
                             ],
                           ),
                         ),
@@ -106,7 +71,25 @@ class UserScreen extends StatelessWidget {
                     ),
                   );
                 }))
+     
+     
       ],
     );
   }
+
+
 }
+
+
+String capitalize(String text) {
+  if (text.isEmpty) {
+    return text;
+  }
+
+  return text[0].toUpperCase() + text.substring(1).toLowerCase();
+}
+
+  String formatTime(DateTime dateTime) {
+    String formattedTime = DateFormat.jm().format(dateTime);
+    return formattedTime.toLowerCase(); // Convert to lowercase "am" or "pm"
+  }

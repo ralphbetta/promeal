@@ -10,6 +10,9 @@ class AppProvider extends ChangeNotifier {
   bool _allowBiometric = true;
   bool get allowBiometric => _allowBiometric;
 
+  bool _allowNotification = false;
+  bool get allowNotification => _allowNotification;
+
   int _bottomNavIndex = 0;
   int get bottomNavIndex => _bottomNavIndex;
 
@@ -22,6 +25,10 @@ class AppProvider extends ChangeNotifier {
   int? _transferIndex;
   int? get transferIndex => _transferIndex;
 
+  toggleNotification(){
+    _allowNotification = !_allowNotification;
+    notifyListeners();
+  }
 
   toggleTransferOption(){
 

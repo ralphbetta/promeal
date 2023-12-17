@@ -10,6 +10,9 @@ class APIRoute {
   static String login = "$base/api/account/login";
   static String register = "$base/api/account/register";
   static String refresh = "$base/api/account/refresh";
+  static String accounts = "$base/api/account/users";
+  static String transfers = "$base/api/food/transferhistory";
+
   static String update = "$base/api/account/profile";
   static String validation = "$base/api/account/validation";
 

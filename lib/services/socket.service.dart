@@ -5,7 +5,7 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketService {
   late Socket socket;
-  static String URL = APIRoute.base;
+  static String url = APIRoute.base;
 
   /*--------------------------------------------------------
   create a singleton instance of this class service,
@@ -20,7 +20,7 @@ class SocketService {
 
   initialize({required String userId}) async {
 
-    socket = io(URL, {
+    socket = io(url, {
       "transports": ['websocket'],
       "query": {"userId": userId}
     });
@@ -52,7 +52,7 @@ class SocketService {
      // await clearInstance();
     }
 
-    socket = io(URL, {
+    socket = io(url, {
       "transports": ['websocket'],
       "query": {"userId": newCallerId},
     });
@@ -65,7 +65,7 @@ class SocketService {
       dev.log("Connection Error: $error");
     });
 
-    await socket.connect();
+    socket.connect();
   }
 
 

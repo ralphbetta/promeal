@@ -12,6 +12,9 @@ class AppAsset {
   static String settings = 'assets/icon/settings.png';
   static String settingsout = 'assets/icon/settings_outline.png';
   static String touch = 'assets/icon/touch.png';
+    static String transfer = 'assets/icon/transfer.png';
+  static String transferout = 'assets/icon/transfer_outline.png';
+   static String food = 'assets/icon/food.png';
 
   static String scanning = 'assets/scanning.gif';
   static String scanned = 'assets/scanned.gif';
