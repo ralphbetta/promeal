@@ -38,6 +38,7 @@ class _AppTextFieldState extends State<AppTextField> {
         height: 52,
         child: TextField(
           obscureText: widget.secured ? _visibility : false,
+          controller: widget.controller,
           decoration: InputDecoration(
               hintText: widget.hint,
               suffixIcon: widget.icon != null

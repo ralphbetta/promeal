@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AppData {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController websiteController = TextEditingController();
-  TextEditingController subscriberController = TextEditingController();
-}
+TextEditingController nameController = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController confirmPasswordController = TextEditingController();
+
+TextEditingController websiteController = TextEditingController();
+TextEditingController subscriberController = TextEditingController();

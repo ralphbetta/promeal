@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:promeal/components/checkbox.component.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/input.component.dart';
+import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/app.provider.dart';
@@ -50,9 +51,9 @@ class LoginSection extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: AppSize.width(5)),
             child: Column(
               children: [
-                const AppTextField(hint: "Email", icon: Icons.email_outlined),
+                 AppTextField(hint: "Email", icon: Icons.email_outlined, controller: emailController),
                 const SizedBox(height: 25),
-                const AppTextField(hint: "Password", secured: true),
+                 AppTextField(hint: "Password", secured: true, controller: passwordController,),
                 SizedBox(height: AppSize.height(4)),
                 Row(
                   children: [

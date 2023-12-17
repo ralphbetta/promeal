@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/screen/chefhome.screen.dart';
 import 'package:promeal/screen/home.screen.dart';
 import 'package:promeal/screen/notification.screen.dart';
 import 'package:promeal/screen/scanme.screen.dart';
@@ -26,9 +28,16 @@ class Dashboard extends StatelessWidget {
       "SETTINGS",
     ];
 
-    const List<Widget> screens = [
-      // ChefHomeScreen(),
+    const List<Widget> userScreens = [
       HomeScreen(),
+      UserScreen(),
+      ScanMeScreen(),
+      NotificationScreen(),
+      SettingScreen(),
+    ];
+
+    const List<Widget> adminScreens = [
+      ChefHomeScreen(),
       UserScreen(),
       ScanMeScreen(),
       NotificationScreen(),
@@ -41,7 +50,7 @@ class Dashboard extends StatelessWidget {
 
     return Scaffold(
         appBar: customAppBar(context, title: title[appListener.bottomNavIndex]),
-        body: screens[appListener.bottomNavIndex],
+        body: context.read<AccountProvider>().accountModel!.role == "user" ? userScreens[appListener.bottomNavIndex] : adminScreens[appListener.bottomNavIndex],
         floatingActionButton: bottomIsNew
             ? appListener.bottomNavIndex == 2
                 ? JelloIn(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
+import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/authscreen/auth.screen.dart';
@@ -10,6 +11,8 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
+    ChangeNotifierProvider(create: (_) => AccountProvider()),
+
   ], child: const MyApp()));
 }
 

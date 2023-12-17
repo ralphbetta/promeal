@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/assets.config.dart';
+import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/config/theme.config.dart';
+import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/authscreen/component/login.component.dart';
 import 'package:promeal/screen/authscreen/component/signup.component.dart';
@@ -67,10 +69,13 @@ class LoginScreen extends StatelessWidget {
                 horizontal: AppSize.width(5.5)
               ),
               child: AppButton(
-                pressed: false,
+                pressed:  context.watch<AccountProvider>().isLoading,
+                
                 onPress: () {
-                     AppRoutes.irreversibleNavigate(
-                        context, const Dashboard());
+
+                 context.read<AccountProvider>().login(context);
+                    //  AppRoutes.irreversibleNavigate(
+                    //     context, const Dashboard());
                 },
                 title: appListener.isLogin? "LOGIN": "SIGNUP",
                 primary: true,
