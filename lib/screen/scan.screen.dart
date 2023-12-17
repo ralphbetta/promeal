@@ -34,7 +34,7 @@ class _ScanScreenState extends State<ScanScreen> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       Navigator.pop(context);
-      showModal(context, () => null);
+      showScannedSuccess(context, () => null);
       setState(() {
         result = scanData;
       });
@@ -118,7 +118,7 @@ class _ScanScreenState extends State<ScanScreen> {
           const Spacer(),
           Extrude(
             onPress: () {
-              showModal(context, () => null);
+              showScannedSuccess(context, () => null);
             },
             primary: true,
             radius: 8,

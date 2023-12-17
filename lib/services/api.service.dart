@@ -80,7 +80,6 @@ class APIRepo {
     }
   }
 
-
   Future<dynamic> accounts({String token = ""}) async {
     Dio dio = Dio();
 
@@ -88,7 +87,7 @@ class APIRepo {
       return status == 409 || (status! >= 200 && status < 420);
     };
 
-     dio.options.headers['Authorization'] = 'Bearer $token';
+    dio.options.headers['Authorization'] = 'Bearer $token';
 
     String url = APIRoute.accounts;
 
@@ -105,7 +104,6 @@ class APIRepo {
     }
   }
 
-  
   Future<dynamic> transfers({String token = ""}) async {
     Dio dio = Dio();
 
@@ -113,7 +111,7 @@ class APIRepo {
       return status == 409 || (status! >= 200 && status < 420);
     };
 
-     dio.options.headers['Authorization'] = 'Bearer $token';
+    dio.options.headers['Authorization'] = 'Bearer $token';
 
     String url = APIRoute.transfers;
 
@@ -130,20 +128,45 @@ class APIRepo {
     }
   }
 
-
-    Future<dynamic> notifications({String token = ""}) async {
+  Future<dynamic> notifications({String token = ""}) async {
     Dio dio = Dio();
 
     dio.options.validateStatus = (status) {
       return status == 409 || (status! >= 200 && status < 420);
     };
 
-     dio.options.headers['Authorization'] = 'Bearer $token';
+    dio.options.headers['Authorization'] = 'Bearer $token';
 
     String url = APIRoute.notifications;
 
     try {
       Response response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
+  Future<dynamic> transfer(Map formData, String token) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.transfer;
+
+    try {
+      Response response = await dio.post(url, data: formData);
+
+      log(response.toString());
 
       if (response.statusCode == 200) {
         return response;

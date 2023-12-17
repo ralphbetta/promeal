@@ -58,10 +58,12 @@ class AccountProvider extends ChangeNotifier {
         _transfers.add(model);
       }
       notifyListeners();
+    } else {
+      _transfers = [];
     }
   }
 
-    loadNotification(token) async {
+  loadNotification(token) async {
     Response response = await APIRepo().notifications(token: token);
     if (response.statusCode == 200) {
       for (var item in response.data['data']) {
@@ -69,9 +71,9 @@ class AccountProvider extends ChangeNotifier {
         _notifications.add(model);
       }
       notifyListeners();
+    } else {
+      _notifications = [];
     }
-
-    print(_notifications.length);
   }
 
   initLoading(String token) {
@@ -128,7 +130,6 @@ class AccountProvider extends ChangeNotifier {
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
-    
     } else {
       _isLoading = false;
       notifyListeners();
@@ -196,5 +197,4 @@ class AccountProvider extends ChangeNotifier {
 
     return true;
   }
-
 }

@@ -6,8 +6,9 @@ import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/scan.screen.dart';
-import 'package:promeal/screen/transferto.screen.dart';
+import 'package:promeal/screen/staff.screen.dart';
 import 'package:provider/provider.dart';
 
 class MealActionScreen extends StatefulWidget {
@@ -68,19 +69,19 @@ class _MealActionScreenState extends State<MealActionScreen> {
             duration: Duration(milliseconds: delay),
             child: mealActionCard(context, () {
               AppRoutes.push(context, const ScanScreen());
-            }),
+            }, title: "Claim ${context.read<EventProvider>().meal}"),
           ),
         !widget.fromTransfered ?  SlideInUp(
             duration: Duration(milliseconds: delay * 2),
             child: mealActionCard(context, () {
               context.read<AppProvider>().toggleTransferOption();
-            }, title: "Transfer Breakfast", icon: Icons.share, isOpen: appListener.transferIsOpen),
+            }, title: "Transfer ${context.read<EventProvider>().meal}", icon: Icons.share, isOpen: appListener.transferIsOpen),
           ):Container()
           ,
           appListener.transferIsOpen ? dropdownAction(context, appListener) : const SizedBox(),
           SlideInUp(
             duration: Duration(milliseconds: delay * 3),
-            child: mealActionCard(context, () {}, title: "Forffeit Breakfast", icon: Icons.cancel_outlined),
+            child: mealActionCard(context, () {}, title: "Forffeit ${context.read<EventProvider>().meal}", icon: Icons.cancel_outlined),
           ),
           const Spacer(),
 

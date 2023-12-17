@@ -5,6 +5,7 @@ import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/meal.action.screen.dart';
 import 'package:promeal/screen/widgets/foodcounter.widget.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 return FadeInUp(
                     delay: Duration(milliseconds: index * 30),
-                    child: MealCard(meal: meals[index]));
+                    child: MealCard(meal: meals[index], index: index));
               }),
         ),
       ],
@@ -36,9 +37,11 @@ class HomeScreen extends StatelessWidget {
 
 class MealCard extends StatelessWidget {
   final String meal;
+  final int index;
   const MealCard({
     super.key,
     this.meal = "",
+    required this.index
   });
 
   @override
@@ -51,6 +54,7 @@ class MealCard extends StatelessWidget {
           right: AppSize.width(4)),
       child: Extrude(
         onPress: (){
+          context.read<EventProvider>().setMeal(index);
           AppRoutes.push(context, const MealActionScreen());
         },
           child: SizedBox(
