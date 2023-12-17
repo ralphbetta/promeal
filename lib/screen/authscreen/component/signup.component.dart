@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/input.component.dart';
 import 'package:promeal/components/toggle.component.dart';
+import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/app.provider.dart';
@@ -48,11 +49,11 @@ class SignupSection extends StatelessWidget {
           FadeInUp(
             child: Column(
               children: [
-                const AppTextField(hint: "Email", icon: Icons.email_outlined),
+                 AppTextField(hint: "Email", icon: Icons.email_outlined, controller: emailController,),
                 const SizedBox(height: 25),
-                const AppTextField(hint: "Password", secured: true),
+                 AppTextField(hint: "Password", secured: true, controller: passwordController),
                 const SizedBox(height: 25),
-                const AppTextField(hint: "Confirm Password", secured: true),
+                 AppTextField(hint: "Confirm Password", secured: true, controller: confirmPasswordController),
                 SizedBox(height: AppSize.height(2)),
                 Row(
                   children: [

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
-import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
-import 'package:promeal/screen/authscreen/auth.screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
     ChangeNotifierProvider(create: (_) => AccountProvider()),
-
+   ChangeNotifierProvider(create: (_) => EventProvider()),
   ], child: const MyApp()));
 }
 
@@ -41,9 +40,12 @@ class StartUp extends StatelessWidget {
   Widget build(BuildContext context) {
     timeOut() async {
       AppSize().init(context);
-      await Future.delayed(const Duration(seconds: 2));
       if (context.mounted) {
-        AppRoutes.irreversibleNavigate(context, const LoginScreen());
+       bool validated =  await context.read<AccountProvider>().validateAuthentication(context);
+
+       if(validated){
+
+       }
       }
     }
 

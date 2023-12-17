@@ -5,6 +5,7 @@ import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/chefhome.screen.dart';
 import 'package:promeal/screen/home.screen.dart';
 import 'package:promeal/screen/notification.screen.dart';
@@ -47,6 +48,9 @@ class Dashboard extends StatelessWidget {
     final appListener = context.watch<AppProvider>();
 
     double notchRadius = 60;
+
+   context.read<EventProvider>().monitorTransfer(context);
+
 
     return Scaffold(
         appBar: customAppBar(context, title: title[appListener.bottomNavIndex]),

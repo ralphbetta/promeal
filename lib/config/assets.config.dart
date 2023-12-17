@@ -15,4 +15,6 @@ class AppAsset {
 
   static String scanning = 'assets/scanning.gif';
   static String scanned = 'assets/scanned.gif';
+  static String fooddrop = 'assets/fooddrop.gif';
+  static String celebrate = 'assets/celebrate.gif';
 }

@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:promeal/services/path.api.dart';
 
 class APIRepo {
-
   Future<dynamic> login(Map formData) async {
     Dio dio = Dio();
 
@@ -28,7 +27,60 @@ class APIRepo {
       return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
     }
   }
+
+  Future<dynamic> signup(Map formData) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    String url = APIRoute.register;
+
+    try {
+      Response response = await dio.post(url, data: formData);
+
+      log(response.toString());
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
+  Future<dynamic> refresh(String token) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    dio.options.receiveTimeout = const Duration(milliseconds: 5000); // Timeout value in milliseconds - 5seconsd
+
+    String url = APIRoute.refresh;
+
+    try {
+      Response response = await dio.get(url);
+
+      log(response.toString());
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
 }
+
 
 
 //   Future<Response> register(Map formData) async {
