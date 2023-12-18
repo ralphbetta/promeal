@@ -152,7 +152,7 @@ class Dashboard extends StatelessWidget {
 
   bottomNavDocked(BuildContext context, AppProvider appListener) {
     return BottomAppBar(
-      height: 60,
+      height: 80,
       color: Theme.of(context).scaffoldBackgroundColor,
       shape: const CircularNotchedRectangle(), //shape of notch
       elevation: 33,

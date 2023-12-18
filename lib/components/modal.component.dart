@@ -45,8 +45,8 @@ Future<void> showScannedSuccess(context, Function()? onTap, { String message = "
                       },
                       child: const SizedBox(
                         width:  double.infinity,
-                        height: 40,
-                        child: Center(child: Text("Continue")),
+                        height: 50,
+                        child: Center(child: Text("CONTINUE")),
                       ),
                     ),
                   ),
@@ -162,8 +162,8 @@ Future<void> showFoodDrop(context, Function()? onTap, { String message = ""}) as
                       },
                       child: const SizedBox(
                         width:  double.infinity,
-                        height: 40,
-                        child: Center(child: Text("Continue")),
+                        height: 50,
+                        child: Center(child: Text("CONTINUE")),
                       ),
                     ),
                   ),
