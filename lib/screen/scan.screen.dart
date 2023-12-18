@@ -1,9 +1,14 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -33,8 +38,13 @@ class _ScanScreenState extends State<ScanScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      Navigator.pop(context);
-      showScannedSuccess(context, () => null);
+      // Navigator.pop(context);
+      // showConfirmTransfer(context, () {
+      //   Map body = {"meal": context.read<EventProvider>().meal, "key": describeEnum(scanData)};
+      //   log(body.toString());
+      //   context.read<EventProvider>().transfer(context, body);
+      // }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to");
+
       setState(() {
         result = scanData;
       });
@@ -66,8 +76,7 @@ class _ScanScreenState extends State<ScanScreen> {
                   child: const SizedBox(
                     width: appbar + 5,
                     height: appbar,
-                    child:
-                        Icon(Icons.arrow_back_ios_sharp, color: Colors.white),
+                    child: Icon(Icons.arrow_back_ios_sharp, color: Colors.white),
                   ),
                 )
               ],
