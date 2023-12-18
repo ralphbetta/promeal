@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/services/api.service.dart';
 import 'package:promeal/services/socket.service.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +70,7 @@ class EventProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       showStatus(context, () => {}, message: "Your meal has been forfeited", success: true);
+      context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }

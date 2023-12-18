@@ -131,7 +131,7 @@ class NotificationScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 10),
                                 SizedBox(
-                                  width: AppSize.width(65),
+                                  width: AppSize.width(60),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -175,7 +175,7 @@ class NotificationScreen extends StatelessWidget {
                                       .toList()[index]
                                       .createdAt!),
                                   style: AppStyle.apply(context,
-                                      size: 14, fontWeight: FontWeight.w300),
+                                      size: 14, fontWeight: FontWeight.w500),
                                 )
                               ],
                             )

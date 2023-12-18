@@ -45,14 +45,14 @@ class SignupSection extends StatelessWidget {
             ],
             onTap: () {},
           ),
-          SizedBox(height: AppSize.height(5)),
+          SizedBox(height: AppSize.height(4)),
           FadeInUp(
             child: Column(
               children: [
                  AppTextField(hint: "Email", icon: Icons.email_outlined, controller: emailController,),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                  AppTextField(hint: "Password", secured: true, controller: passwordController),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                  AppTextField(hint: "Confirm Password", secured: true, controller: confirmPasswordController),
                 SizedBox(height: AppSize.height(2)),
                 Row(

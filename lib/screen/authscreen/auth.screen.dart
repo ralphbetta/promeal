@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
 import 'package:promeal/components/extrude.component.dart';
@@ -18,42 +19,45 @@ class LoginScreen extends StatelessWidget {
     final appListener = context.watch<AppProvider>();
 
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Extrude(
-              radius: 100,
-              child: SizedBox(
-                width: AppSize.width(42),
-                height: AppSize.width(42),
-                child: Column(
-                  children: [
-                    const Expanded(child: SizedBox()),
-                    Extrude(
-                      pressed: true,
-                      onPress: () {
-                        AppTheme().switchTheme();
-                      },
-                      radius: 100,
-                      child: SizedBox(
-                        // color: Colors.amber,
-                        width: AppSize.width(28),
-                        height: AppSize.width(28),
-                        child: Container(
-                            padding: EdgeInsets.all(AppSize.width(7)),
-                            width: 3,
-                            child: Image(
-                              image: AssetImage(AppAsset.profile),
-                              width: 1,
-                            )),
+            SizedBox(height: AppSize.height(5.5)),
+            JelloIn(
+              child: Extrude(
+                radius: 100,
+                child: SizedBox(
+                  width: AppSize.width(42),
+                  height: AppSize.width(42),
+                  child: Column(
+                    children: [
+                      const Expanded(child: SizedBox()),
+                      Extrude(
+                        pressed: true,
+                        onPress: () {
+                          AppTheme().switchTheme();
+                        },
+                        radius: 100,
+                        child: SizedBox(
+                          // color: Colors.amber,
+                          width: AppSize.width(28),
+                          height: AppSize.width(28),
+                          child: Container(
+                              padding: EdgeInsets.all(AppSize.width(7)),
+                              width: 3,
+                              child: Image(
+                                image: AssetImage(AppAsset.iconlight),
+                                width: 1,
+                              )),
+                        ),
                       ),
-                    ),
-                    const Expanded(child: SizedBox()),
-                  ],
+                      const Expanded(child: SizedBox()),
+                    ],
+                  ),
                 ),
               ),
             ),
