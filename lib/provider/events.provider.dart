@@ -50,7 +50,9 @@ class EventProvider extends ChangeNotifier {
       socket.on("userNotice", (data) {
         log(data.toString());
 
-        context.read<AccountProvider>().token;
+      String token =  context.read<AccountProvider>().token;
+      context.read<AccountProvider>().loadNotification(token);
+      context.read<AccountProvider>().loadTransfer(token);
 
         showFoodDrop(context, () => null, message: data['data']);
       });

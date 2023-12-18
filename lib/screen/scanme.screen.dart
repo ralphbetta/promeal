@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
@@ -24,7 +23,6 @@ class ScanMeScreen extends StatelessWidget {
           child: Center(
             child: Extrude(
               onPress: (){
-                showFoodDrop(context, () => null, message: "user2@gmail.com just transfered dinner to you");
               },
               child: SizedBox(
                 width: AppSize.width(70),

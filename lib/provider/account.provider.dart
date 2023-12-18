@@ -53,6 +53,7 @@ class AccountProvider extends ChangeNotifier {
   loadTransfer(token) async {
     Response response = await APIRepo().transfers(token: token);
     if (response.statusCode == 200) {
+      _transfers = [];
       for (var item in response.data['data']) {
         TransferModel model = TransferModel.fromJson(item);
         _transfers.add(model);
@@ -66,6 +67,7 @@ class AccountProvider extends ChangeNotifier {
   loadNotification(token) async {
     Response response = await APIRepo().notifications(token: token);
     if (response.statusCode == 200) {
+      _notifications = [];
       for (var item in response.data['data']) {
         NotificationModel model = NotificationModel.fromJson(item);
         _notifications.add(model);
