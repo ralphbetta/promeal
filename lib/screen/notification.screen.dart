@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
@@ -18,11 +19,10 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final appListener = context.watch<AppProvider>();
     final accountListener = context.watch<AccountProvider>();
 
-    String type = appListener.historyTabIndex == 0 ? 'food': 'forfit';
+    String type = appListener.historyTabIndex == 0 ? 'food' : 'forfeited';
 
     return Column(
       children: [
@@ -87,16 +87,16 @@ class NotificationScreen extends StatelessWidget {
             ),
           ),
         ),
-       
-       
-       
         SizedBox(height: AppSize.height(1)),
         Expanded(
             child: ListView.builder(
-                itemCount: accountListener.notifications.where((element) => element.type == type).toList().length,
+                itemCount: accountListener.notifications
+                    .where((element) => element.type == type)
+                    .toList()
+                    .length,
                 itemBuilder: (BuildContext context, index) {
                   return FadeInUp(
-                    duration: Duration(milliseconds: (index+1) * 700),
+                    duration: Duration(milliseconds: (index + 1) * 200),
                     child: Container(
                       margin: EdgeInsets.only(
                         bottom: AppSize.height(2),
@@ -107,13 +107,15 @@ class NotificationScreen extends StatelessWidget {
                       width: double.infinity,
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5))
-                          )
-                        ),
-                        padding: const  EdgeInsets.only(
-                          bottom: 5
-                        ),
+                            border: Border(
+                                bottom: BorderSide(
+                                    width: 1,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .color!
+                                        .withOpacity(0.5)))),
+                        padding: const EdgeInsets.only(bottom: 5),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,23 +126,59 @@ class NotificationScreen extends StatelessWidget {
                                   radius: 100,
                                   child: Image(
                                     image: AssetImage(AppAsset.profile),
-                                    width: 25,
+                                    width: 30,
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 SizedBox(
-                                  width: AppSize.width(70),
+                                  width: AppSize.width(65),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(formatNameFromEmail(accountListener.notifications.where((element) => element.type == type).toList()[index].from!), style: AppStyle.apply(context)),
-                                      Text("${accountListener.notifications.where((element) => element.type == type).toList()[index].content}",  style: AppStyle.apply(context, size: 11, fontWeight: FontWeight.w300))
+                                      Text(
+                                          formatNameFromEmail(accountListener
+                                              .notifications
+                                              .where((element) =>
+                                                  element.type == type)
+                                              .toList()[index]
+                                              .from!),
+                                          style: AppStyle.apply(context,
+                                              fontWeight: FontWeight.w500,
+                                              size: 18)),
+                                      Text(
+                                          "${accountListener.notifications.where((element) => element.type == type).toList()[index].content}",
+                                          style: AppStyle.apply(context,
+                                              size: 14,
+                                              fontWeight: FontWeight.w300))
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            Text(formatTime(accountListener.notifications.where((element) => element.type == type).toList()[index].createdAt!), style: AppStyle.apply(context, size: 11, fontWeight: FontWeight.w300),)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  formatTime(accountListener.notifications
+                                      .where((element) => element.type == type)
+                                      .toList()[index]
+                                      .createdAt!),
+                                  style: AppStyle.apply(context,
+                                      size: 14, fontWeight: FontWeight.w300),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  DateFormat("MMM d").format(accountListener
+                                      .notifications
+                                      .where((element) => element.type == type)
+                                      .toList()[index]
+                                      .createdAt!),
+                                  style: AppStyle.apply(context,
+                                      size: 14, fontWeight: FontWeight.w300),
+                                )
+                              ],
+                            )
                           ],
                         ),
                       ),

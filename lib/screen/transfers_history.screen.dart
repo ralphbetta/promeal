@@ -62,12 +62,20 @@ class UserScreen extends StatelessWidget {
                                   Text(capitalize(accountListener.transfers[index].meal ?? ""), style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 20)),
                                   const SizedBox(height: 7),
                                   Text("From: ${formatNameFromEmail(accountListener.transfers[index].sender!)}", style: AppStyle.apply(context)),
+                                 
                                 ],
                               ),
 
                               const Spacer(),
 
-                              Text(formatTime(accountListener.transfers[index].createdAt!), style: AppStyle.apply(context),)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(formatTime(accountListener.transfers[index].createdAt!), style: AppStyle.apply(context),),
+                                  const SizedBox(height: 7),
+                                   Text(DateFormat("MMM d, yyyy").format(accountListener.transfers[index].createdAt!),  style: AppStyle.apply(context),)
+                                ],
+                              )
                             ],
                           ),
                         ),

@@ -59,6 +59,24 @@ class EventProvider extends ChangeNotifier {
   }
 
 
+    forfeit(BuildContext context, Map body) async {
+
+    processTransfer();
+
+    Response response = await APIRepo().claim(body, context.read<AccountProvider>().token);
+
+    print("this is the response $response");
+
+    if (response.statusCode == 200) {
+      showStatus(context, () => {}, message: "Your meal has been forfeited", success: true);
+    } else {
+      showStatus(context, () => {}, message: response.data['message']);
+    }
+    processTransfer();
+  }
+
+
+
   final socket = SocketService.instance.socket;
 
   monitorTransfer(BuildContext context) {
