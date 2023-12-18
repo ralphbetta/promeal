@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
+import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
@@ -69,41 +70,59 @@ class _MealActionScreenState extends State<MealActionScreen> {
           SlideInUp(
             duration: Duration(milliseconds: delay),
             child: mealActionCard(context, () {
-              AppRoutes.push(context, ScanClaimScreen(meal: context.read<EventProvider>().meal,));
+              AppRoutes.push(
+                  context,
+                  ScanClaimScreen(
+                    meal: context.read<EventProvider>().meal,
+                  ));
             }, title: "Claim ${context.read<EventProvider>().meal}"),
           ),
-        !widget.fromTransfered ?  SlideInUp(
-            duration: Duration(milliseconds: delay * 2),
-            child: mealActionCard(context, () {
-              context.read<AppProvider>().toggleTransferOption();
-            }, title: "Transfer ${context.read<EventProvider>().meal}", icon: Icons.share, isOpen: appListener.transferIsOpen),
-          ):Container()
-          ,
+          !widget.fromTransfered
+              ? SlideInUp(
+                  duration: Duration(milliseconds: delay * 2),
+                  child: mealActionCard(context, () {
+                    context.read<AppProvider>().toggleTransferOption();
+                  }, title: "Transfer ${context.read<EventProvider>().meal}", icon: Icons.share, isOpen: appListener.transferIsOpen),
+                )
+              : Container(),
           appListener.transferIsOpen ? dropdownAction(context, appListener) : const SizedBox(),
           SlideInUp(
             duration: Duration(milliseconds: delay * 3),
-            child: mealActionCard(context, () {}, title: "Forffeit ${context.read<EventProvider>().meal}", icon: Icons.cancel_outlined),
+            child: mealActionCard(context, () {
+
+              /*----------------------------------------------
+              INITIATE FORFIT ACTION
+              -----------------------------------------------*/ 
+
+              showConfirmTransfer(context, () {
+                
+                Map body = {"meal": context.read<EventProvider>().meal, "forfeited": true};
+                context.read<EventProvider>().claim(context, body);
+                Navigator.of(context).pop();
+              }, message: "You are about to forfeit your ${context.read<EventProvider>().meal}");
+
+
+            }, title: "Forffeit ${context.read<EventProvider>().meal}", icon: Icons.cancel_outlined),
           ),
           const Spacer(),
-
-        appListener.transferIndex == null ? Container() : BounceInDown(
-          child: Extrude(
-            onPress: (){
-
-              if(appListener.transferIndex == 1){
-                 AppRoutes.push(context, ScanTransferScreen(meal: context.read<EventProvider>().meal));
-              }else{
-                AppRoutes.push(context, const TransferToScreen());
-              }
-
-            },
-              radius: 100,
-              child: const Padding(
-                padding: EdgeInsets.all(16),
-                child: Icon(Icons.arrow_forward),
-              ),
-            ),
-        ),
+          appListener.transferIndex == null
+              ? Container()
+              : BounceInDown(
+                  child: Extrude(
+                    onPress: () {
+                      if (appListener.transferIndex == 1) {
+                        AppRoutes.push(context, ScanTransferScreen(meal: context.read<EventProvider>().meal));
+                      } else {
+                        AppRoutes.push(context, const TransferToScreen());
+                      }
+                    },
+                    radius: 100,
+                    child: const Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Icon(Icons.arrow_forward),
+                    ),
+                  ),
+                ),
           SizedBox(
             height: AppSize.height(10),
           ),

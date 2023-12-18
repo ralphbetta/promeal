@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
+import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:provider/provider.dart';
@@ -116,17 +119,19 @@ class _ScanClaimScreenState extends State<ScanClaimScreen> {
           SizedBox(
             height: AppSize.height(3),
           ),
-          Extrude(
-            radius: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.grey.shade400,
+          FadeInDown(
+            child: Extrude(
+              radius: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.grey.shade400,
+                ),
+                margin: const EdgeInsets.all(15),
+                width: AppSize.width(70),
+                height: AppSize.width(70),
+                child: QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
               ),
-              margin: const EdgeInsets.all(15),
-              width: AppSize.width(70),
-              height: AppSize.width(70),
-              child: QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
             ),
           ),
           SizedBox(
@@ -136,17 +141,27 @@ class _ScanClaimScreenState extends State<ScanClaimScreen> {
               width: AppSize.width(58),
               child: Column(
                 children: [
-                  Text(
-                    "Align the QR code within the frame to scan & Claim",
-                    textAlign: TextAlign.center,
-                  ),
+
+                  AnimatedTextKit(
+                  pause: const Duration(seconds: 40),
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      "Align the QR code within the frame to scan & Claim",
+                      textStyle: AppStyle.apply(context),
+                      textAlign: TextAlign.center,
+                      speed: const Duration(milliseconds: 50),
+                    ),
+                  ],
+                  onTap: () {},
+                ),
+                 
                   SizedBox(
                     height: AppSize.height(3),
                   ),
                   context.watch<EventProvider>().processingTransfer
                       ? Center(
                           child: Text(
-                          "Processing Transfer...",
+                          "Processing Claim...",
                           style:
                               TextStyle(color: Theme.of(context).primaryColor),
                         ))
@@ -156,17 +171,19 @@ class _ScanClaimScreenState extends State<ScanClaimScreen> {
                 ],
               )),
           const Spacer(),
-          Extrude(
-            onPress: () {
-              // print("Hellow ${controller!.getFlashStatus().then((value) => null)}");
-              controller!.toggleFlash();
-            },
-            primary: true,
-            radius: 8,
-            child: const SizedBox(
-              width: appbar + 5,
-              height: appbar + 5,
-              child: Icon(Icons.light_mode, color: Colors.white),
+          BounceInUp(
+            child: Extrude(
+              onPress: () {
+                // print("Hellow ${controller!.getFlashStatus().then((value) => null)}");
+                controller!.toggleFlash();
+              },
+              primary: true,
+              radius: 8,
+              child: const SizedBox(
+                width: appbar + 5,
+                height: appbar + 5,
+                child: Icon(Icons.light_mode, color: Colors.white),
+              ),
             ),
           ),
           SizedBox(

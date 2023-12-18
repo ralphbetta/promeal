@@ -128,12 +128,15 @@ class NotificationScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(formatNameFromEmail(accountListener.notifications.where((element) => element.type == type).toList()[index].from!), style: AppStyle.apply(context)),
-                                    Text("${accountListener.notifications.where((element) => element.type == type).toList()[index].content}",  style: AppStyle.apply(context, size: 11, fontWeight: FontWeight.w300))
-                                  ],
+                                SizedBox(
+                                  width: AppSize.width(70),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(formatNameFromEmail(accountListener.notifications.where((element) => element.type == type).toList()[index].from!), style: AppStyle.apply(context)),
+                                      Text("${accountListener.notifications.where((element) => element.type == type).toList()[index].content}",  style: AppStyle.apply(context, size: 11, fontWeight: FontWeight.w300))
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
