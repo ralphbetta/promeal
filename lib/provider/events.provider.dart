@@ -12,6 +12,14 @@ class EventProvider extends ChangeNotifier {
   bool _monitoring = false;
   bool get monitoring => _monitoring;
 
+  bool _processingTransfer = false;
+  bool get processingTransfer => _processingTransfer;
+
+  processTransfer() {
+    _processingTransfer = !_processingTransfer;
+    notifyListeners();
+  }
+
   String _meal = "";
   String get meal => _meal;
   List<String> meals = ['Breakfast', 'Lunch', 'Dinner'];
@@ -21,11 +29,8 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  transfer(
-    BuildContext context,
-    Map body,
-  ) async {
-
+  transfer(BuildContext context, Map body) async {
+    processTransfer();
     Response response = await APIRepo().transfer(body, context.read<AccountProvider>().token);
 
     print("this is the response $response");
@@ -35,6 +40,7 @@ class EventProvider extends ChangeNotifier {
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
+    processTransfer();
   }
 
   final socket = SocketService.instance.socket;

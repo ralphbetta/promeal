@@ -48,6 +48,7 @@ class _ScanScreenState extends State<ScanScreen> {
         showConfirmTransfer(context, () {
           Map body = {"meal": widget.meal, "key": scanData.code};
           context.read<EventProvider>().transfer(context, body);
+          Navigator.of(context).pop();
         }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to");
       }
 
@@ -124,21 +125,22 @@ class _ScanScreenState extends State<ScanScreen> {
                   SizedBox(
                     height: AppSize.height(3),
                   ),
-                  Center(
-                    child: (result != null)
-                        ? Text("Done"
-
-                            // 'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'
-
-                            )
-                        : Text(''),
-                  ),
+                  context.watch<EventProvider>().processingTransfer
+                      ? Center(
+                          child: Text(
+                          "Processing Transfer...",
+                          style: TextStyle(color: Theme.of(context).primaryColor),
+                        ))
+                      : Center(
+                          child: (result != null) ? Text("Done!") : Text(''),
+                        ),
                 ],
               )),
           const Spacer(),
           Extrude(
             onPress: () {
-              showScannedSuccess(context, () => null);
+              // print("Hellow ${controller!.getFlashStatus().then((value) => null)}");
+              controller!.toggleFlash();
             },
             primary: true,
             radius: 8,
