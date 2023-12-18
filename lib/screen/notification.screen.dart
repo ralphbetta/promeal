@@ -87,6 +87,9 @@ class NotificationScreen extends StatelessWidget {
             ),
           ),
         ),
+       
+       
+       
         SizedBox(height: AppSize.height(1)),
         Expanded(
             child: ListView.builder(

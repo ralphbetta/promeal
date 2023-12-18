@@ -38,3 +38,5 @@ List<String> bottomFillPic = [
 bool bottomIsNew = true;
 
 const List<String> historyTab = ['Transferred Meals', 'Forfeited Meals'];
+
+const List<String> scanTab = ['Share Meals', 'Claim Meals'];

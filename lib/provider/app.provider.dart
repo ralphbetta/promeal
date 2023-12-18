@@ -19,31 +19,32 @@ class AppProvider extends ChangeNotifier {
   int _historyTabIndex = 0;
   int get historyTabIndex => _historyTabIndex;
 
+  bool _admin = false;
+  bool get admin => _admin;
+
   bool _transferIsOpen = false;
   bool get transferIsOpen => _transferIsOpen;
 
   int? _transferIndex;
   int? get transferIndex => _transferIndex;
 
-  toggleNotification(){
+  toggleNotification() {
     _allowNotification = !_allowNotification;
     notifyListeners();
   }
 
-  toggleTransferOption(){
-
-    if(_transferIsOpen == true){
+  toggleTransferOption() {
+    if (_transferIsOpen == true) {
       _transferIndex = null;
     }
     _transferIsOpen = !_transferIsOpen;
     notifyListeners();
   }
 
-  selectTransferOption(int index){
+  selectTransferOption(int index) {
     _transferIndex = index;
     notifyListeners();
   }
-
 
   checkBox() {
     _checked = !_checked;
@@ -72,6 +73,11 @@ class AppProvider extends ChangeNotifier {
 
   toggleHistoryTab(int index) {
     _historyTabIndex = index;
+    notifyListeners();
+  }
+
+  toggleScanTab() {
+    _admin = !_admin;
     notifyListeners();
   }
 }
