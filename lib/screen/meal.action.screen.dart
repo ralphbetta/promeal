@@ -68,7 +68,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
           SlideInUp(
             duration: Duration(milliseconds: delay),
             child: mealActionCard(context, () {
-              AppRoutes.push(context, const ScanScreen());
+              AppRoutes.push(context, ScanScreen(meal: context.read<EventProvider>().meal,));
             }, title: "Claim ${context.read<EventProvider>().meal}"),
           ),
         !widget.fromTransfered ?  SlideInUp(
@@ -90,7 +90,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
             onPress: (){
 
               if(appListener.transferIndex == 1){
-                 AppRoutes.push(context, const ScanScreen());
+                 AppRoutes.push(context, ScanScreen(meal: context.read<EventProvider>().meal));
               }else{
                 AppRoutes.push(context, const TransferToScreen());
               }

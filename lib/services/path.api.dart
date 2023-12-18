@@ -2,7 +2,7 @@ class APIRoute {
   //admin@gmail.com -- 1234
 
   static String local = 'http://192.168.0.167:4050';
-  static String live = 'https://e3ab-102-215-57-46.ngrok-free.app';
+  static String live = 'https://promeal.bubblemeet.online';
 
   static String base = live;
 

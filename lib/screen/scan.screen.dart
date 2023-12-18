@@ -12,7 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanScreen extends StatefulWidget {
-  const ScanScreen({super.key});
+  final String meal;
+  const ScanScreen({super.key, required this.meal});
 
   @override
   State<ScanScreen> createState() => _ScanScreenState();
@@ -35,15 +36,20 @@ class _ScanScreenState extends State<ScanScreen> {
     }
   }
 
+  bool isCodeScanned = false;
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      // Navigator.pop(context);
-      // showConfirmTransfer(context, () {
-      //   Map body = {"meal": context.read<EventProvider>().meal, "key": describeEnum(scanData)};
-      //   log(body.toString());
-      //   context.read<EventProvider>().transfer(context, body);
-      // }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to");
+      if (!isCodeScanned && result != null) {
+        isCodeScanned = true; // Set the flag to true after the first scan
+        controller.stopCamera();
+
+        showConfirmTransfer(context, () {
+          Map body = {"meal": widget.meal, "key": scanData.code};
+          context.read<EventProvider>().transfer(context, body);
+        }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to");
+      }
 
       setState(() {
         result = scanData;
@@ -110,18 +116,23 @@ class _ScanScreenState extends State<ScanScreen> {
           SizedBox(
               width: AppSize.width(58),
               child: Column(
-                children: const [
+                children: [
                   Text(
                     "Align the QR code within the frame to scan",
                     textAlign: TextAlign.center,
                   ),
+                  SizedBox(
+                    height: AppSize.height(3),
+                  ),
+                  Center(
+                    child: (result != null)
+                        ? Text("Done"
 
-                  //        Center(
-                  //   child: (result != null)
-                  //       ? Text(
-                  //           'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  //       : Text('Scan a code'),
-                  // ),
+                            // 'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'
+
+                            )
+                        : Text(''),
+                  ),
                 ],
               )),
           const Spacer(),

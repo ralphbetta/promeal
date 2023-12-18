@@ -155,6 +155,7 @@ class AccountProvider extends ChangeNotifier {
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
     } else {
+      print("response: $response");
       showToast(context, response.data['message']);
       AppRoutes.irreversibleNavigate(context, const LoginScreen());
       return false;
