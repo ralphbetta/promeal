@@ -1,25 +1,22 @@
-import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
-import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanScreen extends StatefulWidget {
+class ScanClaimScreen extends StatefulWidget {
   final String meal;
-  const ScanScreen({super.key, required this.meal});
+  const ScanClaimScreen({super.key, required this.meal});
 
   @override
-  State<ScanScreen> createState() => _ScanScreenState();
+  State<ScanClaimScreen> createState() => _ScanClaimScreenState();
 }
 
-class _ScanScreenState extends State<ScanScreen> {
+class _ScanClaimScreenState extends State<ScanClaimScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -36,20 +33,40 @@ class _ScanScreenState extends State<ScanScreen> {
     }
   }
 
+  bool validateData(String data) {
+    List<String> code = data.split("_");
+    String first = code.first;
+    String last = code.last;
+
+    if (first != 'claim') {
+      return false;
+    }
+
+    if (last.length < 21 || last.length > 21) {
+      return false;
+    }
+
+    return true;
+  }
+
   bool isCodeScanned = false;
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       if (!isCodeScanned && result != null) {
-        isCodeScanned = true; // Set the flag to true after the first scan
+        isCodeScanned = true;
         controller.stopCamera();
+        
+        bool isValid = validateData(scanData.code ?? "");
+        if(isValid){
+          Map body = {"meal": widget.meal};
+          context.read<EventProvider>().claim(context, body);
+        }else{
+          showStatus(context, () => {}, message: "Invalid Claim Code");
+        }
 
-        showConfirmTransfer(context, () {
-          Map body = {"meal": widget.meal, "key": scanData.code};
-          context.read<EventProvider>().transfer(context, body);
-          Navigator.of(context).pop();
-        }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to");
+   
       }
 
       setState(() {
@@ -83,7 +100,8 @@ class _ScanScreenState extends State<ScanScreen> {
                   child: const SizedBox(
                     width: appbar + 5,
                     height: appbar,
-                    child: Icon(Icons.arrow_back_ios_sharp, color: Colors.white),
+                    child:
+                        Icon(Icons.arrow_back_ios_sharp, color: Colors.white),
                   ),
                 )
               ],
@@ -119,7 +137,7 @@ class _ScanScreenState extends State<ScanScreen> {
               child: Column(
                 children: [
                   Text(
-                    "Align the QR code within the frame to scan",
+                    "Align the QR code within the frame to scan & Claim",
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -129,7 +147,8 @@ class _ScanScreenState extends State<ScanScreen> {
                       ? Center(
                           child: Text(
                           "Processing Transfer...",
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ))
                       : Center(
                           child: (result != null) ? Text("Done!") : Text(''),

@@ -7,7 +7,8 @@ import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
-import 'package:promeal/screen/scan.screen.dart';
+import 'package:promeal/screen/scanClaim.screen.dart';
+import 'package:promeal/screen/scanTransfer.screen.dart';
 import 'package:promeal/screen/staff.screen.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
           SlideInUp(
             duration: Duration(milliseconds: delay),
             child: mealActionCard(context, () {
-              AppRoutes.push(context, ScanScreen(meal: context.read<EventProvider>().meal,));
+              AppRoutes.push(context, ScanClaimScreen(meal: context.read<EventProvider>().meal,));
             }, title: "Claim ${context.read<EventProvider>().meal}"),
           ),
         !widget.fromTransfered ?  SlideInUp(
@@ -90,7 +91,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
             onPress: (){
 
               if(appListener.transferIndex == 1){
-                 AppRoutes.push(context, ScanScreen(meal: context.read<EventProvider>().meal));
+                 AppRoutes.push(context, ScanTransferScreen(meal: context.read<EventProvider>().meal));
               }else{
                 AppRoutes.push(context, const TransferToScreen());
               }

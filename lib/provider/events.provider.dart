@@ -33,6 +33,21 @@ class EventProvider extends ChangeNotifier {
     processTransfer();
     Response response = await APIRepo().transfer(body, context.read<AccountProvider>().token);
 
+    if (response.statusCode == 200) {
+      showStatus(context, () => {}, message: "Your meal has been transferred successfully.", success: true);
+    } else {
+      showStatus(context, () => {}, message: response.data['message']);
+    }
+    processTransfer();
+  }
+
+
+  claim(BuildContext context, Map body) async {
+
+    processTransfer();
+
+    Response response = await APIRepo().claim(body, context.read<AccountProvider>().token);
+
     print("this is the response $response");
 
     if (response.statusCode == 200) {
@@ -42,6 +57,7 @@ class EventProvider extends ChangeNotifier {
     }
     processTransfer();
   }
+
 
   final socket = SocketService.instance.socket;
 
