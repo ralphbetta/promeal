@@ -51,7 +51,7 @@ class EventProvider extends ChangeNotifier {
     print("this is the response $response");
 
     if (response.statusCode == 200) {
-      showStatus(context, () => {}, message: "Your meal has been transferred successfully.", success: true);
+      showStatus(context, () => {}, message: "Your meal has been claimed", success: true);
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
