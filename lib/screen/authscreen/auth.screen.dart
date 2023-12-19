@@ -47,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                           width: AppSize.width(28),
                           height: AppSize.width(28),
                           child: Container(
-                              padding: EdgeInsets.all(AppSize.width(7)),
+                              padding: EdgeInsets.all(AppSize.width(6)),
                               width: 3,
                               child: Image(
                                 image: AssetImage(AppAsset.iconlight),
