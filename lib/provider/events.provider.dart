@@ -36,6 +36,8 @@ class EventProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       showStatus(context, () => {}, message: "Your meal has been transferred successfully.", success: true);
+      context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
+
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
