@@ -76,7 +76,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
              const SizedBox(height: 10),
             SlideInUp(
-              duration: Duration(milliseconds: delay),
+              duration: Duration(milliseconds: animationDelay),
               child: AppTextField(
                 hint: "Password",
                 secured: true,
@@ -92,7 +92,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
              const SizedBox(height: 10),
             SlideInUp(
-              duration: Duration(milliseconds: delay * 2),
+              duration: Duration(milliseconds: animationDelay * 2),
               child: AppTextField(
                 hint: "Password",
                 secured: true,
@@ -101,7 +101,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
             const SizedBox(height: 25),
             SlideInUp(
-              duration: Duration(milliseconds: delay * 3),
+              duration: Duration(milliseconds: animationDelay * 3),
               child: AppTextField(
                 hint: "Confirm Password",
                 secured: true,

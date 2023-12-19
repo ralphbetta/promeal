@@ -22,11 +22,19 @@ class AppProvider extends ChangeNotifier {
   bool _admin = false;
   bool get admin => _admin;
 
+  int _adminDashboardTabIndex = 0;
+  int get adminDashboardTabIndex => _adminDashboardTabIndex;
+
   bool _transferIsOpen = false;
   bool get transferIsOpen => _transferIsOpen;
 
   int? _transferIndex;
   int? get transferIndex => _transferIndex;
+
+  toggleAdminDashboardTabIndex(int index){
+    _adminDashboardTabIndex = index;
+    notifyListeners();
+  }
 
   toggleNotification() {
     _allowNotification = !_allowNotification;

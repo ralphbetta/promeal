@@ -1,11 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/screen/transfers_history.screen.dart';
 import 'package:provider/provider.dart';
 
 class ChefHomeScreen extends StatelessWidget {
@@ -16,6 +19,7 @@ class ChefHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appListener = context.watch<AppProvider>();
+    final accountListener = context.watch<AccountProvider>();
 
     return Column(
       children: [
@@ -30,22 +34,11 @@ class ChefHomeScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ...List.generate(
-                  4,
-                  (index) => Extrude(
-                        pressed: true,
-                        child: SizedBox(
-                          width: AppSize.width(18),
-                          height: AppSize.width(18),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text("34", style: AppStyle.apply(context, fontWeight: FontWeight.w500)),
-                              Text("Users", style: AppStyle.apply(context, fontWeight: FontWeight.w300, size: 13))],
-                          ),
-                        ),
-                      ))
+              statCard(context, "Users", "${accountListener.accounts.where((element) => element.role == 'user').length}"),
+              statCard(context, "Claimed", "${accountListener.adminfoodHistory.where((element) => element.forfeited == false).length}"),
+              statCard(context, "Transfered", "${accountListener.adminfoodHistory.where((element) => element.owner == element.actingUser!.id).length}"),
+              statCard(context, "Forfeited", "${accountListener.adminfoodHistory.where((element) => element.forfeited == true).length}"),
+
             ],
           ),
         ),
@@ -63,8 +56,8 @@ class ChefHomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ...List.generate(
-                      historyTab.length,
-                      (index) => appListener.historyTabIndex == index
+                      adminDashboardTab.length,
+                      (index) => appListener.adminDashboardTabIndex == index
                           ? ElasticIn(
                               child: Extrude(
                                 onPress: () {},
@@ -75,7 +68,7 @@ class ChefHomeScreen extends StatelessWidget {
                                   height: 40,
                                   child: Center(
                                       child: Text(
-                                    historyTab[index],
+                                    adminDashboardTab[index],
                                     style: AppStyle.apply(context, size: 14),
                                   )),
                                 ),
@@ -83,14 +76,16 @@ class ChefHomeScreen extends StatelessWidget {
                             )
                           : GestureDetector(
                               onTap: () {
-                                context.read<AppProvider>().toggleHistoryTab(index);
+                                context.read<AppProvider>().toggleAdminDashboardTabIndex(index);
                               },
-                              child: SizedBox(
+                              child: Container(
+                                color: 
+                                Theme.of(context).scaffoldBackgroundColor,
                                 width: AppSize.width(42),
                                 height: 40,
                                 child: Center(
                                     child: Text(
-                                  historyTab[index],
+                                  adminDashboardTab[index],
                                   style: AppStyle.apply(context, size: 14),
                                 )),
                               ),
@@ -105,49 +100,81 @@ class ChefHomeScreen extends StatelessWidget {
         SizedBox(height: AppSize.height(1)),
         Expanded(
             child: ListView.builder(
-                itemCount: 25,
+                itemCount: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList().length,
                 itemBuilder: (BuildContext context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(
-                      bottom: AppSize.height(2),
-                      top: index == 0 ? AppSize.height(1) : 0,
-                      left: AppSize.width(4),
-                      right: AppSize.width(4),
-                    ),
-                    width: double.infinity,
-                    child: Container(
-                      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5)))),
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Wrap(
-                            children: [
-                              Extrude(
-                                radius: 100,
-                                child: Image(
-                                  image: AssetImage(AppAsset.profile),
-                                  width: 25,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [Text("John Doe", style: AppStyle.apply(context)), Text("You transferred Breakfast to Williams", style: AppStyle.apply(context, size: 11, fontWeight: FontWeight.w300))],
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "9:20am",
-                            style: AppStyle.apply(context, size: 11, fontWeight: FontWeight.w300),
-                          )
-                        ],
-                      ),
-                    ),
+                  return GestureDetector(
+                    onTap: () {},
+                    child: appListener.adminDashboardTabIndex == 0 ? FadeInRight(delay: Duration(milliseconds: animationDelay * index), child: adminDashboardCard(index, context, accountListener, appListener)) : FadeInLeft(delay: Duration(milliseconds: animationDelay * index), child: adminDashboardCard(index, context, accountListener, appListener)),
                   );
                 }))
       ],
+    );
+  }
+
+  adminDashboardCard(int index, BuildContext context, AccountProvider accountListener, AppProvider appListener) {
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: AppSize.height(2),
+        top: index == 0 ? AppSize.height(1) : 0,
+        left: AppSize.width(4),
+        right: AppSize.width(4),
+      ),
+      width: double.infinity,
+      child: Container(
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5)))),
+        padding: const EdgeInsets.only(bottom: 5),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Wrap(
+              children: [
+                Extrude(
+                  radius: 100,
+                  child: Image(
+                    image: AssetImage(AppAsset.profile),
+                    width: 35,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Text("${accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].actingUser!.name}", style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 18)), SizedBox(height: 5), Text(accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].owner == accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].actingUser!.id ? "${accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].meal} - Claimed" : "${accountListener.adminfoodHistory[index].meal} - Transfered", style: AppStyle.apply(context, size: 12, fontWeight: FontWeight.w400))],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  formatTime(accountListener.adminfoodHistory[index].createdAt!),
+                  style: AppStyle.apply(context, size: 12, fontWeight: FontWeight.w300),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  DateFormat("MMM d").format(accountListener.adminfoodHistory[index].createdAt!),
+                  style: AppStyle.apply(context, size: 12, fontWeight: FontWeight.w300),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  statCard(BuildContext context, String title, String count) {
+    return Extrude(
+      pressed: true,
+      child: SizedBox(
+        width: AppSize.width(18),
+        height: AppSize.width(18),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [Text(count, style: AppStyle.apply(context, size: 22, fontWeight: FontWeight.w500)), Text(title, style: AppStyle.apply(context, fontWeight: FontWeight.w300, size: 13))],
+        ),
+      ),
     );
   }
 }

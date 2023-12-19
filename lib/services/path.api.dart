@@ -15,4 +15,8 @@ class APIRoute {
   static String transfer = "$base/api/food/transfer";
   static String claim = "$base/api/food/claim";
   static String updateAccount = "$base/api/account/update";
+
+  static String adminfoods = "$base/api/food/dump?query=today";
+  static String admintransfer = "$base/api/food/transfers?query=today";
+
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/model/account.model.dart';
+import 'package:promeal/model/adminfood.model.dart';
+import 'package:promeal/model/admintransfer.model.dart';
 import 'package:promeal/model/notification.model.dart';
 import 'package:promeal/model/transfer.model.dart';
 import 'package:promeal/screen/authscreen/auth.screen.dart';
@@ -28,6 +30,12 @@ class AccountProvider extends ChangeNotifier {
 
   List<TransferModel> _transfers = [];
   List<TransferModel> get transfers => _transfers;
+
+  List<AdminFoodModel> _adminfoodHistory = [];
+  List<AdminFoodModel> get adminfoodHistory => _adminfoodHistory;
+
+  List<AdminTransferModel> _admintransferHistory = [];
+  List<AdminTransferModel> get admintransferHistory => _admintransferHistory;
 
   List<NotificationModel> _notifications = [];
   List<NotificationModel> get notifications => _notifications;
@@ -78,10 +86,47 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
-  initLoading(String token) {
-    loadAccounts();
-    loadTransfer(token);
-    loadNotification(token);
+  loadAdminFoodHistory(token) async {
+    Response response = await APIRepo().adminFoodHistory(token: token);
+    if (response.statusCode == 200) {
+      _transfers = [];
+      for (var item in response.data['data']) {
+        AdminFoodModel model = AdminFoodModel.fromJson(item);
+        model.side = model.owner == model.actingUser!.id? 0 : 1;
+       print( model.side);
+
+        _adminfoodHistory.add(model);
+      }
+      notifyListeners();
+    } else {
+      _transfers = [];
+    }
+  }
+
+  loadAdminFoodTransfer(token) async {
+    Response response = await APIRepo().adminFoodHistory(token: token);
+    if (response.statusCode == 200) {
+      _transfers = [];
+      for (var item in response.data['data']) {
+        AdminTransferModel model = AdminTransferModel.fromJson(item);
+        _admintransferHistory.add(model);
+      }
+      notifyListeners();
+    } else {
+      _transfers = [];
+    }
+  }
+
+  initLoading(String token, String type) {
+     loadAccounts();
+
+    if (type == 'user') {
+      loadTransfer(token);
+      loadNotification(token);
+    }else{
+      loadAdminFoodHistory(token);
+      loadAdminFoodTransfer(token);
+    }
   }
 
   login(context) async {
@@ -102,7 +147,7 @@ class AccountProvider extends ChangeNotifier {
       _accountModel = AccountModel.fromJson(response.data['data']);
       _token = response.data['token'].toString();
       _isLoading = false;
-      initLoading(_token);
+      initLoading(_token, _accountModel!.role!);
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
@@ -128,7 +173,7 @@ class AccountProvider extends ChangeNotifier {
       _accountModel = AccountModel.fromJson(response.data['data']);
       _token = response.data['token'].toString();
       _isLoading = false;
-      initLoading(_token);
+      initLoading(_token, _accountModel!.role!);
       notifyListeners();
       SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
@@ -159,7 +204,6 @@ class AccountProvider extends ChangeNotifier {
       showToast(context, response.data['message']);
       setLoading();
     }
-    
   }
 
   Future<bool> validateAuthentication(context) async {
@@ -186,7 +230,7 @@ class AccountProvider extends ChangeNotifier {
       return false;
     }
 
-    initLoading(_token);
+    initLoading(_token, _accountModel!.role!);
 
     return true;
   }

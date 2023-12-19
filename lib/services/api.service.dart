@@ -93,14 +93,46 @@ class APIRepo {
 
     try {
       Response response = await dio.get(url);
+      return response;
 
-      log(response.toString());
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
 
-      if (response.statusCode == 200) {
-        return response;
-      } else {
-        return response;
-      }
+  Future<dynamic> adminFoodHistory({String token = ""}) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.adminfoods;
+
+    try {
+      Response response = await dio.get(url);
+      return response;
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
+    Future<dynamic> adminTransferHistory({String token = ""}) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.adminfoods;
+
+    try {
+      Response response = await dio.get(url);
+      return response;
     } catch (e) {
       return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
     }
