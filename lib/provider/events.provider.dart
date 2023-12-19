@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/provider/account.provider.dart';
-import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/services/api.service.dart';
 import 'package:promeal/services/socket.service.dart';
 import 'package:provider/provider.dart';

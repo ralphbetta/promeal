@@ -14,7 +14,5 @@ class APIRoute {
   static String notifications = "$base/api/notification/read";
   static String transfer = "$base/api/food/transfer";
   static String claim = "$base/api/food/claim";
-
-  static String update = "$base/api/account/profile";
-  static String validation = "$base/api/account/validation";
+  static String updateAccount = "$base/api/account/update";
 }

@@ -139,6 +139,29 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
+  changepassword(context) async {
+    bool isValid = _changepasswordValidator(context);
+
+    if (!isValid) {
+      return;
+    }
+
+    Map<String, dynamic> payload = {"oldPassword": oldPasswordController.text, "password": passwordController.text};
+
+    setLoading();
+
+    Response response = await APIRepo().changePassword(payload, token);
+
+    if (response.statusCode == 200) {
+      showToast(context, response.data['message']);
+      setLoading();
+    } else {
+      showToast(context, response.data['message']);
+      setLoading();
+    }
+    
+  }
+
   Future<bool> validateAuthentication(context) async {
     var token = await AppStorage().readToken();
 
@@ -172,6 +195,18 @@ class AccountProvider extends ChangeNotifier {
     AppRoutes.irreversibleNavigate(context, const LoginScreen());
     await AppStorage().clearToken();
     _accountModel = null;
+  }
+
+  _changepasswordValidator(context) {
+    if (passwordController.text.isEmpty || confirmPasswordController.text.isEmpty || oldPasswordController.text.isEmpty) {
+      showToast(context, "All the fields are required");
+      return false;
+    }
+    if (passwordController.text != confirmPasswordController.text) {
+      showToast(context, "Password and Confirm does not match");
+      return false;
+    }
+    return true;
   }
 
   _loginValidator(context) {

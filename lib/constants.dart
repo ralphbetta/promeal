@@ -3,6 +3,8 @@ import 'package:promeal/config/assets.config.dart';
 
 const double appbar = 37;
 const double bottomNav = 53;
+final int delay = 400;
+
 const List<IconData> bottom = [
   Icons.home_outlined,
   Icons.search_outlined,

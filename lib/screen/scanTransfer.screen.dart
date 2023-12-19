@@ -1,12 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
-import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

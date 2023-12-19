@@ -52,6 +52,32 @@ class APIRepo {
     }
   }
 
+  Future<dynamic> changePassword(Map formData, String token) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.updateAccount;
+
+    try {
+      Response response = await dio.put(url, data: formData);
+
+      log(response.toString());
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
   Future<dynamic> refresh(String token) async {
     Dio dio = Dio();
 
@@ -177,7 +203,6 @@ class APIRepo {
       return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
     }
   }
-
 
   Future<dynamic> claim(Map formData, String token) async {
     Dio dio = Dio();
