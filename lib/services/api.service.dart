@@ -128,7 +128,7 @@ class APIRepo {
 
     dio.options.headers['Authorization'] = 'Bearer $token';
 
-    String url = APIRoute.adminfoods;
+    String url = APIRoute.admintransfer;
 
     try {
       Response response = await dio.get(url);

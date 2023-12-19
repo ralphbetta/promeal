@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/assets.config.dart';
@@ -7,60 +8,89 @@ import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
+import 'package:promeal/screen/transfers_history.screen.dart';
+import 'package:promeal/utils/email_to_name.utils.dart';
 import 'package:provider/provider.dart';
 
-class StaffScreen extends StatefulWidget {
-  const StaffScreen({super.key});
+class UsersScreen extends StatelessWidget {
+  const UsersScreen({
+    super.key,
+  });
 
-  @override
-  State<StaffScreen> createState() => _StaffScreenState();
-}
-
-class _StaffScreenState extends State<StaffScreen> {
-  final int delay = 400;
   @override
   Widget build(BuildContext context) {
-    final accountListerner = context.watch<AccountProvider>();
+    final appListener = context.watch<AppProvider>();
+    final accountListener = context.watch<AccountProvider>();
 
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          leading: Container(),
-          actions: [
-            SizedBox(width: AppSize.width(4)),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Extrude(
-                  onPress: () {
-                    Navigator.pop(context);
-                  },
-                  primary: true,
-                  radius: 8,
-                  child: const SizedBox(
-                    width: appbar + 5,
-                    height: appbar,
-                    child: Icon(Icons.arrow_back_ios_sharp, color: Colors.white),
-                  ),
-                )
-              ],
+    String type = appListener.historyTabIndex == 0 ? 'food' : 'forfeited';
+
+    return Column(
+      children: [
+        SizedBox(height: AppSize.height(2)),
+
+        /*-----------------------------------------------------------|
+          TOGGLE SECTION
+        |------------------------------------------------------------*/
+
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.width(4)),
+          child: Extrude(
+            pressed: false,
+            child: SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4.1, horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ...List.generate(
+                      historyTab.length,
+                      (index) => appListener.historyTabIndex == index
+                          ? ElasticIn(
+                              child: Extrude(
+                                onPress: () {},
+                                pressed: true,
+                                radius: 8,
+                                child: SizedBox(
+                                  width: AppSize.width(42),
+                                  height: 40,
+                                  child: Center(
+                                      child: Text(
+                                    userTab[index],
+                                    style: AppStyle.apply(context, size: 14),
+                                  )),
+                                ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<AppProvider>()
+                                    .toggleHistoryTab(index);
+                              },
+                              child: SizedBox(
+                                width: AppSize.width(42),
+                                height: 40,
+                                child: Center(
+                                    child: Text(
+                                  userTab[index],
+                                  style: AppStyle.apply(context, size: 14),
+                                )),
+                              ),
+                            ),
+                    )
+                  ],
+                ),
+              ),
             ),
-            SizedBox(width: AppSize.width(4)),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Staff".toUpperCase(), style: AppStyle.apply(context, fontWeight: FontWeight.w700, size: 18)),
-              ],
-            ),
-            const Spacer(),
-          ],
-          elevation: 0.9,
-          shadowColor: Theme.of(context).colorScheme.background),
-      body: SafeArea(
-          child: Column(
-        children: [
-          SizedBox(height: AppSize.height(2)),
+          ),
+        ),
+      
+        SizedBox(height: AppSize.height(2)),
 
           /*-----------------------------------------------------------|
           SEARCH SECTION
@@ -116,7 +146,7 @@ class _StaffScreenState extends State<StaffScreen> {
           SizedBox(height: AppSize.height(1)),
           Expanded(
               child: ListView.builder(
-                  itemCount: accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).length,
+                  itemCount: accountListener.accounts.where((element) => element.email != accountListener.accountModel!.email).length,
                   itemBuilder: (BuildContext context, index) {
                     return BounceInRight(
                       delay: Duration(milliseconds: index * 100),
@@ -131,10 +161,8 @@ class _StaffScreenState extends State<StaffScreen> {
                         child: Extrude(
                           onPress: () {
                             showConfirmTransfer(context, () {
-                              Map body = {"meal": context.read<EventProvider>().meal, "key": accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].key};
-                              Navigator.pop(context);
-                               context.read<EventProvider>().transfer(context, body);
-                            }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to ${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].name}");
+                             
+                            }, message: "You are about to transfer your");
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -148,7 +176,7 @@ class _StaffScreenState extends State<StaffScreen> {
                                   height: 30,
                                 ),
                                 const SizedBox(width: 10),
-                                Text("${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].name}", style: AppStyle.apply(context))
+                                Text("${accountListener.accounts.where((element) => element.email != accountListener.accountModel!.email).toList()[index].name}", style: AppStyle.apply(context))
                               ],
                             ),
                           ),
@@ -156,8 +184,9 @@ class _StaffScreenState extends State<StaffScreen> {
                       ),
                     );
                   }))
-        ],
-      )),
+       
+
+      ],
     );
   }
 }

@@ -11,7 +11,9 @@ import 'package:promeal/screen/home.screen.dart';
 import 'package:promeal/screen/notification.screen.dart';
 import 'package:promeal/screen/scanme.screen.dart';
 import 'package:promeal/screen/setting.screen.dart';
+import 'package:promeal/screen/admintransfers_history.screen.dart';
 import 'package:promeal/screen/transfers_history.screen.dart';
+import 'package:promeal/screen/users.screen.dart';
 import 'package:promeal/screen/widgets/appbar.widget.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +22,7 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    const List<String> title = [
+    const List<String> userTitle = [
       "DASHBOARD",
       "TRANSFERS",
       "SCAN ME",
@@ -29,9 +30,17 @@ class Dashboard extends StatelessWidget {
       "SETTINGS",
     ];
 
+    const List<String> adminTitle = [
+      "DASHBOARD",
+      "TRANSFERS",
+      "SCAN ME",
+      "USERS",
+      "SETTINGS",
+    ];
+
     const List<Widget> userScreens = [
       HomeScreen(),
-      UserScreen(),
+      UserTransfersScreen(),
       ScanMeScreen(),
       NotificationScreen(),
       SettingScreen(),
@@ -39,9 +48,9 @@ class Dashboard extends StatelessWidget {
 
     const List<Widget> adminScreens = [
       ChefHomeScreen(),
-      UserScreen(),
+      AdminTransfersScreen(),
       ScanMeScreen(),
-      NotificationScreen(),
+      UsersScreen(),
       SettingScreen(),
     ];
 
@@ -49,16 +58,15 @@ class Dashboard extends StatelessWidget {
 
     double notchRadius = 60;
 
-   context.read<EventProvider>().monitorTransfer(context);
-
+    context.read<EventProvider>().monitorTransfer(context);
 
     return Scaffold(
-        appBar: customAppBar(context, title: title[appListener.bottomNavIndex]),
+        appBar: customAppBar(context, title: context.read<AccountProvider>().accountModel!.role == "user" ? userTitle[appListener.bottomNavIndex] : adminTitle[appListener.bottomNavIndex]),
         body: context.read<AccountProvider>().accountModel!.role == "user" ? userScreens[appListener.bottomNavIndex] : adminScreens[appListener.bottomNavIndex],
         floatingActionButton: bottomIsNew
             ? appListener.bottomNavIndex == 2
                 ? JelloIn(
-                    child:  SizedBox(
+                    child: SizedBox(
                       width: notchRadius,
                       height: notchRadius,
                       child: Extrude(
@@ -84,13 +92,13 @@ class Dashboard extends StatelessWidget {
                         context.read<AppProvider>().toggleBottomNav(2);
                       },
                       radius: 100,
-                      child:  SizedBox(
+                      child: SizedBox(
                         width: notchRadius,
                         height: notchRadius,
                         child: Icon(
                           Icons.qr_code_2,
                           size: 30,
-                          color:  Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
                         ),
                       ),
                     ),
@@ -185,7 +193,10 @@ class Dashboard extends StatelessWidget {
                                 ),
 
                                 Image(
-                                  image: AssetImage(appListener.bottomNavIndex != index ? bottomPic[index] : bottomFillPic[index]),
+                                  image: 
+                                  context.read<AccountProvider>().accountModel!.role == 'user' ? 
+                                  AssetImage(appListener.bottomNavIndex != index ? userBottomPic[index] : userBottomFillPic[index]) :
+                                  AssetImage(appListener.bottomNavIndex != index ? adminBottomPic[index] : adminBottomFillPic[index]),
                                   width: appbar - 6,
                                 )
                                 // Icon(
@@ -212,7 +223,7 @@ class Dashboard extends StatelessWidget {
                               ),
 
                               Image(
-                                image: AssetImage(bottomPic[index]),
+                                image:  context.read<AccountProvider>().accountModel!.role == 'user' ?  AssetImage(userBottomPic[index]) : AssetImage(adminBottomPic[index]),
                                 width: appbar - 6,
                                 color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
                               )

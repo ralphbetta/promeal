@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/config/data.config.dart';
@@ -104,11 +106,14 @@ class AccountProvider extends ChangeNotifier {
   }
 
   loadAdminFoodTransfer(token) async {
-    Response response = await APIRepo().adminFoodHistory(token: token);
+    Response response = await APIRepo().adminTransferHistory(token: token);
     if (response.statusCode == 200) {
       _transfers = [];
       for (var item in response.data['data']) {
+
+        log("this is each item $item");
         AdminTransferModel model = AdminTransferModel.fromJson(item);
+        print("this is each item ${model.toJson()}");
         _admintransferHistory.add(model);
       }
       notifyListeners();

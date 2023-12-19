@@ -113,7 +113,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
                       if (appListener.transferIndex == 1) {
                         AppRoutes.push(context, ScanTransferScreen(meal: context.read<EventProvider>().meal));
                       } else {
-                        AppRoutes.push(context, const TransferToScreen());
+                        AppRoutes.push(context, const StaffScreen());
                       }
                     },
                     radius: 100,

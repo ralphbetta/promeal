@@ -18,6 +18,8 @@ class AppAsset {
   static String icondark = 'assets/icon/icondt.png';
   static String iconlight = 'assets/icon/iconlt.png';
   static String logolight = 'assets/icon/logo-light.png';
+   static String users = 'assets/icon/users.png';
+  static String usersout = 'assets/icon/usersout.png';
 
   static String scanning = 'assets/scanning.gif';
   static String scanned = 'assets/scanned.gif';

@@ -13,8 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 
-class UserTransfersScreen extends StatelessWidget {
-  const UserTransfersScreen({
+class AdminTransfersScreen extends StatelessWidget {
+  const AdminTransfersScreen({
     super.key,
   });
 
@@ -28,7 +28,7 @@ class UserTransfersScreen extends StatelessWidget {
 
         Expanded(
             child: ListView.builder(
-                itemCount: accountListener.transfers.length,
+                itemCount: accountListener.admintransferHistory.length,
                 itemBuilder: (BuildContext context, index) {
                   return BounceInRight(
                     delay: Duration(milliseconds: index*100),
@@ -42,7 +42,7 @@ class UserTransfersScreen extends StatelessWidget {
                       width: double.infinity,
                       child: Extrude(
                         onPress: (){
-                          AppRoutes.push(context, const MealActionScreen(fromTransfered: true));
+                          print(accountListener.admintransferHistory[index].toJson());
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -59,9 +59,9 @@ class UserTransfersScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(capitalize(accountListener.transfers[index].meal ?? ""), style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 20)),
+                                  Text(capitalize(accountListener.admintransferHistory[index].meal ?? ""), style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 20)),
                                   const SizedBox(height: 7),
-                                  Text("From: ${formatNameFromEmail(accountListener.transfers[index].sender!)}", style: AppStyle.apply(context)),
+                                  Text("From: ${accountListener.admintransferHistory[index].sender ?? "" }", style: AppStyle.apply(context)),
                                  
                                 ],
                               ),
@@ -71,9 +71,9 @@ class UserTransfersScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(formatTime(accountListener.transfers[index].createdAt!), style: AppStyle.apply(context),),
+                                  Text(formatTime(accountListener.admintransferHistory[index].createdAt!), style: AppStyle.apply(context),),
                                   const SizedBox(height: 7),
-                                   Text(DateFormat("MMM d, yyyy").format(accountListener.transfers[index].createdAt!),  style: AppStyle.apply(context),)
+                                   Text(DateFormat("MMM d, yyyy").format(accountListener.admintransferHistory[index].createdAt!),  style: AppStyle.apply(context),)
                                 ],
                               )
                             ],

@@ -21,7 +21,7 @@ const List<IconData> bottomFill = [
   Icons.settings,
 ];
 
-List<String> bottomPic = [
+List<String> userBottomPic = [
   AppAsset.homeout,
   AppAsset.transferout,
   AppAsset.dark,
@@ -29,11 +29,28 @@ List<String> bottomPic = [
   AppAsset.settingsout,
 ];
 
-List<String> bottomFillPic = [
+List<String> userBottomFillPic = [
   AppAsset.home,
   AppAsset.transfer,
   AppAsset.dark,
   AppAsset.notification,
+  AppAsset.settings,
+];
+
+
+List<String> adminBottomPic = [
+  AppAsset.homeout,
+  AppAsset.transferout,
+  AppAsset.dark,
+  AppAsset.usersout,
+  AppAsset.settingsout,
+];
+
+List<String> adminBottomFillPic = [
+  AppAsset.home,
+  AppAsset.transfer,
+  AppAsset.dark,
+  AppAsset.users,
   AppAsset.settings,
 ];
 
@@ -44,3 +61,5 @@ const List<String> historyTab = ['Transferred Meals', 'Forfeited Meals'];
 const List<String> scanTab = ['Share Meals', 'Claim Meals'];
 
 const List<String> adminDashboardTab = ['Owned Claim', 'Transfered Claim'];
+
+const List<String> userTab = ['General Users', 'Admin Users'];
