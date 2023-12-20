@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
@@ -15,6 +17,7 @@ import 'package:promeal/screen/admintransfers_history.screen.dart';
 import 'package:promeal/screen/transfers_history.screen.dart';
 import 'package:promeal/screen/users.screen.dart';
 import 'package:promeal/screen/widgets/appbar.widget.dart';
+import 'package:promeal/services/socket.service.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatelessWidget {
@@ -65,7 +68,13 @@ class Dashboard extends StatelessWidget {
     }
     return Scaffold(
         appBar: customAppBar(context, title: context.read<AccountProvider>().accountModel!.role == "user" ? userTitle[appListener.bottomNavIndex] : adminTitle[appListener.bottomNavIndex]),
-        body: context.read<AccountProvider>().accountModel!.role == "user" ? userScreens[appListener.bottomNavIndex] : adminScreens[appListener.bottomNavIndex],
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(Duration(milliseconds: 5000));
+            SocketService.instance.reconnect(userId: "2");
+          },
+          child: context.read<AccountProvider>().accountModel!.role == "user" ? userScreens[appListener.bottomNavIndex] : adminScreens[appListener.bottomNavIndex],
+        ),
         floatingActionButton: bottomIsNew
             ? appListener.bottomNavIndex == 2
                 ? JelloIn(

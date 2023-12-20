@@ -3,6 +3,7 @@ import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/config/theme.config.dart';
+import 'package:promeal/provider/theme.provider.dart';
 
 customAppBar(BuildContext context, {String title=""}) {
   const double appbar = 37;
@@ -32,11 +33,11 @@ customAppBar(BuildContext context, {String title=""}) {
                   },
                   primary: true,
                   radius: 8,
-                  child: const SizedBox(
+                  child:  SizedBox(
                     width: appbar + 5,
                     height: appbar,
                     child: Icon(
-                      Icons.brightness_2_outlined,
+                      ThemeClass.themeNotifier.value == ThemeMode.dark ? Icons.brightness_2_outlined : Icons.brightness_4_outlined,
                       color: Colors.white,
                     ),
                   ),

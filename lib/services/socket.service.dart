@@ -116,7 +116,7 @@ class SocketService {
     socket.dispose();
   }
 
-  Future<void> reconnect({required String newCallerId}) async {
+  Future<void> reconnect({required String userId}) async {
     if (socket.connected) {
       Fluttertoast.showToast(
         msg: 'Socket is reconnecting...',
@@ -127,11 +127,11 @@ class SocketService {
 
     socket = io(url, {
       "transports": ['websocket'],
-      "query": {"userId": newCallerId},
+      "query": {"userId": userId},
     });
 
     socket.onConnect((data) {
-      dev.log("new Client $newCallerId Socket re-Connected!");
+      dev.log("new Client $userId Socket re-Connected!");
       Fluttertoast.showToast(
         msg: 'Socket reconnected!',
         toastLength: Toast.LENGTH_SHORT,
