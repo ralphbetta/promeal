@@ -67,9 +67,6 @@ class APIRepo {
     try {
       Response response = await dio.put(url, data: formData);
 
-      log(response.toString());
-      print(formData);
-
       if (response.statusCode == 200) {
         return response;
       } else {
@@ -250,8 +247,6 @@ class APIRepo {
     try {
       Response response = await dio.post(url, data: formData);
 
-      log(response.toString());
-
       if (response.statusCode == 200) {
         return response;
       } else {
@@ -275,8 +270,6 @@ class APIRepo {
 
     try {
       Response response = await dio.post(url, data: formData);
-
-      log(response.toString());
 
       if (response.statusCode == 200) {
         return response;
