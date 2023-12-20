@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/components/toggle.component.dart';
 import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';

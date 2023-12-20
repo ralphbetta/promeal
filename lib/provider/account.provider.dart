@@ -53,12 +53,20 @@ class AccountProvider extends ChangeNotifier {
       _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
       showToast(context, "Role changed succesfully");
       notifyListeners();
-    }else{
-       _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
-       _accounts[index].role = _accounts[index].role == 'user' ? 'admin' : 'user';
+    } else {
+      _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
+      _accounts[index].role = _accounts[index].role == 'user' ? 'admin' : 'user';
       showToast(context, "Role changed succesfully");
       notifyListeners();
-      
+    }
+  }
+
+  markNotification() async {
+    log("marking..........");
+    Response response = await APIRepo().markNotification(token: token);
+    if (response.statusCode == 200) {
+      loadNotification(token);
+      log("notifications marked");
     }
   }
 

@@ -186,54 +186,100 @@ class Dashboard extends StatelessWidget {
                           onTap: () {
                             context.read<AppProvider>().toggleBottomNav(index);
                           },
-                          child: SizedBox(
-                            width: bottomNav,
-                            height: bottomNav,
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 7,
-                                ),
+                          child: Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              SizedBox(
+                                width: bottomNav,
+                                height: bottomNav,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
 
-                                Image(
-                                  image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(appListener.bottomNavIndex != index ? userBottomPic[index] : userBottomFillPic[index]) : AssetImage(appListener.bottomNavIndex != index ? adminBottomPic[index] : adminBottomFillPic[index]),
-                                  width: appbar - 6,
-                                )
-                                // Icon(
-                                //   appListener.bottomNavIndex == index ? bottomFill[index] : bottom[index],
-                                //   size: appbar,
-                                //   color: appListener.bottomNavIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
-                                // ),
-                              ],
-                            ),
+                                    Image(
+                                      image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(appListener.bottomNavIndex != index ? userBottomPic[index] : userBottomFillPic[index]) : AssetImage(appListener.bottomNavIndex != index ? adminBottomPic[index] : adminBottomFillPic[index]),
+                                      width: appbar - 6,
+                                    )
+                                    // Icon(
+                                    //   appListener.bottomNavIndex == index ? bottomFill[index] : bottom[index],
+                                    //   size: appbar,
+                                    //   color: appListener.bottomNavIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                              context.read<AccountProvider>().notifications.where((element) => element.read == false).length >= 1
+                                  ? Positioned(
+                                      top: 0,
+                                      left: 0,
+                                      child: Visibility(
+                                        visible: index == 3 ? true : false,
+                                        child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            child: Text(
+                                              "${context.read<AccountProvider>().notifications.where((element) => element.read == false).length}",
+                                              style: TextStyle(color: Colors.white),
+                                            )),
+                                      ),
+                                    )
+                                  : Container()
+                            ],
                           ),
                         ),
                       )
                     : GestureDetector(
                         onTap: () {
                           context.read<AppProvider>().toggleBottomNav(index);
-                        },
-                        child: SizedBox(
-                          width: bottomNav,
-                          height: bottomNav,
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 7,
-                              ),
 
-                              Image(
-                                image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(userBottomPic[index]) : AssetImage(adminBottomPic[index]),
-                                width: appbar - 6,
-                                color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
-                              )
-                              // Icon(
-                              //   appListener.bottomNavIndex == index ? bottomFill[index] : bottom[index],
-                              //   size: appbar,
-                              //   color: appListener.bottomNavIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
-                              // ),
-                            ],
-                          ),
+                          if(index== 3 && context.read<AccountProvider>().notifications.where((element) => element.read == false).length >= 1){
+                            context.read<AccountProvider>().markNotification();
+                          }
+
+                        },
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: bottomNav,
+                              height: bottomNav,
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+
+                                  Image(
+                                    image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(userBottomPic[index]) : AssetImage(adminBottomPic[index]),
+                                    width: appbar - 6,
+                                    color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
+                                  )
+                                  // Icon(
+                                  //   appListener.bottomNavIndex == index ? bottomFill[index] : bottom[index],
+                                  //   size: appbar,
+                                  //   color: appListener.bottomNavIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            context.read<AccountProvider>().notifications.where((element) => element.read == false).length >= 1
+                                ? Positioned(
+                                    top: 0,
+                                    left: 5,
+                                    child: Visibility(
+                                      visible: index == 3 ? true : false,
+                                      child: Container(
+                                          padding: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                          child: Text(
+                                            "${context.read<AccountProvider>().notifications.where((element) => element.read == false).length}",
+                                            style: TextStyle(color: Colors.white),
+                                          )),
+                                    ),
+                                  )
+                                : Container()
+                          ],
                         ),
                       ),
           )

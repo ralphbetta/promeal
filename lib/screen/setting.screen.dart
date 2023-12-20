@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/toggle.component.dart';
@@ -17,8 +18,9 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     AccountProvider appAccount = context.watch<AccountProvider>();
+
+    int thisDelay = 100;
 
     return Column(
       children: [
@@ -29,42 +31,79 @@ class SettingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                  child: Image(
-                image: AssetImage(AppAsset.profile),
-                width: AppSize.width(15),
-              )),
+              JelloIn(
+                delay: Duration(milliseconds: thisDelay),
+                child: Center(
+                    child: Image(
+                  image: AssetImage(AppAsset.profile),
+                  width: AppSize.width(15),
+                )),
+              ),
               SizedBox(height: AppSize.height(2)),
-              Text("${appAccount.accountModel!.name}", style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 24)),
+              FadeInLeft(child: Text("${appAccount.accountModel!.name}", style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 24))),
               SizedBox(height: AppSize.height(0.5)),
-              Text("${appAccount.accountModel!.email}", style: AppStyle.apply(context)),
+              FadeInRight(child: Text("${appAccount.accountModel!.email}", style: AppStyle.apply(context))),
               SizedBox(height: AppSize.height(5)),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   AppRoutes.push(context, ChangePasswordScreen());
                 },
+                child: FadeInUp(
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.lock_outline,
+                              color: Theme.of(context).textTheme.bodyLarge!.color,
+                            ),
+                            const SizedBox(width: 10),
+                            Text("Change Password", style: AppStyle.apply(context)),
+                            const Spacer(),
+                            const Extrude(
+                                radius: 3,
+                                primary: true,
+                                child: SizedBox(
+                                    height: 25,
+                                    width: 25,
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 15,
+                                      color: Colors.white,
+                                    )))
+                          ],
+                        ),
+                        SizedBox(height: AppSize.height(0.8)),
+                        Divider(
+                          height: 10,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
+                        ),
+                        SizedBox(height: AppSize.height(1.5)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              FadeInUp(
+                delay: Duration(milliseconds: thisDelay),
                 child: Column(
                   children: [
                     Row(
                       children: [
                         Icon(
-                          Icons.lock_outline,
+                          Icons.notifications_outlined,
                           color: Theme.of(context).textTheme.bodyLarge!.color,
                         ),
                         const SizedBox(width: 10),
-                        Text("Change Password", style: AppStyle.apply(context)),
+                        Text("Notification Sound", style: AppStyle.apply(context)),
                         const Spacer(),
-                        const Extrude(
-                            radius: 3,
-                            primary: true,
-                            child: SizedBox(
-                                height: 25,
-                                width: 25,
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 15,
-                                  color: Colors.white,
-                                )))
+                        AppToggle(
+                            active: context.watch<AppProvider>().allowNotification,
+                            onTap: () {
+                              context.read<AppProvider>().toggleNotification();
+                            })
                       ],
                     ),
                     SizedBox(height: AppSize.height(0.8)),
@@ -72,52 +111,30 @@ class SettingScreen extends StatelessWidget {
                       height: 10,
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
-                    SizedBox(height: AppSize.height(1.5)),
+                    SizedBox(height: AppSize.height(1.8)),
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.notifications_outlined,
-                        color: Theme.of(context).textTheme.bodyLarge!.color,
-                      ),
-                      const SizedBox(width: 10),
-                      Text("Notification Sound", style: AppStyle.apply(context)),
-                      const Spacer(),
-                      AppToggle(
-                          active: context.watch<AppProvider>().allowNotification,
-                          onTap: () {
-                            context.read<AppProvider>().toggleNotification();
-                          })
-                    ],
-                  ),
-                  SizedBox(height: AppSize.height(0.8)),
-                  Divider(
-                    height: 10,
-                    color: Theme.of(context).textTheme.bodyLarge!.color,
-                  ),
-                  SizedBox(height: AppSize.height(1.8)),
-                ],
-              ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   context.read<AccountProvider>().signout(context);
                 },
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.logout_outlined,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(width: 10),
-                      Text("Sign out", style: AppStyle.apply(context, color: Colors.red)),
-                      const Spacer(),
-                    ],
+                child: FadeInUp(
+                    delay: Duration(milliseconds: thisDelay * 2),
+
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.logout_outlined,
+                          color: Colors.red,
+                        ),
+                        const SizedBox(width: 10),
+                        Text("Sign out", style: AppStyle.apply(context, color: Colors.red)),
+                        const Spacer(),
+                      ],
+                    ),
                   ),
                 ),
               ),

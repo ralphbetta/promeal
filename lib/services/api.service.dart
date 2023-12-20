@@ -212,6 +212,30 @@ class APIRepo {
     }
   }
 
+    Future<dynamic> markNotification({String token = ""}) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.markNotification;
+
+    try {
+      Response response = await dio.put(url);
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
   Future<dynamic> transfer(Map formData, String token) async {
     Dio dio = Dio();
 
