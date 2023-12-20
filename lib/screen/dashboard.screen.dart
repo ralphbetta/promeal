@@ -58,8 +58,11 @@ class Dashboard extends StatelessWidget {
 
     double notchRadius = 60;
 
-    context.read<EventProvider>().monitorTransfer(context);
-
+    if (context.read<AccountProvider>().accountModel!.role == 'user') {
+      context.read<EventProvider>().monitorTransfer(context);
+    } else {
+      context.read<EventProvider>().adminMonitor(context);
+    }
     return Scaffold(
         appBar: customAppBar(context, title: context.read<AccountProvider>().accountModel!.role == "user" ? userTitle[appListener.bottomNavIndex] : adminTitle[appListener.bottomNavIndex]),
         body: context.read<AccountProvider>().accountModel!.role == "user" ? userScreens[appListener.bottomNavIndex] : adminScreens[appListener.bottomNavIndex],
@@ -193,10 +196,7 @@ class Dashboard extends StatelessWidget {
                                 ),
 
                                 Image(
-                                  image: 
-                                  context.read<AccountProvider>().accountModel!.role == 'user' ? 
-                                  AssetImage(appListener.bottomNavIndex != index ? userBottomPic[index] : userBottomFillPic[index]) :
-                                  AssetImage(appListener.bottomNavIndex != index ? adminBottomPic[index] : adminBottomFillPic[index]),
+                                  image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(appListener.bottomNavIndex != index ? userBottomPic[index] : userBottomFillPic[index]) : AssetImage(appListener.bottomNavIndex != index ? adminBottomPic[index] : adminBottomFillPic[index]),
                                   width: appbar - 6,
                                 )
                                 // Icon(
@@ -223,7 +223,7 @@ class Dashboard extends StatelessWidget {
                               ),
 
                               Image(
-                                image:  context.read<AccountProvider>().accountModel!.role == 'user' ?  AssetImage(userBottomPic[index]) : AssetImage(adminBottomPic[index]),
+                                image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(userBottomPic[index]) : AssetImage(adminBottomPic[index]),
                                 width: appbar - 6,
                                 color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
                               )

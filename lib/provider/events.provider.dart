@@ -5,6 +5,7 @@ import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/services/api.service.dart';
 import 'package:promeal/services/socket.service.dart';
+import 'package:promeal/utils/toast.utils.dart';
 import 'package:provider/provider.dart';
 
 class EventProvider extends ChangeNotifier {
@@ -35,16 +36,13 @@ class EventProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       showStatus(context, () => {}, message: "Your meal has been transferred successfully.", success: true);
       context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
-
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
     processTransfer();
   }
 
-
   claim(BuildContext context, Map body) async {
-
     processTransfer();
 
     Response response = await APIRepo().claim(body, context.read<AccountProvider>().token);
@@ -59,9 +57,7 @@ class EventProvider extends ChangeNotifier {
     processTransfer();
   }
 
-
-    forfeit(BuildContext context, Map body) async {
-
+  forfeit(BuildContext context, Map body) async {
     processTransfer();
 
     Response response = await APIRepo().claim(body, context.read<AccountProvider>().token);
@@ -77,20 +73,36 @@ class EventProvider extends ChangeNotifier {
     processTransfer();
   }
 
-
-
   final socket = SocketService.instance.socket;
 
   monitorTransfer(BuildContext context) {
     if (!_monitoring) {
+      log("user monitoring inprogress...");
       socket.on("userNotice", (data) {
         log(data.toString());
-
-      String token =  context.read<AccountProvider>().token;
-      context.read<AccountProvider>().loadNotification(token);
-      context.read<AccountProvider>().loadTransfer(token);
+        String token = context.read<AccountProvider>().token;
+        context.read<AccountProvider>().loadNotification(token);
+        context.read<AccountProvider>().loadTransfer(token);
 
         showFoodDrop(context, () => null, message: data['data']);
+      });
+
+      _monitoring = true;
+    }
+
+    if (!context.mounted) {
+      notifyListeners();
+    }
+  }
+
+  adminMonitor(BuildContext context) {
+    if (!_monitoring) {
+       log("admin monitoring inprogress...");
+      socket.on("monitor", (data) {
+        log(data.toString());
+        String token = context.read<AccountProvider>().token;
+        context.read<AccountProvider>().initLoading(token, 'admin');
+        showToast(context, data);
       });
 
       _monitoring = true;

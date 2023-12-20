@@ -25,13 +25,25 @@ class AppProvider extends ChangeNotifier {
   int _adminDashboardTabIndex = 0;
   int get adminDashboardTabIndex => _adminDashboardTabIndex;
 
+  int _expandedUserId = 0;
+  int get expandedUserId => _expandedUserId;
+
   bool _transferIsOpen = false;
   bool get transferIsOpen => _transferIsOpen;
 
   int? _transferIndex;
   int? get transferIndex => _transferIndex;
 
-  toggleAdminDashboardTabIndex(int index){
+  toggleUser(int index) {
+    if (index == _expandedUserId) {
+      _expandedUserId = 0;
+    } else {
+      _expandedUserId = index;
+    }
+    notifyListeners();
+  }
+
+  toggleAdminDashboardTabIndex(int index) {
     _adminDashboardTabIndex = index;
     notifyListeners();
   }

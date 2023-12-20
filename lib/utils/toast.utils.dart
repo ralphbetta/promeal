@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
-showToast(BuildContext context, message){
-  return ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(
-    content: Text(message),
-    duration: const Duration(seconds: 2),
-  ),
-);
+void showToast(BuildContext context, message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      behavior: SnackBarBehavior.floating,
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+      // ),
+      elevation: 0.8,
+      backgroundColor: Theme.of(context).primaryColor,
+      duration: const Duration(seconds: 3),
+    ),
+  );
 }

@@ -43,10 +43,10 @@ class ScanMeScreen extends StatelessWidget {
                 width: AppSize.width(70),
                 height: AppSize.width(70),
                 child: QrImageView(
-                  data: appListener.admin
+                  data: context.read<AccountProvider>().accountModel!.role == 'user'?  appListener.admin
                       ? "claim_${generateRandomString()}"
                       : context.read<AccountProvider>().accountModel!.key ??
-                          "unknown",
+                          "unknown" : "claim_${generateRandomString()}",
                   version: QrVersions.auto,
                   eyeStyle: QrEyeStyle(
                       eyeShape: QrEyeShape.square,

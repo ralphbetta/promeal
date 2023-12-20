@@ -3,12 +3,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/assets.config.dart';
-import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
-import 'package:promeal/screen/meal.action.screen.dart';
-import 'package:promeal/utils/email_to_name.utils.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 

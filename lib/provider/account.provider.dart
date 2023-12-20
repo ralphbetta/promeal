@@ -42,6 +42,30 @@ class AccountProvider extends ChangeNotifier {
   List<NotificationModel> _notifications = [];
   List<NotificationModel> get notifications => _notifications;
 
+  assignRole(int userId, context) async {
+    int index = _accounts.indexWhere((element) => element.id == userId);
+    _accounts[index].role = _accounts[index].role == 'user' ? 'admin' : 'user';
+    notifyListeners();
+    showToast(context, "Changing user role. Please wait....");
+    Map<String, dynamic> payload = {"role": _accounts[index].role};
+    Response response = await APIRepo().updateAccount(payload, token, accoundId: _accounts[index].id.toString());
+    if (response.statusCode == 200) {
+      _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
+      showToast(context, "Role changed succesfully");
+      notifyListeners();
+    }else{
+       _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
+       _accounts[index].role = _accounts[index].role == 'user' ? 'admin' : 'user';
+      showToast(context, "Role changed succesfully");
+      notifyListeners();
+      
+    }
+  }
+
+  approveUser(int userId) {
+    notifyListeners();
+  }
+
   setLoading() {
     _isLoading = !_isLoading;
     notifyListeners();
@@ -50,8 +74,10 @@ class AccountProvider extends ChangeNotifier {
   loadAccounts() async {
     Response response = await APIRepo().accounts();
     if (response.statusCode == 200) {
+      _accounts = [];
       for (var item in response.data['data']) {
         AccountModel model = AccountModel.fromJson(item);
+        model.side = model.role == 'user' ? 0 : 1;
         _accounts.add(model);
       }
       notifyListeners();
@@ -91,11 +117,11 @@ class AccountProvider extends ChangeNotifier {
   loadAdminFoodHistory(token) async {
     Response response = await APIRepo().adminFoodHistory(token: token);
     if (response.statusCode == 200) {
-      _transfers = [];
+      _adminfoodHistory = [];
       for (var item in response.data['data']) {
         AdminFoodModel model = AdminFoodModel.fromJson(item);
-        model.side = model.owner == model.actingUser!.id? 0 : 1;
-       print( model.side);
+        model.side = model.owner == model.actingUser!.id ? 0 : 1;
+        print(model.side);
 
         _adminfoodHistory.add(model);
       }
@@ -108,12 +134,9 @@ class AccountProvider extends ChangeNotifier {
   loadAdminFoodTransfer(token) async {
     Response response = await APIRepo().adminTransferHistory(token: token);
     if (response.statusCode == 200) {
-      _transfers = [];
+      _admintransferHistory = [];
       for (var item in response.data['data']) {
-
-        log("this is each item $item");
         AdminTransferModel model = AdminTransferModel.fromJson(item);
-        print("this is each item ${model.toJson()}");
         _admintransferHistory.add(model);
       }
       notifyListeners();
@@ -123,12 +146,12 @@ class AccountProvider extends ChangeNotifier {
   }
 
   initLoading(String token, String type) {
-     loadAccounts();
+    loadAccounts();
 
     if (type == 'user') {
       loadTransfer(token);
       loadNotification(token);
-    }else{
+    } else {
       loadAdminFoodHistory(token);
       loadAdminFoodTransfer(token);
     }
@@ -200,7 +223,7 @@ class AccountProvider extends ChangeNotifier {
 
     setLoading();
 
-    Response response = await APIRepo().changePassword(payload, token);
+    Response response = await APIRepo().updateAccount(payload, token);
 
     if (response.statusCode == 200) {
       showToast(context, response.data['message']);

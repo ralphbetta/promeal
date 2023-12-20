@@ -52,7 +52,8 @@ class APIRepo {
     }
   }
 
-  Future<dynamic> changePassword(Map formData, String token) async {
+
+  Future<dynamic> updateAccount(Map formData, String token, {String? accoundId}) async {
     Dio dio = Dio();
 
     dio.options.validateStatus = (status) {
@@ -61,12 +62,13 @@ class APIRepo {
 
     dio.options.headers['Authorization'] = 'Bearer $token';
 
-    String url = APIRoute.updateAccount;
-
+    String url = accoundId == null ?  APIRoute.updateAccount : "${APIRoute.updateAccount}?account_id=$accoundId";
+    
     try {
       Response response = await dio.put(url, data: formData);
 
       log(response.toString());
+      print(formData);
 
       if (response.statusCode == 200) {
         return response;
