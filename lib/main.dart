@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:promeal/components/button.component.dart';
+import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
@@ -40,9 +41,9 @@ class StartUp extends StatelessWidget {
   Widget build(BuildContext context) {
     timeOut() async {
       AppSize().init(context);
+
       if (context.mounted) {
        bool validated =  await context.read<AccountProvider>().validateAuthentication(context);
-
        if(validated){
 
        }
@@ -52,7 +53,12 @@ class StartUp extends StatelessWidget {
     timeOut();
 
     return Scaffold(
-      body: Container(),
+      body: Container(
+        child: Center(child: Image(
+          image: AssetImage(AppAsset.logolight),
+          width: AppSize.width(20),
+          )),
+      ),
     );
   }
 }
