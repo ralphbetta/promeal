@@ -97,12 +97,12 @@ class EventProvider extends ChangeNotifier {
 
   adminMonitor(BuildContext context) {
     if (!_monitoring) {
-       log("admin monitoring inprogress...");
+      log("admin monitoring inprogress...");
       socket.on("monitor", (data) {
         log(data.toString());
+        showToast(context, data['message']);
         String token = context.read<AccountProvider>().token;
         context.read<AccountProvider>().initLoading(token, 'admin');
-        showToast(context, data);
       });
 
       _monitoring = true;
