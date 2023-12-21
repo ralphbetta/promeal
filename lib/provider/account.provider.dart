@@ -229,6 +229,8 @@ class AccountProvider extends ChangeNotifier {
 
     Map<String, dynamic> payload = {"oldPassword": oldPasswordController.text, "password": passwordController.text};
 
+    print(payload);
+
     setLoading();
 
     Response response = await APIRepo().updateAccount(payload, token);

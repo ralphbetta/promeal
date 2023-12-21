@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
+import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/events.provider.dart';
@@ -141,10 +142,13 @@ class _ScanTransferScreenState extends State<ScanTransferScreen> {
             },
             primary: true,
             radius: 8,
-            child: const SizedBox(
+            child: SizedBox(
               width: appbar + 5,
               height: appbar + 5,
-              child: Icon(Icons.light_mode, color: Colors.white),
+              child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Image(image: AssetImage(AppAsset.touch)),
+                )
             ),
           ),
           SizedBox(

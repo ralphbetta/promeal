@@ -37,7 +37,7 @@ customAppBar(BuildContext context, {String title=""}) {
                     width: appbar + 5,
                     height: appbar,
                     child: Icon(
-                      ThemeClass.themeNotifier.value == ThemeMode.dark ? Icons.brightness_2_outlined : Icons.brightness_4_outlined,
+                      ThemeClass.themeNotifier.value != ThemeMode.dark ? Icons.dark_mode : Icons.light_mode,
                       color: Colors.white,
                     ),
                   ),

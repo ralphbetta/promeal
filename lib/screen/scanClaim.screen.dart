@@ -4,6 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/components/modal.component.dart';
+import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
@@ -179,10 +180,14 @@ class _ScanClaimScreenState extends State<ScanClaimScreen> {
               },
               primary: true,
               radius: 8,
-              child: const SizedBox(
+              child: SizedBox(
                 width: appbar + 5,
                 height: appbar + 5,
-                child: Icon(Icons.light_mode, color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Image(image: AssetImage(AppAsset.touch)),
+                )
+                 
               ),
             ),
           ),
