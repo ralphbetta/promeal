@@ -354,7 +354,7 @@ class Dashboard extends StatelessWidget {
                                               shape: BoxShape.circle,
                                               color: Colors.red),
                                           child: Text(
-                                            "${context.read<AccountProvider>().notifications.where((element) => element.read == false).length}",
+                                            "${context.watch<AccountProvider>().notifications.where((element) => element.read == false).length}",
                                             style:
                                                 TextStyle(color: Colors.white),
                                           )),

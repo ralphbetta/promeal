@@ -24,7 +24,10 @@ class AdminTransfersScreen extends StatelessWidget {
         SizedBox(height: AppSize.height(2)),
 
         Expanded(
-            child: ListView.builder(
+            child: accountListener.adminfoodHistory.isEmpty ?  Container(
+              child: Center(child: Text("No transfers yet for today", style: AppStyle.apply(context),))
+            
+            ): ListView.builder(
                 itemCount: accountListener.admintransferHistory.length,
                 itemBuilder: (BuildContext context, index) {
                   return BounceInRight(

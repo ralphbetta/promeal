@@ -100,7 +100,11 @@ class ChefHomeScreen extends StatelessWidget {
         ),
         SizedBox(height: AppSize.height(1)),
         Expanded(
-            child: ListView.builder(
+            child: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList().length <  1 ?
+             Container(
+              child: Center(child: Text("No Claims yet", style: AppStyle.apply(context),))
+              ,
+            ): ListView.builder(
                 itemCount: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList().length,
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(

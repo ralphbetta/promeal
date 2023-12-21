@@ -24,7 +24,12 @@ class UserTransfersScreen extends StatelessWidget {
       children: [
         SizedBox(height: AppSize.height(2)),
         Expanded(
-            child: ListView.builder(
+            child:
+            
+            accountListener.transfers.length < 1 ?  Container(
+              child: Center(child: Text("You have no transferred meals yet", style: AppStyle.apply(context),))
+              
+            ): ListView.builder(
                 itemCount: accountListener.transfers.length,
                 itemBuilder: (BuildContext context, index) {
                   return BounceInRight(

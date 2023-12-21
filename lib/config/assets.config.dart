@@ -27,4 +27,5 @@ class AppAsset {
   static String celebrate = 'assets/celebrate.gif';
   static String pass = 'assets/pass.gif';
   static String fail = 'assets/fail.gif';
+  static String searching = 'assets/searching.gif';
 }
