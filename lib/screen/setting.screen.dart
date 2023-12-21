@@ -133,6 +133,34 @@ class SettingScreen extends StatelessWidget {
                         const SizedBox(width: 10),
                         Text("Sign out", style: AppStyle.apply(context, color: Colors.red)),
                         const Spacer(),
+
+                        Container(
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                      borderRadius: BorderRadius.circular(3),
+                        boxShadow: [
+                          //top region
+                          BoxShadow(
+                            offset: -Offset(4, 4),
+                            color: Theme.of(context).secondaryHeaderColor,
+                            blurRadius: 10,
+                          ),
+                          //bottom region
+                          BoxShadow(
+                            offset: Offset(4, 4),
+                            color: Theme.of(context).shadowColor,
+                            blurRadius: 10,
+                          ),
+                        ]),
+                    child:SizedBox(
+                                    height: 25,
+                                    width: 25,
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ))
+                  ),
                       ],
                     ),
                   ),

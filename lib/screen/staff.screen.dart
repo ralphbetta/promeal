@@ -119,7 +119,14 @@ class _StaffScreenState extends State<StaffScreen> {
           ),
           SizedBox(height: AppSize.height(1)),
           Expanded(
-              child: ListView.builder(
+         
+              child: 
+                accountListerner.accountsFiltered.where((element) => element.email != accountListerner.accountModel!.email && element.role == 'user').toList().isEmpty ?
+            Container(
+              child: Center(child: Text("No staff match your search", style: AppStyle.apply(context),))
+              
+            ):
+              ListView.builder(
                   itemCount: accountListerner.accountsFiltered.where((element) => element.email != accountListerner.accountModel!.email && element.role == 'user').length,
                   itemBuilder: (BuildContext context, index) {
                     return BounceInRight(
