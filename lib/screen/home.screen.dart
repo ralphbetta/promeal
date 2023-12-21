@@ -55,6 +55,7 @@ class MealCard extends StatelessWidget {
       child: Extrude(
         onPress: (){
           context.read<EventProvider>().setMeal(index);
+          context.read<EventProvider>().setSender();
           AppRoutes.push(context, const MealActionScreen());
         },
           child: SizedBox(

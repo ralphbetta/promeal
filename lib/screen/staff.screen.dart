@@ -116,7 +116,7 @@ class _StaffScreenState extends State<StaffScreen> {
           SizedBox(height: AppSize.height(1)),
           Expanded(
               child: ListView.builder(
-                  itemCount: accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).length,
+                  itemCount: accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email && element.role == 'user').length,
                   itemBuilder: (BuildContext context, index) {
                     return BounceInRight(
                       delay: Duration(milliseconds: index * 100),
@@ -131,10 +131,10 @@ class _StaffScreenState extends State<StaffScreen> {
                         child: Extrude(
                           onPress: () {
                             showConfirmTransfer(context, () {
-                              Map body = {"meal": context.read<EventProvider>().meal, "key": accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].key};
+                              Map body = {"meal": context.read<EventProvider>().meal, "key": accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email  && element.role == 'user').toList()[index].key};
                               Navigator.pop(context);
                                context.read<EventProvider>().transfer(context, body);
-                            }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to ${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].name}");
+                            }, message: "You are about to transfer your ${context.read<EventProvider>().meal} to ${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email  && element.role == 'user').toList()[index].name}");
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -148,7 +148,7 @@ class _StaffScreenState extends State<StaffScreen> {
                                   height: 30,
                                 ),
                                 const SizedBox(width: 10),
-                                Text("${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email).toList()[index].name}", style: AppStyle.apply(context))
+                                Text("${accountListerner.accounts.where((element) => element.email != accountListerner.accountModel!.email  && element.role == 'user').toList()[index].name}", style: AppStyle.apply(context))
                               ],
                             ),
                           ),

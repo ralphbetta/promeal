@@ -12,10 +12,18 @@ class EventProvider extends ChangeNotifier {
   bool _monitoring = false;
   bool get monitoring => _monitoring;
 
+  String _sender = "";
+  String get sender => _sender;
+
+  setSender({String email = ""}) {
+    _sender = email;
+    notifyListeners();
+  }
+
   bool _processingTransfer = false;
   bool get processingTransfer => _processingTransfer;
 
-  processTransfer() {
+  toggleBusy() {
     _processingTransfer = !_processingTransfer;
     notifyListeners();
   }
@@ -29,48 +37,71 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setMealString(String data) {
+    _meal = data;
+    notifyListeners();
+  }
+
   transfer(BuildContext context, Map body) async {
-    processTransfer();
-    Response response = await APIRepo().transfer(body, context.read<AccountProvider>().token);
+    toggleBusy();
+    Response response =
+        await APIRepo().transfer(body, context.read<AccountProvider>().token);
 
     if (response.statusCode == 200) {
-      showStatus(context, () => {}, message: "Your meal has been transferred successfully.", success: true);
-      context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
+      showStatus(context, () => {},
+          message: "Your meal has been transferred successfully.",
+          success: true);
+      context
+          .read<AccountProvider>()
+          .loadNotification(context.read<AccountProvider>().token);
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
-    processTransfer();
+    toggleBusy();
   }
 
   claim(BuildContext context, Map body) async {
-    processTransfer();
+    toggleBusy();
 
-    Response response = await APIRepo().claim(body, context.read<AccountProvider>().token);
+    Map payload = {"meal": meal, 'email': _sender};
 
-    print("this is the response $response");
+    Response response;
+
+    if (_sender == "") {
+      response = await APIRepo().claim(body, context.read<AccountProvider>().token);
+    } else {
+      response = await APIRepo().claimTransfer(payload, context.read<AccountProvider>().token);
+    }
+
+    print("this is the response $response from $payload");
 
     if (response.statusCode == 200) {
-      showStatus(context, () => {}, message: "Your meal has been claimed", success: true);
+      showStatus(context, () => {},
+          message: "Your meal has been claimed", success: true);
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
-    processTransfer();
+    toggleBusy();
   }
 
   forfeit(BuildContext context, Map body) async {
-    processTransfer();
+    toggleBusy();
 
-    Response response = await APIRepo().claim(body, context.read<AccountProvider>().token);
+    Response response =
+        await APIRepo().claim(body, context.read<AccountProvider>().token);
 
     print("this is the response $response");
 
     if (response.statusCode == 200) {
-      showStatus(context, () => {}, message: "Your meal has been forfeited", success: true);
-      context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
+      showStatus(context, () => {},
+          message: "Your meal has been forfeited", success: true);
+      context
+          .read<AccountProvider>()
+          .loadNotification(context.read<AccountProvider>().token);
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
-    processTransfer();
+    toggleBusy();
   }
 
   final socket = SocketService.instance.socket;

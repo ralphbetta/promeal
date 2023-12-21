@@ -157,13 +157,14 @@ Future<void> showFoodDrop(context, Function()? onTap, { String message = ""}) as
                       horizontal: AppSize.width(4)
                     ),
                     child:   Extrude(
+                      primary: true,
                       onPress: (){
                         Navigator.pop(context);
                       },
                       child: const SizedBox(
                         width:  double.infinity,
                         height: 50,
-                        child: Center(child: Text("CONTINUE")),
+                        child: Center(child: Text("CONTINUE", style: TextStyle(color: Colors.white))),
                       ),
                     ),
                   ),

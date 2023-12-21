@@ -280,7 +280,38 @@ class APIRepo {
       return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
     }
   }
+
+    Future<dynamic> claimTransfer(Map formData, String token) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.claimTransfer;
+
+    try {
+      Response response = await dio.post(url, data: formData);
+
+    print("$url, $formData, $response");
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
+
 }
+
+
+
 
 
 
