@@ -101,11 +101,13 @@ class ChefHomeScreen extends StatelessWidget {
         SizedBox(height: AppSize.height(1)),
         Expanded(
             child: ListView.builder(
-                itemCount: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList().length,
+                itemCount: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList().length,
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(
                     onTap: () {},
-                    child: appListener.adminDashboardTabIndex == 0 ? FadeInRight(delay: Duration(milliseconds: animationDelay * index), child: adminDashboardCard(index, context, accountListener, appListener)) : FadeInLeft(delay: Duration(milliseconds: animationDelay * index), child: adminDashboardCard(index, context, accountListener, appListener)),
+                    child: appListener.adminDashboardTabIndex == 0 ? 
+                    FadeInRight(delay: Duration(milliseconds: animationDelay * index), child: adminDashboardCard(index, context, accountListener, appListener)) : 
+                    FadeInLeft(delay: Duration(milliseconds: animationDelay * index), child: adminDashboardCard(index, context, accountListener, appListener)),
                   );
                 }))
       ],
@@ -114,7 +116,7 @@ class ChefHomeScreen extends StatelessWidget {
 
   adminDashboardCard(int index, BuildContext context, AccountProvider accountListener, AppProvider appListener) {
 
-    AdminFoodModel data= accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index];
+    AdminFoodModel data= accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList()[index];
     return Container(
       margin: EdgeInsets.only(
         bottom: AppSize.height(2),
