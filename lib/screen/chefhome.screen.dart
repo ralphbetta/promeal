@@ -6,6 +6,7 @@ import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/model/adminfood.model.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/transfers_history.screen.dart';
@@ -35,8 +36,8 @@ class ChefHomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               statCard(context, "Users", "${accountListener.accounts.where((element) => element.role == 'user').length}"),
-              statCard(context, "Claimed", "${accountListener.adminfoodHistory.where((element) => element.forfeited == false).length}"),
-              statCard(context, "Transfered", "${accountListener.adminfoodHistory.where((element) => element.owner == element.actingUser!.id).length}"),
+              statCard(context, "Claimed", "${accountListener.adminfoodHistory.where((element) => element.claimed == true).length}"),
+              statCard(context, "Transfered", "${accountListener.adminfoodHistory.where((element) => element.owner != element.actingUser!.id).length}"),
               statCard(context, "Forfeited", "${accountListener.adminfoodHistory.where((element) => element.forfeited == true).length}"),
 
             ],
@@ -112,6 +113,8 @@ class ChefHomeScreen extends StatelessWidget {
   }
 
   adminDashboardCard(int index, BuildContext context, AccountProvider accountListener, AppProvider appListener) {
+
+    AdminFoodModel data= accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index];
     return Container(
       margin: EdgeInsets.only(
         bottom: AppSize.height(2),
@@ -139,7 +142,8 @@ class ChefHomeScreen extends StatelessWidget {
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text("${accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].actingUser!.name}", style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 18)), SizedBox(height: 5), Text(accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].owner == accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].actingUser!.id ? "${accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex).toList()[index].meal} - Claimed" : "${accountListener.adminfoodHistory[index].meal} - Transfered", style: AppStyle.apply(context, size: 12, fontWeight: FontWeight.w400))],
+                  children: [Text("${data.actingUser!.name}", style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 18)), SizedBox(height: 5),
+                  Text(data.owner == data.actingUser!.id ? "${data.meal} - Claimed" : "${data.meal} - Transfered", style: AppStyle.apply(context, size: 12, fontWeight: FontWeight.w400))],
                 ),
               ],
             ),

@@ -60,10 +60,10 @@ class EventProvider extends ChangeNotifier {
     toggleBusy();
   }
 
-  claim(BuildContext context, Map body) async {
+  claim(BuildContext context, Map body, {bool forfeited = false}) async {
     toggleBusy();
 
-    Map payload = {"meal": meal, 'email': _sender};
+    Map payload = {"meal": meal, 'email': _sender, 'forfeited': forfeited};
 
     Response response;
 
@@ -76,33 +76,21 @@ class EventProvider extends ChangeNotifier {
     print("this is the response $response from $payload");
 
     if (response.statusCode == 200) {
-      showStatus(context, () => {},
-          message: "Your meal has been claimed", success: true);
+
+     if(forfeited){
+       showStatus(context, () => {}, message: "Your meal has been Forfeited", success: true);
+     }else{
+       showStatus(context, () => {}, message: "Your meal has been claimed", success: true);
+     }
+
+      context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
+      
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
     toggleBusy();
   }
 
-  forfeit(BuildContext context, Map body) async {
-    toggleBusy();
-
-    Response response =
-        await APIRepo().claim(body, context.read<AccountProvider>().token);
-
-    print("this is the response $response");
-
-    if (response.statusCode == 200) {
-      showStatus(context, () => {},
-          message: "Your meal has been forfeited", success: true);
-      context
-          .read<AccountProvider>()
-          .loadNotification(context.read<AccountProvider>().token);
-    } else {
-      showStatus(context, () => {}, message: response.data['message']);
-    }
-    toggleBusy();
-  }
 
   final socket = SocketService.instance.socket;
 

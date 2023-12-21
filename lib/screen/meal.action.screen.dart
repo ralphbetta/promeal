@@ -97,7 +97,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
               showConfirmTransfer(context, () {
                 
                 Map body = {"meal": context.read<EventProvider>().meal, "forfeited": true};
-                context.read<EventProvider>().forfeit(context, body);
+                context.read<EventProvider>().claim(context, body, forfeited: true); 
                 Navigator.of(context).pop();
               }, message: "You are about to forfeit your ${context.read<EventProvider>().meal}");
 

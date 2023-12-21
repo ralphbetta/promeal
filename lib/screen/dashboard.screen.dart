@@ -67,13 +67,18 @@ class Dashboard extends StatelessWidget {
       context.read<EventProvider>().adminMonitor(context);
     }
     return Scaffold(
-        appBar: customAppBar(context, title: context.read<AccountProvider>().accountModel!.role == "user" ? userTitle[appListener.bottomNavIndex] : adminTitle[appListener.bottomNavIndex]),
+        appBar: customAppBar(context,
+            title: context.read<AccountProvider>().accountModel!.role == "user"
+                ? userTitle[appListener.bottomNavIndex]
+                : adminTitle[appListener.bottomNavIndex]),
         body: RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(milliseconds: 5000));
             SocketService.instance.reconnect(userId: "2");
           },
-          child: context.read<AccountProvider>().accountModel!.role == "user" ? userScreens[appListener.bottomNavIndex] : adminScreens[appListener.bottomNavIndex],
+          child: context.read<AccountProvider>().accountModel!.role == "user"
+              ? userScreens[appListener.bottomNavIndex]
+              : adminScreens[appListener.bottomNavIndex],
         ),
         floatingActionButton: bottomIsNew
             ? appListener.bottomNavIndex == 2
@@ -110,23 +115,37 @@ class Dashboard extends StatelessWidget {
                         child: Icon(
                           Icons.qr_code_2,
                           size: 30,
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .color!
+                              .withOpacity(0.7),
                         ),
                       ),
                     ),
                   )
             : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomIsNew ? bottomNavDocked(context, appListener) : bottomNavOld(context, appListener));
+        bottomNavigationBar: bottomIsNew
+            ? bottomNavDocked(context, appListener)
+            : bottomNavOld(context, appListener));
   }
 
   bottomNavOld(BuildContext context, AppProvider appListener) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [BoxShadow(spreadRadius: 0.1, blurRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.5))],
+        boxShadow: [
+          BoxShadow(
+              spreadRadius: 0.1,
+              blurRadius: 1,
+              color: Theme.of(context).shadowColor.withOpacity(0.5))
+        ],
         color: Theme.of(context).scaffoldBackgroundColor,
       ),
-      padding: EdgeInsets.only(left: AppSize.width(4), right: AppSize.width(4), top: AppSize.height(1)),
+      padding: EdgeInsets.only(
+          left: AppSize.width(4),
+          right: AppSize.width(4),
+          top: AppSize.height(1)),
       height: AppSize.height(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,7 +179,11 @@ class Dashboard extends StatelessWidget {
                               child: Icon(
                                 bottom[index],
                                 size: appbar - 4,
-                                color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9),
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .color!
+                                    .withOpacity(0.9),
                               )),
                         ],
                       ),
@@ -208,7 +231,21 @@ class Dashboard extends StatelessWidget {
                                     ),
 
                                     Image(
-                                      image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(appListener.bottomNavIndex != index ? userBottomPic[index] : userBottomFillPic[index]) : AssetImage(appListener.bottomNavIndex != index ? adminBottomPic[index] : adminBottomFillPic[index]),
+                                      image: context
+                                                  .read<AccountProvider>()
+                                                  .accountModel!
+                                                  .role ==
+                                              'user'
+                                          ? AssetImage(
+                                              appListener.bottomNavIndex !=
+                                                      index
+                                                  ? userBottomPic[index]
+                                                  : userBottomFillPic[index])
+                                          : AssetImage(
+                                              appListener.bottomNavIndex !=
+                                                      index
+                                                  ? adminBottomPic[index]
+                                                  : adminBottomFillPic[index]),
                                       width: appbar - 6,
                                     )
                                     // Icon(
@@ -219,7 +256,13 @@ class Dashboard extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              context.read<AccountProvider>().notifications.where((element) => element.read == false).length >= 1
+                              context
+                                          .read<AccountProvider>()
+                                          .notifications
+                                          .where((element) =>
+                                              element.read == false)
+                                          .length >=
+                                      1
                                   ? Positioned(
                                       top: 0,
                                       left: 0,
@@ -227,10 +270,13 @@ class Dashboard extends StatelessWidget {
                                         visible: index == 3 ? true : false,
                                         child: Container(
                                             padding: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
                                             child: Text(
                                               "${context.read<AccountProvider>().notifications.where((element) => element.read == false).length}",
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             )),
                                       ),
                                     )
@@ -243,12 +289,18 @@ class Dashboard extends StatelessWidget {
                         onTap: () {
                           context.read<AppProvider>().toggleBottomNav(index);
 
-                          if(index== 3 && context.read<AccountProvider>().notifications.where((element) => element.read == false).length >= 1){
+                          if (index == 3 &&
+                              context
+                                      .read<AccountProvider>()
+                                      .notifications
+                                      .where((element) => element.read == false)
+                                      .length >=
+                                  1) {
                             context.read<AccountProvider>().markNotification();
                           }
-
                         },
                         child: Stack(
+                          alignment: AlignmentDirectional.center,
                           children: [
                             SizedBox(
                               width: bottomNav,
@@ -260,9 +312,19 @@ class Dashboard extends StatelessWidget {
                                   ),
 
                                   Image(
-                                    image: context.read<AccountProvider>().accountModel!.role == 'user' ? AssetImage(userBottomPic[index]) : AssetImage(adminBottomPic[index]),
+                                    image: context
+                                                .read<AccountProvider>()
+                                                .accountModel!
+                                                .role ==
+                                            'user'
+                                        ? AssetImage(userBottomPic[index])
+                                        : AssetImage(adminBottomPic[index]),
                                     width: appbar - 6,
-                                    color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .color!
+                                        .withOpacity(0.5),
                                   )
                                   // Icon(
                                   //   appListener.bottomNavIndex == index ? bottomFill[index] : bottom[index],
@@ -272,7 +334,13 @@ class Dashboard extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            context.read<AccountProvider>().notifications.where((element) => element.read == false).length >= 1
+                            context
+                                        .read<AccountProvider>()
+                                        .notifications
+                                        .where(
+                                            (element) => element.read == false)
+                                        .length >=
+                                    1
                                 ? Positioned(
                                     top: 0,
                                     left: 5,
@@ -280,10 +348,13 @@ class Dashboard extends StatelessWidget {
                                       visible: index == 3 ? true : false,
                                       child: Container(
                                           padding: EdgeInsets.all(5),
-                                          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.red),
                                           child: Text(
                                             "${context.read<AccountProvider>().notifications.where((element) => element.read == false).length}",
-                                            style: TextStyle(color: Colors.white),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           )),
                                     ),
                                   )
