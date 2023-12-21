@@ -102,7 +102,7 @@ class _MealActionScreenState extends State<MealActionScreen> {
               }, message: "You are about to forfeit your ${context.read<EventProvider>().meal}");
 
 
-            }, title: "Forffeit ${context.read<EventProvider>().meal}", icon: Icons.cancel_outlined),
+            }, title: "Forfeit ${context.read<EventProvider>().meal}", icon: Icons.cancel_outlined),
           ),
           const Spacer(),
           appListener.transferIndex == null

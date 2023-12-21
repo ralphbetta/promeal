@@ -73,8 +73,10 @@ class Dashboard extends StatelessWidget {
                 : adminTitle[appListener.bottomNavIndex]),
         body: RefreshIndicator(
           onRefresh: () async {
-            await Future.delayed(Duration(milliseconds: 5000));
-            SocketService.instance.reconnect(userId: "2");
+            SocketService.instance.initialize(userId: context.read<AccountProvider>().accountModel!.id.toString());
+            context.read<AccountProvider>().initLoading(context.read<AccountProvider>().token, context.read<AccountProvider>().accountModel!.role!);
+           await Future.delayed(Duration(milliseconds: 2000));
+
           },
           child: context.read<AccountProvider>().accountModel!.role == "user"
               ? userScreens[appListener.bottomNavIndex]
@@ -267,7 +269,7 @@ class Dashboard extends StatelessWidget {
                                       top: 0,
                                       left: 0,
                                       child: Visibility(
-                                        visible: index == 3 ? true : false,
+                                        visible: index == 3 ? context.read<AccountProvider>().accountModel!.role! == "user" ? true :false : false,
                                         child: Container(
                                             padding: EdgeInsets.all(5),
                                             decoration: BoxDecoration(
@@ -345,7 +347,7 @@ class Dashboard extends StatelessWidget {
                                     top: 0,
                                     left: 5,
                                     child: Visibility(
-                                      visible: index == 3 ? true : false,
+                                         visible: index == 3 ? context.read<AccountProvider>().accountModel!.role! == "user" ? true :false : false,
                                       child: Container(
                                           padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(

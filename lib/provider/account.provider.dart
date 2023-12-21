@@ -30,6 +30,9 @@ class AccountProvider extends ChangeNotifier {
   List<AccountModel> _accounts = [];
   List<AccountModel> get accounts => _accounts;
 
+  List<AccountModel> _accountsFiltered = [];
+  List<AccountModel> get accountsFiltered => _accountsFiltered;
+
   List<TransferModel> _transfers = [];
   List<TransferModel> get transfers => _transfers;
 
@@ -42,20 +45,35 @@ class AccountProvider extends ChangeNotifier {
   List<NotificationModel> _notifications = [];
   List<NotificationModel> get notifications => _notifications;
 
+  searchAccounts(String names) {
+
+    print(names);
+    if (names.length < 1) {
+      _accountsFiltered = _accounts;
+    } else {
+      _accountsFiltered = _accounts
+          .where((element) => element.email!.toLowerCase().contains(names.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
+  }
+
   assignRole(int userId, context) async {
     int index = _accounts.indexWhere((element) => element.id == userId);
     _accounts[index].role = _accounts[index].role == 'user' ? 'admin' : 'user';
     notifyListeners();
     showToast(context, "Changing user role. Please wait....");
     Map<String, dynamic> payload = {"role": _accounts[index].role};
-    Response response = await APIRepo().updateAccount(payload, token, accoundId: _accounts[index].id.toString());
+    Response response = await APIRepo().updateAccount(payload, token,
+        accoundId: _accounts[index].id.toString());
     if (response.statusCode == 200) {
       _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
       showToast(context, "Role changed succesfully");
       notifyListeners();
     } else {
       _accounts[index].side = _accounts[index].side == 0 ? 1 : 0;
-      _accounts[index].role = _accounts[index].role == 'user' ? 'admin' : 'user';
+      _accounts[index].role =
+          _accounts[index].role == 'user' ? 'admin' : 'user';
       showToast(context, "Role changed succesfully");
       notifyListeners();
     }
@@ -88,6 +106,9 @@ class AccountProvider extends ChangeNotifier {
         model.side = model.role == 'user' ? 0 : 1;
         _accounts.add(model);
       }
+
+      _accountsFiltered = _accounts;
+
       notifyListeners();
     } else {
       _accounts = [];
@@ -172,7 +193,10 @@ class AccountProvider extends ChangeNotifier {
       return;
     }
 
-    Map<String, dynamic> payload = {"email": emailController.text, "password": passwordController.text};
+    Map<String, dynamic> payload = {
+      "email": emailController.text,
+      "password": passwordController.text
+    };
 
     setLoading();
 
@@ -185,7 +209,8 @@ class AccountProvider extends ChangeNotifier {
       _isLoading = false;
       initLoading(_token, _accountModel!.role!);
       notifyListeners();
-      SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
+      SocketService.instance
+          .initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
     } else {
       _isLoading = false;
@@ -200,7 +225,11 @@ class AccountProvider extends ChangeNotifier {
       return;
     }
 
-    Map<String, dynamic> payload = {"email": emailController.text, "password": passwordController.text, "name": formatNameFromEmail(emailController.text)};
+    Map<String, dynamic> payload = {
+      "email": emailController.text,
+      "password": passwordController.text,
+      "name": formatNameFromEmail(emailController.text)
+    };
     setLoading();
 
     Response response = await APIRepo().signup(payload);
@@ -211,7 +240,8 @@ class AccountProvider extends ChangeNotifier {
       _isLoading = false;
       initLoading(_token, _accountModel!.role!);
       notifyListeners();
-      SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
+      SocketService.instance
+          .initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
     } else {
       _isLoading = false;
@@ -227,7 +257,10 @@ class AccountProvider extends ChangeNotifier {
       return;
     }
 
-    Map<String, dynamic> payload = {"oldPassword": oldPasswordController.text, "password": passwordController.text};
+    Map<String, dynamic> payload = {
+      "oldPassword": oldPasswordController.text,
+      "password": passwordController.text
+    };
 
     print(payload);
 
@@ -259,7 +292,8 @@ class AccountProvider extends ChangeNotifier {
       _accountModel = AccountModel.fromJson(response.data['data']);
       _token = response.data['token'].toString();
       notifyListeners();
-      SocketService.instance.initialize(userId: _accountModel!.id.toString()); //initialize socket
+      SocketService.instance
+          .initialize(userId: _accountModel!.id.toString()); //initialize socket
       AppRoutes.irreversibleNavigate(context, const Dashboard());
     } else {
       print("response: $response");
@@ -280,7 +314,9 @@ class AccountProvider extends ChangeNotifier {
   }
 
   _changepasswordValidator(context) {
-    if (passwordController.text.isEmpty || confirmPasswordController.text.isEmpty || oldPasswordController.text.isEmpty) {
+    if (passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty ||
+        oldPasswordController.text.isEmpty) {
       showToast(context, "All the fields are required");
       return false;
     }

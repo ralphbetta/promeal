@@ -119,7 +119,7 @@ class SocketService {
   Future<void> reconnect({required String userId}) async {
     if (socket.connected) {
       Fluttertoast.showToast(
-        msg: 'Socket is reconnecting...',
+        msg: 'Reconnecting...',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
       );

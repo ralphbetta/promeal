@@ -108,7 +108,7 @@ Future<void> showStatus(context, Function()? onTap, { String message = "", bool 
                         width:  double.infinity,
                         height: 50,
                         child: Center(
-                          child: success ? const Text("CONTINUE", style: TextStyle(color: Colors.white)): Text("CANCEL", style: AppStyle.apply(context),
+                          child: success ? const Text("CONTINUE", style: TextStyle(color: Colors.white)): Text("TRY AGAIN", style: AppStyle.apply(context),
                           )),
                       ),
                     ),

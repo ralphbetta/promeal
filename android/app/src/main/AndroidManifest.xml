@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.promeal">
+    package="online.promeal.bubblemeet">
    <application
         android:label="Promeal"
         android:name="${applicationName}"

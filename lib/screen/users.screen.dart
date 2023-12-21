@@ -98,13 +98,16 @@ class UsersScreen extends StatelessWidget {
               height: 52,
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: TextField(
                       obscureText: false,
                       decoration: InputDecoration(
                         hintText: "I'm looking for...",
                         border: InputBorder.none,
                       ),
+                      onChanged: (value){
+                        context.read<AccountProvider>().searchAccounts(value);
+                      },
                     ),
                   ),
                   Column(
@@ -138,9 +141,10 @@ class UsersScreen extends StatelessWidget {
         SizedBox(height: AppSize.height(1)),
         Expanded(
             child: ListView.builder(
-                itemCount: accountListener.accounts.where((element) => element.email != accountListener.accountModel!.email && element.side == appListener.historyTabIndex).length,
+                itemCount: accountListener.accountsFiltered.where((element) => element.email != accountListener.accountModel!.email && element.side == appListener.historyTabIndex).length,
                 itemBuilder: (BuildContext context, index) {
-                  List<AccountModel> users = accountListener.accounts.where((element) => element.email != accountListener.accountModel!.email && element.side == appListener.historyTabIndex).toList();
+                  
+                  List<AccountModel> users = accountListener.accountsFiltered.where((element) => element.email != accountListener.accountModel!.email && element.side == appListener.historyTabIndex).toList();
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
