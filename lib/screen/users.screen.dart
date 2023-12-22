@@ -9,6 +9,7 @@ import 'package:promeal/constants.dart';
 import 'package:promeal/model/account.model.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/theme.provider.dart';
 import 'package:provider/provider.dart';
 
 class UsersScreen extends StatelessWidget {
@@ -98,27 +99,30 @@ class UsersScreen extends StatelessWidget {
               height: 52,
               child: Row(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: "I'm looking for...",
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (value){
+          
+                   Expanded(
+                      child: TextField(
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: "I'm looking for...",
+                          border: InputBorder.none,
+                          hintStyle: AppStyle.apply(context, color:  Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7))
+                        ),
+                        onChanged: (value){
                         context.read<AccountProvider>().searchAccounts(value);
-                      },
+
+                        },
+                      ),
                     ),
-                  ),
                   Column(
                     children: [
                       const Spacer(),
-                      const SizedBox(
+                       SizedBox(
                         width: appbar - 5,
                         height: appbar - 5,
                         child: Icon(
                           Icons.search_outlined,
-                          color: Colors.white,
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
                         ),
                       ),
                       const SizedBox(
@@ -172,7 +176,7 @@ class UsersScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Image(
-                                    image: AssetImage(AppAsset.profile),
+                                    image: ThemeClass.themeNotifier.value != ThemeMode.dark ? AssetImage(AppAsset.profile): AssetImage(AppAsset.profilelight),
                                     height: 30,
                                   ),
                                   const SizedBox(width: 10),

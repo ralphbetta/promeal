@@ -80,12 +80,11 @@ class EventProvider extends ChangeNotifier {
           .claimTransfer(payload, context.read<AccountProvider>().token);
     }
 
-    AppRoutes.irreversibleNavigate(context, Dashboard());
-    AppRoutes.push(context, MealActionScreen());
-
     print("this is the response $response from $payload");
 
     if (response.statusCode == 200) {
+      AppRoutes.irreversibleNavigate(context, Dashboard());
+
       if (forfeited) {
         showStatus(context, () => {},
             message: "Your meal has been Forfeited", success: true);
@@ -98,6 +97,8 @@ class EventProvider extends ChangeNotifier {
           .read<AccountProvider>()
           .loadNotification(context.read<AccountProvider>().token);
     } else {
+      AppRoutes.irreversibleNavigate(context, Dashboard());
+      AppRoutes.push(context, MealActionScreen());
       showStatus(context, () => {}, message: response.data['message']);
     }
     toggleBusy();

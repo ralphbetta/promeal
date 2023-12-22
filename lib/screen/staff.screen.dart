@@ -8,6 +8,7 @@ import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
+import 'package:promeal/provider/theme.provider.dart';
 import 'package:provider/provider.dart';
 
 class StaffScreen extends StatefulWidget {
@@ -82,6 +83,7 @@ class _StaffScreenState extends State<StaffScreen> {
                         decoration: InputDecoration(
                           hintText: "I'm looking for...",
                           border: InputBorder.none,
+                          hintStyle: AppStyle.apply(context, color:  Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7))
                         ),
                         onChanged: (value){
                         context.read<AccountProvider>().searchAccounts(value);
@@ -92,17 +94,12 @@ class _StaffScreenState extends State<StaffScreen> {
                     Column(
                       children: [
                         const Spacer(),
-                        Extrude(
-                          onPress: () {},
-                          primary: true,
-                          radius: 8,
-                          child: const SizedBox(
-                            width: appbar - 5,
-                            height: appbar - 5,
-                            child: Icon(
-                              Icons.search_outlined,
-                              color: Colors.white,
-                            ),
+                         SizedBox(
+                          width: appbar - 5,
+                          height: appbar - 5,
+                          child: Icon(
+                            Icons.search_outlined,
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
                           ),
                         ),
                         const SizedBox(
@@ -155,7 +152,7 @@ class _StaffScreenState extends State<StaffScreen> {
                             child: Row(
                               children: [
                                 Image(
-                                  image: AssetImage(AppAsset.profile),
+                                  image: ThemeClass.themeNotifier.value != ThemeMode.dark ? AssetImage(AppAsset.profile): AssetImage(AppAsset.profilelight),
                                   height: 30,
                                 ),
                                 const SizedBox(width: 10),
