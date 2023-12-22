@@ -54,10 +54,14 @@ class StartUp extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        child: Center(child: Image(
-          image: AssetImage(AppAsset.logolight),
+        child:
+         Center(
+          child: Image(
+          image: ThemeClass.themeNotifier.value == ThemeMode.dark ? AssetImage(AppAsset.logodark) :  AssetImage(AppAsset.logolight),
           width: AppSize.width(20),
-          )),
+          )
+          
+          ),
       ),
     );
   }

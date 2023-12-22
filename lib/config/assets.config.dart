@@ -19,6 +19,7 @@ class AppAsset {
   static String icondark = 'assets/icon/icondt.png';
   static String iconlight = 'assets/icon/iconlt.png';
   static String logolight = 'assets/icon/logo-light.png';
+  static String logodark = 'assets/icon/logo-dart.png';
    static String users = 'assets/icon/users.png';
   static String usersout = 'assets/icon/usersout.png';
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/dashboard.screen.dart';
 import 'package:promeal/screen/meal.action.screen.dart';
 import 'package:promeal/services/api.service.dart';
@@ -129,6 +130,11 @@ class EventProvider extends ChangeNotifier {
       log("admin monitoring inprogress...");
       socket.on("monitor", (data) {
         log(data.toString());
+
+        if (context.read<AccountProvider>().allowNotification) {
+          playNotification();
+        }
+
         showToast(context, data['message']);
         String token = context.read<AccountProvider>().token;
         context.read<AccountProvider>().initLoading(token, 'admin');
