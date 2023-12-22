@@ -113,17 +113,12 @@ class UsersScreen extends StatelessWidget {
                   Column(
                     children: [
                       const Spacer(),
-                      Extrude(
-                        onPress: () {},
-                        primary: true,
-                        radius: 8,
-                        child: const SizedBox(
-                          width: appbar - 5,
-                          height: appbar - 5,
-                          child: Icon(
-                            Icons.search_outlined,
-                            color: Colors.white,
-                          ),
+                      const SizedBox(
+                        width: appbar - 5,
+                        height: appbar - 5,
+                        child: Icon(
+                          Icons.search_outlined,
+                          color: Colors.white,
                         ),
                       ),
                       const SizedBox(
@@ -140,10 +135,14 @@ class UsersScreen extends StatelessWidget {
         ),
         SizedBox(height: AppSize.height(1)),
         Expanded(
-            child: ListView.builder(
+            child:  accountListener.accountsFiltered.where((element) => element.email != accountListener.accountModel!.email && element.role == 'user').toList().isEmpty ?
+            Container(
+              child: Center(child: Text("No user match your search", style: AppStyle.apply(context),))
+              
+            ): ListView.builder(
                 itemCount: accountListener.accountsFiltered.where((element) => element.email != accountListener.accountModel!.email && element.side == appListener.historyTabIndex).length,
                 itemBuilder: (BuildContext context, index) {
-                  
+
                   List<AccountModel> users = accountListener.accountsFiltered.where((element) => element.email != accountListener.accountModel!.email && element.side == appListener.historyTabIndex).toList();
 
                   return Column(

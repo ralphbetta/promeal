@@ -41,6 +41,7 @@ class AdminTransfersScreen extends StatelessWidget {
                       ),
                       width: double.infinity,
                       child: Extrude(
+                        pressed: true,
                         onPress: (){
                           print(accountListener.admintransferHistory[index].toJson());
                         },
