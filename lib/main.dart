@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         valueListenable: ThemeClass.themeNotifier,
         builder: (_, ThemeMode currentMode, __) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'ProMeal App',
             themeMode: currentMode,
             theme: ThemeClass.lightTheme,
