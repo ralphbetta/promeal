@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:promeal/storage/local.storage.dart';
 
 class AppProvider extends ChangeNotifier {
   bool _checked = true;
@@ -10,8 +11,7 @@ class AppProvider extends ChangeNotifier {
   bool _allowBiometric = true;
   bool get allowBiometric => _allowBiometric;
 
-  bool _allowNotification = false;
-  bool get allowNotification => _allowNotification;
+
 
   int _bottomNavIndex = 0;
   int get bottomNavIndex => _bottomNavIndex;
@@ -48,10 +48,7 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  toggleNotification() {
-    _allowNotification = !_allowNotification;
-    notifyListeners();
-  }
+
 
   toggleTransferOption() {
     if (_transferIsOpen == true) {

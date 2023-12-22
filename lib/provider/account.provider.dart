@@ -4,11 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
+import 'package:promeal/config/theme.config.dart';
 import 'package:promeal/model/account.model.dart';
 import 'package:promeal/model/adminfood.model.dart';
 import 'package:promeal/model/admintransfer.model.dart';
 import 'package:promeal/model/notification.model.dart';
 import 'package:promeal/model/transfer.model.dart';
+import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/authscreen/auth.screen.dart';
 import 'package:promeal/screen/dashboard.screen.dart';
 import 'package:promeal/services/api.service.dart';
@@ -45,14 +47,17 @@ class AccountProvider extends ChangeNotifier {
   List<NotificationModel> _notifications = [];
   List<NotificationModel> get notifications => _notifications;
 
-  searchAccounts(String names) {
+  bool _allowNotification = false;
+  bool get allowNotification => _allowNotification;
 
+  searchAccounts(String names) {
     print(names);
     if (names.length < 1) {
       _accountsFiltered = _accounts;
     } else {
       _accountsFiltered = _accounts
-          .where((element) => element.email!.toLowerCase().contains(names.toLowerCase()))
+          .where((element) =>
+              element.email!.toLowerCase().contains(names.toLowerCase()))
           .toList();
     }
     notifyListeners();
@@ -113,6 +118,18 @@ class AccountProvider extends ChangeNotifier {
     } else {
       _accounts = [];
     }
+  }
+
+  toggleNotification({bool? init}) {
+
+    if (init == null) {
+      _allowNotification = !_allowNotification;
+    }else{
+      _allowNotification = init;
+    }
+    notifyListeners();
+
+    AppStorage().updateNotification(_allowNotification);
   }
 
   loadTransfer(token) async {
@@ -278,8 +295,14 @@ class AccountProvider extends ChangeNotifier {
   }
 
   Future<bool> validateAuthentication(context) async {
-    var token = await AppStorage().readToken();
 
+    bool themeStatus = await AppStorage().readTheme();
+    bool notificationStatus = await AppStorage().readNotification();
+
+    AppTheme().init(light: themeStatus);
+    toggleNotification(init: notificationStatus);
+
+    var token = await AppStorage().readToken();
     if (token == "null") {
       AppRoutes.irreversibleNavigate(context, const LoginScreen());
       return false;

@@ -100,9 +100,9 @@ class SettingScreen extends StatelessWidget {
                         Text("Notification Sound", style: AppStyle.apply(context)),
                         const Spacer(),
                         AppToggle(
-                            active: context.watch<AppProvider>().allowNotification,
+                            active: context.watch<AccountProvider>().allowNotification,
                             onTap: () {
-                              context.read<AppProvider>().toggleNotification();
+                              context.read<AccountProvider>().toggleNotification();
                             })
                       ],
                     ),

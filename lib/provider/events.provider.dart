@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
@@ -68,29 +69,32 @@ class EventProvider extends ChangeNotifier {
     Response response;
 
     if (_sender == "") {
-      response = await APIRepo().claim(body, context.read<AccountProvider>().token);
+      response =
+          await APIRepo().claim(body, context.read<AccountProvider>().token);
     } else {
-      response = await APIRepo().claimTransfer(payload, context.read<AccountProvider>().token);
+      response = await APIRepo()
+          .claimTransfer(payload, context.read<AccountProvider>().token);
     }
 
     print("this is the response $response from $payload");
 
     if (response.statusCode == 200) {
+      if (forfeited) {
+        showStatus(context, () => {},
+            message: "Your meal has been Forfeited", success: true);
+      } else {
+        showStatus(context, () => {},
+            message: "Your meal has been claimed", success: true);
+      }
 
-     if(forfeited){
-       showStatus(context, () => {}, message: "Your meal has been Forfeited", success: true);
-     }else{
-       showStatus(context, () => {}, message: "Your meal has been claimed", success: true);
-     }
-
-      context.read<AccountProvider>().loadNotification(context.read<AccountProvider>().token);
-      
+      context
+          .read<AccountProvider>()
+          .loadNotification(context.read<AccountProvider>().token);
     } else {
       showStatus(context, () => {}, message: response.data['message']);
     }
     toggleBusy();
   }
-
 
   final socket = SocketService.instance.socket;
 
@@ -130,5 +134,15 @@ class EventProvider extends ChangeNotifier {
     if (!context.mounted) {
       notifyListeners();
     }
+  }
+
+  void playNotification() {
+    print("play");
+    AudioPlayer player = new AudioPlayer();
+    String tone2 = "bell.wav";
+    String tone1 = "hat.wav";
+    String tone3 = "tone.wav";
+
+    player.play(AssetSource(tone2), volume: 0.1);
   }
 }

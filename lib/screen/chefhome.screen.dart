@@ -9,6 +9,7 @@ import 'package:promeal/constants.dart';
 import 'package:promeal/model/adminfood.model.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/transfers_history.screen.dart';
 import 'package:provider/provider.dart';
 
@@ -102,7 +103,11 @@ class ChefHomeScreen extends StatelessWidget {
         Expanded(
             child: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList().length <  1 ?
              Container(
-              child: Center(child: Text("No Claims yet", style: AppStyle.apply(context),))
+              child: GestureDetector(
+                onTap: (){
+                  context.read<EventProvider>().playNotification();
+                },
+                child: Center(child: Text("No Claims yet", style: AppStyle.apply(context),)))
               ,
             ): ListView.builder(
                 itemCount: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList().length,
