@@ -63,6 +63,7 @@ class _ScanClaimScreenState extends State<ScanClaimScreen> {
         controller.stopCamera();
 
         bool isValid = validateData(scanData.code ?? "");
+        
         if(isValid){
           Map body = {"meal": widget.meal};
           context.read<EventProvider>().claim(context, body);

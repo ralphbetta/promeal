@@ -1,4 +1,8 @@
-  String formatNameFromEmail(String email) {
+  import 'package:intl/intl.dart';
+class FormatUtil{
+
+
+static String emailToName(String email) {
     List<String> parts = email.split('@');
 
     if (parts.length != 2 || parts[0].isEmpty) {
@@ -17,3 +21,19 @@
 
     return "$firstname $lastname.";
   }
+
+
+  static String capitalize(String text) {
+  if (text.isEmpty) {
+    return text;
+  }
+
+  return text[0].toUpperCase() + text.substring(1).toLowerCase();
+}
+
+  static String formatTime(DateTime dateTime) {
+    String formattedTime = DateFormat.jm().format(dateTime);
+    return formattedTime.toLowerCase(); // Convert to lowercase "am" or "pm"
+  }
+
+}

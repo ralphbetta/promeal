@@ -245,7 +245,7 @@ class AccountProvider extends ChangeNotifier {
     Map<String, dynamic> payload = {
       "email": emailController.text,
       "password": passwordController.text,
-      "name": formatNameFromEmail(emailController.text)
+      "name": FormatUtil.emailToName(emailController.text)
     };
     setLoading();
 

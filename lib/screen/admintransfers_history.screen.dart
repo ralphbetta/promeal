@@ -6,6 +6,7 @@ import 'package:promeal/config/assets.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/utils/email_to_name.utils.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -60,9 +61,9 @@ class AdminTransfersScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(capitalize(accountListener.admintransferHistory[index].meal ?? ""), style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 20)),
+                                  Text(FormatUtil.capitalize(accountListener.admintransferHistory[index].meal ?? ""), style: AppStyle.apply(context, fontWeight: FontWeight.w500, size: 20)),
                                   const SizedBox(height: 7),
-                                  Text("From: ${accountListener.admintransferHistory[index].sender ?? "" }", style: AppStyle.apply(context)),
+                                  Text("From: ${ FormatUtil.emailToName(accountListener.admintransferHistory[index].sender ?? "" )}", style: AppStyle.apply(context)),
                                  
                                 ],
                               ),
@@ -72,7 +73,7 @@ class AdminTransfersScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(formatTime(accountListener.admintransferHistory[index].createdAt!), style: AppStyle.apply(context),),
+                                  Text(FormatUtil.formatTime(accountListener.admintransferHistory[index].createdAt!), style: AppStyle.apply(context),),
                                   const SizedBox(height: 7),
                                    Text(DateFormat("MMM d, yyyy").format(accountListener.admintransferHistory[index].createdAt!),  style: AppStyle.apply(context),)
                                 ],
@@ -94,15 +95,3 @@ class AdminTransfersScreen extends StatelessWidget {
 }
 
 
-String capitalize(String text) {
-  if (text.isEmpty) {
-    return text;
-  }
-
-  return text[0].toUpperCase() + text.substring(1).toLowerCase();
-}
-
-  String formatTime(DateTime dateTime) {
-    String formattedTime = DateFormat.jm().format(dateTime);
-    return formattedTime.toLowerCase(); // Convert to lowercase "am" or "pm"
-  }

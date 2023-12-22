@@ -137,7 +137,7 @@ class NotificationScreen extends StatelessWidget {
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        formatNameFromEmail(accountListener
+                                        FormatUtil.emailToName(accountListener
                                             .notifications
                                             .where((element) =>
                                                 element.type == type)

@@ -3,7 +3,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
+import 'package:promeal/config/route.config.dart';
 import 'package:promeal/provider/account.provider.dart';
+import 'package:promeal/screen/dashboard.screen.dart';
+import 'package:promeal/screen/meal.action.screen.dart';
 import 'package:promeal/services/api.service.dart';
 import 'package:promeal/services/socket.service.dart';
 import 'package:promeal/utils/toast.utils.dart';
@@ -75,6 +78,9 @@ class EventProvider extends ChangeNotifier {
       response = await APIRepo()
           .claimTransfer(payload, context.read<AccountProvider>().token);
     }
+
+    AppRoutes.irreversibleNavigate(context, Dashboard());
+    AppRoutes.push(context, MealActionScreen());
 
     print("this is the response $response from $payload");
 

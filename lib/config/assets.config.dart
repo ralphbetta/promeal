@@ -1,5 +1,6 @@
 class AppAsset {
   static String profile = 'assets/profile.png';
+  static String profilelight = 'assets/profilelight.png';
 
   static String dark = 'assets/icon/dark.png';
   static String light = 'assets/icon/light.png';

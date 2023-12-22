@@ -8,6 +8,7 @@ import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/changepassword.screen.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,7 @@ class SettingScreen extends StatelessWidget {
                 delay: Duration(milliseconds: thisDelay),
                 child: Center(
                     child: Image(
-                  image: AssetImage(AppAsset.profile),
+                  image:  ThemeClass.themeNotifier.value != ThemeMode.dark ? AssetImage(AppAsset.profile): AssetImage(AppAsset.profilelight),
                   width: AppSize.width(15),
                 )),
               ),

@@ -75,7 +75,7 @@ class UserTransfersScreen extends StatelessWidget {
                                           size: 20)),
                                   const SizedBox(height: 7),
                                   Text(
-                                      "From: ${formatNameFromEmail(accountListener.transfers[index].sender!)}",
+                                      "From: ${FormatUtil.emailToName(accountListener.transfers[index].sender!)}",
                                       style: AppStyle.apply(context)),
                                 ],
                               ),
