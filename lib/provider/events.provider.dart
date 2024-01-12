@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
+import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
@@ -158,4 +159,17 @@ class EventProvider extends ChangeNotifier {
 
     player.play(AssetSource(tone2), volume: 0.1);
   }
+
+adminPostFood(context){
+
+  if(breakfastController.text.isEmpty && luchController.text.isEmpty && dinnerController.text.isEmpty){
+        showToast(context, "All the fields are required");
+      return false;
+  }
+
+  toggleBusy();
+
+}
+
+
 }

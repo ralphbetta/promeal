@@ -8,3 +8,8 @@ TextEditingController confirmPasswordController = TextEditingController();
 
 TextEditingController websiteController = TextEditingController();
 TextEditingController subscriberController = TextEditingController();
+
+
+TextEditingController breakfastController = TextEditingController();
+TextEditingController luchController = TextEditingController();
+TextEditingController dinnerController = TextEditingController();
