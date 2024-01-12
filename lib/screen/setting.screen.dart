@@ -10,6 +10,7 @@ import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/changepassword.screen.dart';
+import 'package:promeal/screen/mealcalender.screen.dart';
 import 'package:provider/provider.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -87,6 +88,49 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ),
               ),
+                GestureDetector(
+                onTap: () {
+                  AppRoutes.push(context, MealCalenderScreen());
+                },
+                child: FadeInUp(
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.food_bank_outlined,
+                              color: Theme.of(context).textTheme.bodyLarge!.color,
+                            ),
+                            const SizedBox(width: 10),
+                            Text("Update Meal", style: AppStyle.apply(context)),
+                            const Spacer(),
+                            const Extrude(
+                                radius: 3,
+                                primary: true,
+                                child: SizedBox(
+                                    height: 25,
+                                    width: 25,
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 15,
+                                      color: Colors.white,
+                                    )))
+                          ],
+                        ),
+                        SizedBox(height: AppSize.height(0.8)),
+                        Divider(
+                          height: 10,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
+                        ),
+                        SizedBox(height: AppSize.height(1.5)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
               FadeInUp(
                 delay: Duration(milliseconds: thisDelay),
                 child: Column(
