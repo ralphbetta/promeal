@@ -40,6 +40,7 @@ class StartUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     timeOut() async {
       AppSize().init(context);
 

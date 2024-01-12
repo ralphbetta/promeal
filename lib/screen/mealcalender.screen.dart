@@ -69,60 +69,38 @@ class _MealCalenderScreenState extends State<MealCalenderScreen> {
             ),
            
              const SizedBox(height: 10),
-            SlideInUp(
-              duration: Duration(milliseconds: animationDelay *2),
-              child: Extrude(child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text("Day 1"),
-                      ],
-                    )
-                  ],
+          ...List.generate(5, (index) =>   
+          
+          SlideInUp(
+              duration: Duration(milliseconds: animationDelay * index+1),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 20
                 ),
-              ),),
-            ),
-            const SizedBox(height: 45),
-            FadeInLeft(
-              child: Text(
-                "New Password",
-                style: AppStyle.apply(context),
+                child: Extrude(child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Day ${index+1}"),
+
+                          Extrude(
+                            pressed: true,
+                            radius: 3,
+                            child: Icon(Icons.check, color: Theme.of(context).primaryColor,))
+                        ],
+                      )
+                    ],
+                  ),
+                ),),
               ),
-            ),
-             const SizedBox(height: 10),
-            SlideInUp(
-              duration: Duration(milliseconds: animationDelay * 2),
-              child: AppTextField(
-                hint: "Password",
-                secured: true,
-                controller: passwordController,
-              ),
-            ),
-            const SizedBox(height: 25),
-            SlideInUp(
-              duration: Duration(milliseconds: animationDelay * 3),
-              child: AppTextField(
-                hint: "Confirm Password",
-                secured: true,
-                controller: confirmPasswordController,
-              ),
-            ),
-            const Spacer(),
-            BounceInUp(
-              child: AppButton(
-                pressed: context.watch<AccountProvider>().isLoading,
-                onPress: () {
-                  
-                   context.read<AccountProvider>().changepassword(context);
-                
-                },
-                title: "UPDATE PASSWORD",
-                primary: true,
-              ),
-            ),
+            )),
+            
+           
+           
             SizedBox(
               height: AppSize.height(10),
             ),
