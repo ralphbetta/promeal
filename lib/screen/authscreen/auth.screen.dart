@@ -10,6 +10,7 @@ import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/authscreen/component/login.component.dart';
 import 'package:promeal/screen/authscreen/component/signup.component.dart';
+import 'package:promeal/services/update_service.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,6 +18,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appListener = context.watch<AppProvider>();
+     UpdateService().checkAppVersion(context);
+
 
     return Scaffold(
       // appBar: AppBar(),
