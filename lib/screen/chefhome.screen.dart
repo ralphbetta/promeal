@@ -45,6 +45,7 @@ class ChefHomeScreen extends StatelessWidget {
           ),
         ),
         SizedBox(height: AppSize.height(3)),
+
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.width(4)),
           child: Extrude(
@@ -99,6 +100,8 @@ class ChefHomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        
+        
         SizedBox(height: AppSize.height(1)),
         Expanded(
             child: accountListener.adminfoodHistory.where((element) => element.side == appListener.adminDashboardTabIndex && element.claimed == true).toList().length <  1 ?

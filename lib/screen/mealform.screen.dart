@@ -7,13 +7,12 @@ import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
-import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:provider/provider.dart';
 
 class MealFormScreen extends StatefulWidget {
-  final bool fromTransfered;
-  const MealFormScreen({super.key, this.fromTransfered = false});
+  final int day;
+  const MealFormScreen({super.key, this.day = 1});
 
   @override
   State<MealFormScreen> createState() => _MealFormScreenState();
@@ -23,6 +22,8 @@ class _MealFormScreenState extends State<MealFormScreen> {
   
   @override
   Widget build(BuildContext context) {
+
+    print(widget.day);
 
     return Scaffold(
       appBar: AppBar(
@@ -129,7 +130,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                 pressed: context.watch<EventProvider>().processingTransfer,
                 onPress: () {
                   
-                   context.read<EventProvider>().adminPostFood(context);
+                   context.read<EventProvider>().adminPostFood(context, day: widget.day);
                 
                 },
                 title: "UPDATE",

@@ -7,7 +7,7 @@ import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
-import 'package:promeal/provider/app.provider.dart';
+import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/changepassword.screen.dart';
 import 'package:promeal/screen/mealcalender.screen.dart';
@@ -142,7 +142,11 @@ class SettingScreen extends StatelessWidget {
                           color: Theme.of(context).textTheme.bodyLarge!.color,
                         ),
                         const SizedBox(width: 10),
-                        Text("Notification Sound", style: AppStyle.apply(context)),
+                        GestureDetector(
+                          onTap: (){
+                            context.read<EventProvider>().currentAndNextWeekCalender(context);
+                          },
+                          child: Text("Notification Sound", style: AppStyle.apply(context))),
                         const Spacer(),
                         AppToggle(
                             active: context.watch<AccountProvider>().allowNotification,

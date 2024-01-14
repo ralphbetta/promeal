@@ -62,4 +62,7 @@ const List<String> scanTab = ['Share Meals', 'Claim Meals'];
 
 const List<String> adminDashboardTab = ['Owned Claim', 'Transfered Claim'];
 
+const List<String> adminCalenderTab = ['Current Week', 'Next Week'];
+
+
 const List<String> userTab = ['General Users', 'Admin Users'];

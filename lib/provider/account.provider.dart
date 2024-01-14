@@ -10,7 +10,6 @@ import 'package:promeal/model/adminfood.model.dart';
 import 'package:promeal/model/admintransfer.model.dart';
 import 'package:promeal/model/notification.model.dart';
 import 'package:promeal/model/transfer.model.dart';
-import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/authscreen/auth.screen.dart';
 import 'package:promeal/screen/dashboard.screen.dart';
 import 'package:promeal/services/api.service.dart';

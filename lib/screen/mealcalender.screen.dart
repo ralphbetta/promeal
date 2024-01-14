@@ -1,15 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:promeal/components/button.component.dart';
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/components/input.component.dart';
-import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
-import 'package:promeal/provider/account.provider.dart';
-import 'package:promeal/screen/dashboard.screen.dart';
+import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/mealform.screen.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +19,7 @@ class MealCalenderScreen extends StatefulWidget {
 class _MealCalenderScreenState extends State<MealCalenderScreen> {
   @override
   Widget build(BuildContext context) {
+    final appListener = context.watch<AppProvider>();
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -67,9 +64,67 @@ class _MealCalenderScreenState extends State<MealCalenderScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: AppSize.height(4),
+              height: AppSize.height(2),
             ),
-            const SizedBox(height: 10),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.width(4)),
+              child: Extrude(
+                pressed: false,
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 4.1, horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ...List.generate(
+                          adminCalenderTab.length,
+                          (index) => appListener.nextWeek == index
+                              ? ElasticIn(
+                                  child: Extrude(
+                                    onPress: () {},
+                                    pressed: true,
+                                    radius: 8,
+                                    child: SizedBox(
+                                      width: AppSize.width(42),
+                                      height: 40,
+                                      child: Center(
+                                          child: Text(
+                                        adminCalenderTab[index],
+                                        style:
+                                            AppStyle.apply(context, size: 14),
+                                      )),
+                                    ),
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    context
+                                        .read<AppProvider>()
+                                        .toggleMealCalender(index);
+                                  },
+                                  child: Container(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    width: AppSize.width(42),
+                                    height: 40,
+                                    child: Center(
+                                        child: Text(
+                                      adminCalenderTab[index],
+                                      style: AppStyle.apply(context, size: 14),
+                                    )),
+                                  ),
+                                ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            
             ...List.generate(
                 5,
                 (index) => SlideInUp(
@@ -80,7 +135,11 @@ class _MealCalenderScreenState extends State<MealCalenderScreen> {
                         child: Extrude(
                           onPress: () {
                             AppRoutes.push(
-                                context, const MealFormScreen());
+                                context,
+                                MealFormScreen(
+                                    day: appListener.nextWeek == 0
+                                        ? index + 1
+                                        : -index - 1));
                           },
                           child: Container(
                             width: double.infinity,

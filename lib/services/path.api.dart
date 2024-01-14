@@ -4,7 +4,7 @@ class APIRoute {
   static String local = 'http://192.168.0.136:4050';
   static String live = 'https://promeal.bubblemeet.online';
 
-  static String base = live;
+  static String base = local;
 
   static String login = "$base/api/account/login";
   static String register = "$base/api/account/register";
@@ -16,9 +16,10 @@ class APIRoute {
   static String claim = "$base/api/food/claim";
   static String claimTransfer = "$base/api/food/claimtransfer";
   static String updateAccount = "$base/api/account/update";
-   static String markNotification = "$base/api/notification/mark";
+  static String markNotification = "$base/api/notification/mark";
+
+  static String mealcalender = "$base/api/mealcalender";
 
   static String adminfoods = "$base/api/food/dump?query=today";
   static String admintransfer = "$base/api/food/transfers?query=today";
-
 }

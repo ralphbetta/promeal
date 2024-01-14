@@ -2,11 +2,13 @@ import 'dart:developer';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
+import 'package:promeal/model/date.model.dart';
+import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/account.provider.dart';
-import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/screen/dashboard.screen.dart';
 import 'package:promeal/screen/meal.action.screen.dart';
 import 'package:promeal/services/api.service.dart';
@@ -154,22 +156,90 @@ class EventProvider extends ChangeNotifier {
     print("play");
     AudioPlayer player = new AudioPlayer();
     String tone2 = "bell.wav";
-    String tone1 = "hat.wav";
-    String tone3 = "tone.wav";
+    // String tone1 = "hat.wav";
+    // String tone3 = "tone.wav";
 
     player.play(AssetSource(tone2), volume: 0.1);
   }
 
-adminPostFood(context){
-
-  if(breakfastController.text.isEmpty && luchController.text.isEmpty && dinnerController.text.isEmpty){
-        showToast(context, "All the fields are required");
+  adminPostFood(BuildContext context, {int day = 1}) async {
+    if (breakfastController.text.isEmpty &&
+        luchController.text.isEmpty &&
+        dinnerController.text.isEmpty) {
+      showToast(context, "All the fields are required");
       return false;
+    }
+
+    toggleBusy();
+
+    Map body = {
+      "breakfast": breakfastController.text,
+      "lunch": luchController.text,
+      "dinner": dinnerController.text,
+      "day": day
+    };
+
+    Response response =
+        await APIRepo().postMeal(body, context.read<AccountProvider>().token);
+
+    showToast(context, response.data['message']);
+
+    Navigator.pop(context);
+
+    toggleBusy();
   }
 
-  toggleBusy();
+  List<CalenderModel> _mealCalender = [];
+  List<CalenderModel> get mealCalender => _mealCalender;
 
-}
+
+  currentAndNextWeekCalender(BuildContext context) async {
+
+      Response response = await APIRepo().getMealCalender(context.read<AccountProvider>().token);
+
+      _mealCalender.clear();
+
+      for(var data in response.data['data']){
+
+        CalenderModel instance = CalenderModel.fromJson(data);
+        _mealCalender.add(instance);
+
+      }
 
 
+      print(_mealCalender.length);
+
+  }
+
+  List<DateModel> dateTimeLineList = [];
+
+  void getDate() {
+    for (int i = -7; i < 7; i++) {
+      String month = DateFormat('LLL')
+          .format(DateTime.now().add(Duration(days: i)))
+          .toUpperCase();
+
+      String day =
+          DateFormat('d').format(DateTime.now().add(Duration(days: i)));
+
+      String weekDay = DateFormat('E')
+          .format(DateTime.now().add(Duration(days: i)))
+          .toUpperCase();
+
+      String date = DateFormat('yyyy-MM-dd')
+          .format(DateTime.now().add(Duration(days: i)));
+
+      DateModel dateModel =
+          DateModel(weekDay: weekDay, day: day, month: month, date: date);
+
+      dateTimeLineList.add(dateModel);
+    }
+
+    notifyListeners();
+  }
+
+
+  init(){
+
+  }
 }

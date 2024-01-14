@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:promeal/storage/local.storage.dart';
 
 class AppProvider extends ChangeNotifier {
   bool _checked = true;
@@ -7,6 +6,9 @@ class AppProvider extends ChangeNotifier {
 
   bool _isLogin = true;
   bool get isLogin => _isLogin;
+
+  int _nextWeek = 0;
+  int get nextWeek => _nextWeek;
 
   bool _allowBiometric = true;
   bool get allowBiometric => _allowBiometric;
@@ -45,6 +47,13 @@ class AppProvider extends ChangeNotifier {
 
   toggleAdminDashboardTabIndex(int index) {
     _adminDashboardTabIndex = index;
+    notifyListeners();
+  }
+
+
+
+  toggleMealCalender(int index){
+    _nextWeek = index;
     notifyListeners();
   }
 
