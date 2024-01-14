@@ -1,7 +1,7 @@
 class APIRoute {
   //admin@gmail.com -- 1234
 
-  static String local = 'http://192.168.0.136:4050';
+  static String local = 'http://127.0.0.1:4050';
   static String live = 'https://promeal.bubblemeet.online';
 
   static String base = local;

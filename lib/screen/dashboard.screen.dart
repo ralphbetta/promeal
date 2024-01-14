@@ -64,6 +64,9 @@ class Dashboard extends StatelessWidget {
     } else {
       context.read<EventProvider>().adminMonitor(context);
     }
+
+    context.read<EventProvider>().fetchSchedule(context);
+    
     return Scaffold(
         appBar: customAppBar(context,
             title: context.read<AccountProvider>().accountModel!.role == "user"

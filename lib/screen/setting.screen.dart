@@ -7,7 +7,6 @@ import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/provider/account.provider.dart';
-import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/changepassword.screen.dart';
 import 'package:promeal/screen/mealcalender.screen.dart';
@@ -93,39 +92,42 @@ class SettingScreen extends StatelessWidget {
                   AppRoutes.push(context, MealCalenderScreen());
                 },
                 child: FadeInUp(
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.food_bank_outlined,
-                              color: Theme.of(context).textTheme.bodyLarge!.color,
-                            ),
-                            const SizedBox(width: 10),
-                            Text("Update Meal", style: AppStyle.apply(context)),
-                            const Spacer(),
-                            const Extrude(
-                                radius: 3,
-                                primary: true,
-                                child: SizedBox(
-                                    height: 25,
-                                    width: 25,
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 15,
-                                      color: Colors.white,
-                                    )))
-                          ],
-                        ),
-                        SizedBox(height: AppSize.height(0.8)),
-                        Divider(
-                          height: 10,
-                          color: Theme.of(context).textTheme.bodyLarge!.color,
-                        ),
-                        SizedBox(height: AppSize.height(1.5)),
-                      ],
+                  child: Visibility(
+                    visible: context.read<AccountProvider>().accountModel!.role != 'user' ? false : true,
+                    child: Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.food_bank_outlined,
+                                color: Theme.of(context).textTheme.bodyLarge!.color,
+                              ),
+                              const SizedBox(width: 10),
+                              Text("Update Meal", style: AppStyle.apply(context)),
+                              const Spacer(),
+                              const Extrude(
+                                  radius: 3,
+                                  primary: true,
+                                  child: SizedBox(
+                                      height: 25,
+                                      width: 25,
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 15,
+                                        color: Colors.white,
+                                      )))
+                            ],
+                          ),
+                          SizedBox(height: AppSize.height(0.8)),
+                          Divider(
+                            height: 10,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                          SizedBox(height: AppSize.height(1.5)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -142,11 +144,7 @@ class SettingScreen extends StatelessWidget {
                           color: Theme.of(context).textTheme.bodyLarge!.color,
                         ),
                         const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: (){
-                            context.read<EventProvider>().currentAndNextWeekCalender(context);
-                          },
-                          child: Text("Notification Sound", style: AppStyle.apply(context))),
+                        Text("Notification Sound", style: AppStyle.apply(context)),
                         const Spacer(),
                         AppToggle(
                             active: context.watch<AccountProvider>().allowNotification,

@@ -162,9 +162,9 @@ class EventProvider extends ChangeNotifier {
     player.play(AssetSource(tone2), volume: 0.1);
   }
 
-  adminPostFood(BuildContext context, {int day = 1}) async {
-    if (breakfastController.text.isEmpty &&
-        luchController.text.isEmpty &&
+  postSchedule(BuildContext context, currentWeek, {int day = 1}) async {
+    if (breakfastController.text.isEmpty ||
+        luchController.text.isEmpty ||
         dinnerController.text.isEmpty) {
       showToast(context, "All the fields are required");
       return false;
@@ -176,11 +176,15 @@ class EventProvider extends ChangeNotifier {
       "breakfast": breakfastController.text,
       "lunch": luchController.text,
       "dinner": dinnerController.text,
-      "day": day
+      "day": day,
+      "currentWeek": currentWeek
     };
 
-    Response response =
-        await APIRepo().postMeal(body, context.read<AccountProvider>().token);
+    print(body);
+
+    Response response = await APIRepo().postMeal(body, context.read<AccountProvider>().token);
+
+    await fetchSchedule(context);
 
     showToast(context, response.data['message']);
 
@@ -189,26 +193,38 @@ class EventProvider extends ChangeNotifier {
     toggleBusy();
   }
 
-  List<CalenderModel> _mealCalender = [];
-  List<CalenderModel> get mealCalender => _mealCalender;
+  ScheduleModel? _mealCalender;
+  ScheduleModel? get mealCalender => _mealCalender;
+
+  Schedule? _schedule;
+    Schedule? get schedule => _schedule;
 
 
-  currentAndNextWeekCalender(BuildContext context) async {
+  fetchSchedule(BuildContext context) async {
 
       Response response = await APIRepo().getMealCalender(context.read<AccountProvider>().token);
 
-      _mealCalender.clear();
+      ScheduleModel instance = ScheduleModel.fromJson(response.data['data']);
+      
+      _mealCalender= instance;
 
-      for(var data in response.data['data']){
 
-        CalenderModel instance = CalenderModel.fromJson(data);
-        _mealCalender.add(instance);
+      // ------------------- Today's schedule
 
+      DateTime currentData = DateTime.now();
+      // DateTime increasedDate = currentData.add(Duration(days: 1));
+
+      List<Schedule> value = _mealCalender!.schedules!.where((element) => element.date!.add(Duration(days: 1)).day == currentData.day).toList();
+
+      if(value.isNotEmpty){
+        _schedule = value.first;
       }
 
+      // ------------------------------------
 
-      print(_mealCalender.length);
+      notifyListeners();
 
+     return true;
   }
 
   List<DateModel> dateTimeLineList = [];

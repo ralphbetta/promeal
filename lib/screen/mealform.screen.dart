@@ -7,18 +7,27 @@ import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:provider/provider.dart';
 
 class MealFormScreen extends StatefulWidget {
-  final int day;
-  const MealFormScreen({super.key, this.day = 1});
+  final int day; final Schedule? schedule; final bool currentWeek;
+  const MealFormScreen({super.key, this.day = 1, this.schedule, required this.currentWeek});
 
   @override
   State<MealFormScreen> createState() => _MealFormScreenState();
 }
 
 class _MealFormScreenState extends State<MealFormScreen> {
+
+  @override
+  void initState() {
+    breakfastController.text = widget.schedule != null ? widget.schedule!.breakfast! : "";
+    luchController.text = widget.schedule != null ? widget.schedule!.lunch! : "";
+    dinnerController.text = widget.schedule != null ? widget.schedule!.dinner! : "";
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -130,7 +139,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                 pressed: context.watch<EventProvider>().processingTransfer,
                 onPress: () {
                   
-                   context.read<EventProvider>().adminPostFood(context, day: widget.day);
+                   context.read<EventProvider>().postSchedule(context, widget.currentWeek, day: widget.day,);
                 
                 },
                 title: "UPDATE",
