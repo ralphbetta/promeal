@@ -4,7 +4,7 @@ class APIRoute {
   static String local = 'http://127.0.0.1:4050';
   static String live = 'https://promeal.bubblemeet.online';
 
-  static String base = local;
+  static String base = live;
 
   static String login = "$base/api/account/login";
   static String register = "$base/api/account/register";
