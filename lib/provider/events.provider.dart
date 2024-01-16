@@ -111,7 +111,6 @@ class EventProvider extends ChangeNotifier {
 
   monitorTransfer(BuildContext context) {
     if (!_monitoring) {
-      log("user monitoring inprogress...");
       socket.on("userNotice", (data) {
         log(data.toString());
         String token = context.read<AccountProvider>().token;
