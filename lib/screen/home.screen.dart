@@ -74,7 +74,7 @@ class MealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Schedule schedule = context.read<EventProvider>().schedule ??
+    Schedule schedule = context.watch<EventProvider>().schedule ??
         Schedule(breakfast: "None", lunch: "None", dinner: "None");
 
     List<String> data = [

@@ -67,8 +67,7 @@ class Dashboard extends StatelessWidget {
       context.read<EventProvider>().adminMonitor(context);
     }
 
-    context.read<EventProvider>().fetchSchedule(context);
-    context.read<EventProvider>().fetchUserIntrest(context);
+    context.read<EventProvider>().initLoading(context);
 
     UpdateService().checkAppVersion(context);
 
@@ -80,9 +79,11 @@ class Dashboard extends StatelessWidget {
                 : adminTitle[appListener.bottomNavIndex]),
         body: RefreshIndicator(
           onRefresh: () async {
+            
             SocketService.instance.initialize(userId: context.read<AccountProvider>().accountModel!.id.toString());
             context.read<AccountProvider>().initLoading(context.read<AccountProvider>().token, context.read<AccountProvider>().accountModel!.role!);
-           await Future.delayed(Duration(milliseconds: 2000));
+            context.read<EventProvider>().initLoading(context);
+            await Future.delayed(Duration(milliseconds: 2000));
 
           },
           child: context.read<AccountProvider>().accountModel!.role == "user"

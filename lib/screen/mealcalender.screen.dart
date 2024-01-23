@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
@@ -10,6 +9,7 @@ import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/mealform.screen.dart';
+import 'package:promeal/utils/dateformat.utils.dart';
 import 'package:provider/provider.dart';
 
 class MealCalenderScreen extends StatefulWidget {
@@ -21,15 +21,6 @@ class MealCalenderScreen extends StatefulWidget {
 
 class _MealCalenderScreenState extends State<MealCalenderScreen> {
 
-String formatDate(DateTime date) {
-  // Increase the day of the DateTime by one
-  DateTime increasedDate = date.add(Duration(days: 1));
-
-  // Format the increased date
-  String formattedDate = DateFormat("EEEE d'th' MMM, y").format(increasedDate);
-
-  return formattedDate;
-}
 
 
   @override

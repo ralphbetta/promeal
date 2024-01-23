@@ -56,7 +56,13 @@ class EventProvider extends ChangeNotifier {
   List<IntrestModel> _userIntrest = [];
   List<IntrestModel> get userIntrest => _userIntrest;
 
+  List<IntrestModel> _weeklyIntrest = [];
+  List<IntrestModel> get weeklyIntrest => _weeklyIntrest;
+
   bool edited = false;
+
+  final socket = SocketService.instance.socket;
+
 
   selectDay(int newIndex) {
     if (selectedIndex == newIndex) {
@@ -134,8 +140,6 @@ class EventProvider extends ChangeNotifier {
     toggleBusy();
   }
 
-  final socket = SocketService.instance.socket;
-
   monitorTransfer(BuildContext context) {
     if (!_monitoring) {
       socket.on("userNotice", (data) {
@@ -178,7 +182,7 @@ class EventProvider extends ChangeNotifier {
     }
   }
 
-  void playNotification() {
+  playNotification() {
     print("play");
     AudioPlayer player = new AudioPlayer();
     String tone2 = "bell.wav";
@@ -326,6 +330,20 @@ class EventProvider extends ChangeNotifier {
     return true;
   }
 
+  fetchWeeklyUserIntrest(BuildContext context) async {
+    Response response =
+        await APIRepo().weeklyIntrest(context.read<AccountProvider>().token);
+    _weeklyIntrest.clear();
+    for (var item in response.data['data']) {
+      IntrestModel instance = IntrestModel.fromJson(item);
+      _weeklyIntrest.add(instance);
+    }
+    notifyListeners();
+
+    print("This are the indicated intrest ${_userIntrest.length}");
+    return true;
+  }
+
   fetchSchedule(BuildContext context) async {
     Response response =
         await APIRepo().getMealCalender(context.read<AccountProvider>().token);
@@ -353,6 +371,12 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
 
     return true;
+  }
+
+  initLoading(BuildContext context){
+    fetchSchedule(context);
+    fetchUserIntrest(context);
+    fetchWeeklyUserIntrest(context);
   }
 
   // List<DateModel> dateTimeLineList = [];
