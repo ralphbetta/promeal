@@ -93,7 +93,7 @@ class SettingScreen extends StatelessWidget {
                 },
                 child: FadeInUp(
                   child: Visibility(
-                    visible: context.read<AccountProvider>().accountModel!.role == 'user' ? false : true,
+                    visible: context.read<AccountProvider>().accountModel!.role != 'user' ? false : true,
                     child: Container(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       child: Column(

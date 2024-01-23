@@ -47,7 +47,7 @@ class StartUp extends StatelessWidget {
       if (context.mounted) {
        bool validated =  await context.read<AccountProvider>().validateAuthentication(context);
        if(validated){
-        context.read<EventProvider>().getDate();
+        // context.read<EventProvider>().getDate();
        }
       }
     }

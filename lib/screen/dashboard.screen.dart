@@ -24,6 +24,7 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     const List<String> userTitle = [
       "DASHBOARD",
       "TRANSFERS",
@@ -67,8 +68,10 @@ class Dashboard extends StatelessWidget {
     }
 
     context.read<EventProvider>().fetchSchedule(context);
+    context.read<EventProvider>().fetchUserIntrest(context);
 
     UpdateService().checkAppVersion(context);
+
 
     return Scaffold(
         appBar: customAppBar(context,

@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:promeal/components/extrude.component.dart';
-import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -64,9 +60,11 @@ class UpdateService {
 
   void lunchStore() {
     if (Platform.isAndroid || Platform.isIOS) {
-      final appId = Platform.isAndroid
-          ? 'com.cloudclinic.ng.cloudclinic_partner_app'
-          : '1668991494';
+      
+      // final appId = Platform.isAndroid
+      //     ? 'com.cloudclinic.ng.cloudclinic_partner_app'
+      //     : '1668991494';
+
       final url = Uri.parse(
 
         "https://raw.githubusercontent.com/ralphbetta/assets/main/promeal.apk"

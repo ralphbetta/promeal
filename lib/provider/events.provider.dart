@@ -2,11 +2,10 @@ import 'dart:developer';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
-import 'package:promeal/model/date.model.dart';
+import 'package:promeal/model/intrest.model.dart';
 import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/screen/dashboard.screen.dart';
@@ -39,6 +38,34 @@ class EventProvider extends ChangeNotifier {
   String _meal = "";
   String get meal => _meal;
   List<String> meals = ['Breakfast', 'Lunch', 'Dinner'];
+
+  int selectedIndex = -1;
+  Schedule? activeSchedule = null;
+
+  setSchedule(Schedule newSchedule) {
+    activeSchedule = newSchedule;
+    notifyListeners();
+  }
+
+  ScheduleModel? _mealCalender;
+  ScheduleModel? get mealCalender => _mealCalender;
+
+  Schedule? _schedule;
+  Schedule? get schedule => _schedule;
+
+  List<IntrestModel> _userIntrest = [];
+  List<IntrestModel> get userIntrest => _userIntrest;
+
+  bool edited = false;
+
+  selectDay(int newIndex) {
+    if (selectedIndex == newIndex) {
+      selectedIndex = -1;
+    } else {
+      selectedIndex = newIndex;
+    }
+    notifyListeners();
+  }
 
   setMeal(int index) {
     _meal = meals[index];
@@ -179,9 +206,8 @@ class EventProvider extends ChangeNotifier {
       "currentWeek": currentWeek
     };
 
-    print(body);
-
-    Response response = await APIRepo().postMeal(body, context.read<AccountProvider>().token);
+    Response response =
+        await APIRepo().postMeal(body, context.read<AccountProvider>().token);
 
     await fetchSchedule(context);
 
@@ -192,69 +218,169 @@ class EventProvider extends ChangeNotifier {
     toggleBusy();
   }
 
-  ScheduleModel? _mealCalender;
-  ScheduleModel? get mealCalender => _mealCalender;
-
-  Schedule? _schedule;
-    Schedule? get schedule => _schedule;
-
-
-  fetchSchedule(BuildContext context) async {
-
-      Response response = await APIRepo().getMealCalender(context.read<AccountProvider>().token);
-
-      ScheduleModel instance = ScheduleModel.fromJson(response.data['data']);
-      
-      _mealCalender= instance;
-
-
-      // ------------------- Today's schedule
-
-      DateTime currentData = DateTime.now();
-      // DateTime increasedDate = currentData.add(Duration(days: 1));
-
-      List<Schedule> value = _mealCalender!.schedules!.where((element) => element.date!.add(Duration(days: 1)).day == currentData.day).toList();
-
-      if(value.isNotEmpty){
-        _schedule = value.first;
-      }
-
-      // ------------------------------------
-
-      notifyListeners();
-
-     return true;
+  completeEdit() {
+    edited = false;
+    notifyListeners();
   }
 
-  List<DateModel> dateTimeLineList = [];
+  saveIntrest(BuildContext context) async {
 
-  void getDate() {
-    for (int i = -7; i < 7; i++) {
-      String month = DateFormat('LLL')
-          .format(DateTime.now().add(Duration(days: i)))
-          .toUpperCase();
+    toggleBusy();
 
-      String day =
-          DateFormat('d').format(DateTime.now().add(Duration(days: i)));
+    DateTime startDate =
+        _mealCalender!.presentCalender!.first.date!.subtract(Duration(days: 1));;
+    DateTime endDate =
+        _mealCalender!.presentCalender!.last.date!.add(Duration(days: 1));
 
-      String weekDay = DateFormat('E')
-          .format(DateTime.now().add(Duration(days: i)))
-          .toUpperCase();
+    List<IntrestModel> intrestRange = _userIntrest
+        .where((element) =>
+            element.date!.isAfter(startDate) && element.date!.isBefore(endDate))
+        .toList();
 
-      String date = DateFormat('yyyy-MM-dd')
-          .format(DateTime.now().add(Duration(days: i)));
+    List<Map> body = [
+      ...List.generate(
+          intrestRange.length,
+          (index) => {
+                "timetable": intrestRange[index].timetable,
+                "meal": intrestRange[index].meal,
+                "date": intrestRange[index].date.toString(),
+                "checked": true
+              }),
+      ...List.generate(
+          _userIntrestTrash.length,
+          (index) => {
+                "timetable": _userIntrestTrash[index].timetable,
+                "meal": _userIntrestTrash[index].meal,
+                "date": _userIntrestTrash[index].date.toString(),
+                "checked": false
+              }),
+    ];
 
-      DateModel dateModel =
-          DateModel(weekDay: weekDay, day: day, month: month, date: date);
 
-      dateTimeLineList.add(dateModel);
+    Response response = await APIRepo().postIntrest(body, context.read<AccountProvider>().token);
+
+    if (response.statusCode == 200) {
+      intrestRange.clear();
+      _userIntrest.clear();
+      _userIntrestTrash.clear();
+      for (var item in response.data['data']) {
+        IntrestModel instance = IntrestModel.fromJson(item);
+        _userIntrest.add(instance);
+      }
+      notifyListeners();
+      showToast(context, response.data['message']);
     }
+
+    toggleBusy();
+  }
+
+  List<IntrestModel> _userIntrestTrash = [];
+
+  markIntrest(BuildContext context, IntrestModel body) async {
+
+    int intrestIndex = _userIntrest.indexWhere((element) =>
+        element.meal == body.meal &&
+        element.date == body.date &&
+        element.timetable == body.timetable);
+
+    int trashintrestIndex = _userIntrestTrash.indexWhere((element) =>
+        element.meal == body.meal &&
+        element.date == body.date &&
+        element.timetable == body.timetable);
+    if (intrestIndex >= 0) {
+      
+      print(_userIntrest[intrestIndex].toJson());
+      print(body.toJson());
+
+      _userIntrestTrash.add(_userIntrest[intrestIndex]);
+      _userIntrest.removeAt(intrestIndex);
+      print("found");
+    } else {
+      if (trashintrestIndex >= 0) {
+        _userIntrestTrash.removeAt(trashintrestIndex);
+      }
+      _userIntrest.add(body);
+      print("not found");
+    }
+    ;
+
+    edited = true;
+
+    print("intrestIndex $intrestIndex, trashIndex $trashintrestIndex userIntrest ${_userIntrest.length} trashedIntrest ${_userIntrestTrash.length}");
+
 
     notifyListeners();
   }
 
+  fetchUserIntrest(BuildContext context) async {
+    Response response =
+        await APIRepo().userIntrest(context.read<AccountProvider>().token);
+    _userIntrest.clear();
+    for (var item in response.data['data']) {
+      IntrestModel instance = IntrestModel.fromJson(item);
+      _userIntrest.add(instance);
+    }
+    notifyListeners();
 
-  init(){
-
+    print("This are the indicated intrest ${_userIntrest.length}");
+    return true;
   }
+
+  fetchSchedule(BuildContext context) async {
+    Response response =
+        await APIRepo().getMealCalender(context.read<AccountProvider>().token);
+
+    ScheduleModel instance = ScheduleModel.fromJson(response.data['data']);
+
+    _mealCalender = instance;
+
+    // ------------------- Today's schedule
+
+    DateTime currentData = DateTime.now();
+    // DateTime increasedDate = currentData.add(Duration(days: 1));
+
+    List<Schedule> value = _mealCalender!.schedules!
+        .where((element) =>
+            element.date!.add(Duration(days: 1)).day == currentData.day)
+        .toList();
+
+    if (value.isNotEmpty) {
+      _schedule = value.first;
+    }
+
+    // ------------------------------------
+
+    notifyListeners();
+
+    return true;
+  }
+
+  // List<DateModel> dateTimeLineList = [];
+
+  // void getDate() {
+  //   for (int i = -7; i < 7; i++) {
+  //     String month = DateFormat('LLL')
+  //         .format(DateTime.now().add(Duration(days: i)))
+  //         .toUpperCase();
+
+  //     String day =
+  //         DateFormat('d').format(DateTime.now().add(Duration(days: i)));
+
+  //     String weekDay = DateFormat('E')
+  //         .format(DateTime.now().add(Duration(days: i)))
+  //         .toUpperCase();
+
+  //     String date = DateFormat('yyyy-MM-dd')
+  //         .format(DateTime.now().add(Duration(days: i)));
+
+  //     DateModel dateModel =
+  //         DateModel(weekDay: weekDay, day: day, month: month, date: date);
+
+  //     dateTimeLineList.add(dateModel);
+  //   }
+
+  //   notifyListeners();
+  // }
+
+  init() {}
 }

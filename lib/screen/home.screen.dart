@@ -8,6 +8,7 @@ import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/meal.action.screen.dart';
+import 'package:promeal/screen/staffmealcalender.screen.dart';
 import 'package:promeal/screen/widgets/foodcounter.widget.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,36 @@ class HomeScreen extends StatelessWidget {
 
     return Column(
       children: [
+
+        Padding(
+          padding: EdgeInsets.only(
+          top: AppSize.height(3),
+          left: AppSize.width(4),
+          right: AppSize.width(4)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Extrude(
+                pressed: true,
+                child: SizedBox(
+                  width: 45,
+                  height: 45,
+                  child: Icon(Icons.thumb_up_alt))),
+              Extrude(
+                onPress: (){
+                  AppRoutes.push(context, StaffMealCalenderScreen());
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 10
+                  ),
+                  child: Text("Mark Intrested meals for the week"),
+                ))
+            ],
+          ),
+        ),
         Expanded(
           child: ListView.builder(
               itemCount: 3,
@@ -56,7 +87,8 @@ class MealCard extends StatelessWidget {
       margin: EdgeInsets.only(
           top: AppSize.height(3),
           left: AppSize.width(4),
-          right: AppSize.width(4)),
+          right: AppSize.width(4)
+          ),
       child: Extrude(
           onPress: () {
             context.read<EventProvider>().setMeal(index);

@@ -333,6 +333,33 @@ class APIRepo {
     }
   }
 
+  Future<dynamic> postIntrest(List<dynamic> formData, String token) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.intrest;
+
+    try {
+
+      Response response = await dio.post(url, data: formData);
+      
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred $e', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
+
 
 
   Future<dynamic> getMealCalender(String token) async {
@@ -345,6 +372,34 @@ class APIRepo {
     dio.options.headers['Authorization'] = 'Bearer $token';
 
     String url = APIRoute.mealcalender;
+
+    log(url);
+
+    try {
+      Response response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return Response(statusCode: 500, statusMessage: 'An error occurred', requestOptions: RequestOptions(path: ""));
+    }
+  }
+
+
+
+  Future<dynamic> userIntrest(String token) async {
+    Dio dio = Dio();
+
+    dio.options.validateStatus = (status) {
+      return status == 409 || (status! >= 200 && status < 420);
+    };
+
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    String url = APIRoute.intrest;
 
     log(url);
 
