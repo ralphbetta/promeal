@@ -328,22 +328,17 @@ class EventProvider extends ChangeNotifier {
     }
     notifyListeners();
 
-    print("This are the indicated intrest ${_userIntrest.length}");
     return true;
   }
 
   fetchWeeklyUserIntrest(BuildContext context) async {
-    Response response =
-        await APIRepo().weeklyIntrest(context.read<AccountProvider>().token);
+    Response response =await APIRepo().weeklyIntrest(context.read<AccountProvider>().token);
     _weeklyIntrest.clear();
     for (var item in response.data['data']) {
       IntrestModel instance = IntrestModel.fromJson(item);
       _weeklyIntrest.add(instance);
     }
     notifyListeners();
-
-    print("This are the indicated intrest ${_userIntrest.length}");
-    return true;
   }
 
   fetchSchedule(BuildContext context) async {

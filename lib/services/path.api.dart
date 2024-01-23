@@ -1,7 +1,7 @@
 class APIRoute {
   //admin@gmail.com -- 1234
 
-  static String local = 'http://192.168.0.133:4050';
+  static String local = 'http://127.0.0.1:4050';
   static String live = 'https://promeal.bubblemeet.online';
 
   static String base = local;
@@ -20,6 +20,7 @@ class APIRoute {
 
   static String mealcalender = "$base/api/mealcalender";
   static String intrest = "$base/api/intrest";
+  static String app = "$base/api/app";
 
 
   static String adminfoods = "$base/api/food/dump?query=today";

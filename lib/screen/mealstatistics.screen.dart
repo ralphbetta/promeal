@@ -97,11 +97,11 @@ class _MealStatisticsState extends State<MealStatistics> {
 
                     List<IntrestModel> event = context.watch<EventProvider>().weeklyIntrest;
 
-                    String count(DateTime date){
+                    String count(DateTime date, {String mclass = "Breakfast"}){
 
-                      // event.where((element) => element.date!.isAtSameMomentAs(date) && element.meal == "breakfast")
+                     List<IntrestModel> data  = event.where((element) =>element.mclass == mclass && element.date!.isAtSameMomentAs(date)).toList();
 
-                      return "";
+                      return data.length.toString();
                     }
 
                     return SlideInUp(
@@ -111,8 +111,6 @@ class _MealStatisticsState extends State<MealStatistics> {
                           padding: EdgeInsets.only(bottom: 20),
                           child: Extrude(
                             onPress: () {
-
-
                               //todo
 
                             },
@@ -134,10 +132,10 @@ class _MealStatisticsState extends State<MealStatistics> {
                                            Text("${formatDateDot(calenderScehudle.presentCalender![index].date!)}", style: TextStyle(color: Theme.of(context).primaryColor),)
                                         ],
                                       ),
-                                      ElasticIn(
-                                        child: available(index)? Row(
-                                          children: [
-                                            Extrude(
+                                      available(index)? Row(
+                                        children: [
+                                          ElasticIn(
+                                            child: Extrude(
                                                 pressed: true,
                                                 radius: 3,
                                                 child: Container(
@@ -146,14 +144,17 @@ class _MealStatisticsState extends State<MealStatistics> {
                                                   child: Column(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      Text("43", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+                                                      Text(count(calenderScehudle.presentCalender![index].date!), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
                                                       SizedBox(height: 5),
                                                       Text("Breakfast", style: TextStyle(fontSize: 10),)
                                                     ],
                                                   ),
                                                 )),
-                                                SizedBox(width: 5),
-                                                Extrude(
+                                          ),
+                                              SizedBox(width: 5),
+                                              ElasticIn(
+                                                 delay: Duration(milliseconds: 1 * 100),
+                                                child: Extrude(
                                                 pressed: true,
                                                 radius: 3,
                                                 child: Container(
@@ -162,41 +163,44 @@ class _MealStatisticsState extends State<MealStatistics> {
                                                   child: Column(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      Text("43", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+                                                      Text(count(calenderScehudle.presentCalender![index].date!, mclass: "Lunch"), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
                                                       SizedBox(height: 5),
                                                       Text("Lunch", style: TextStyle(fontSize: 10),)
                                                     ],
                                                   ),
                                                 )),
-                                                 SizedBox(width: 5),
-                                                  Extrude(
-                                                pressed: true,
-                                                radius: 3,
-                                                child: Container(
+                                              ),
+                                               SizedBox(width: 5),
+                                                ElasticIn(
+                                                  delay: Duration(milliseconds: 2 * 100),
+                                                  child: Extrude(
+                                                                                              pressed: true,
+                                                                                              radius: 3,
+                                                                                              child: Container(
                                                   width: AppSize.width(15),
                                                   height: AppSize.width(15),
                                                   child: Column(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      Text("0", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+                                                      Text(count(calenderScehudle.presentCalender![index].date!, mclass: "Dinner"), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
                                                       SizedBox(height: 5),
                                                       Text("Dinner", style: TextStyle(fontSize: 10),)
                                                     ],
                                                   ),
-                                                )),
-                                          ],
-                                        ): 
-                                            Extrude(
-                                            pressed: true,
-                                            radius: 3,
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 6
-                                              ),
-                                              child: Text("No Actions", style: TextStyle(color: Theme.of(context).hintColor),),
-                                            )),
-                                      )
+                                                                                              )),
+                                                ),
+                                        ],
+                                      ): 
+                                          Extrude(
+                                          pressed: true,
+                                          radius: 3,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 6
+                                            ),
+                                            child: Text("No Actions", style: TextStyle(color: Theme.of(context).hintColor),),
+                                          ))
                                     ],
                                   )
                                 ],

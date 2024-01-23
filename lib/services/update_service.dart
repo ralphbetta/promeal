@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
+import 'package:promeal/services/path.api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdateService {
@@ -21,19 +24,18 @@ class UpdateService {
   }
 
   Future<Map> getApiVersion() async {
-    final url =
-        "https://raw.githubusercontent.com/ralphbetta/assets/main/VERSION";
+    final url = APIRoute.app;
 
-    final response = await http.get(Uri.parse(url));
+    http.Response response = await http.get(Uri.parse(url));
 
-    print(json.decode(response.body.toString()));
-
-    return json.decode(response.body.toString());
+    return json.decode(response.body);
   }
 
   Future<void> checkAppVersion(BuildContext context) async {
     String appVersion = await getAppVersion();
-    Map minimumVersion = await getApiVersion();
+    Map data = await getApiVersion();
+    Map minimumVersion = data['data'];
+
     String appBuildNumber = await getAppBuildNumber();
 
     int api_v = getExtendedVersionNumber(minimumVersion['version']);
