@@ -247,6 +247,7 @@ class EventProvider extends ChangeNotifier {
           (index) => {
                 "timetable": intrestRange[index].timetable,
                 "meal": intrestRange[index].meal,
+                "mclass": intrestRange[index].mclass,
                 "date": intrestRange[index].date.toString(),
                 "checked": true
               }),
@@ -255,6 +256,7 @@ class EventProvider extends ChangeNotifier {
           (index) => {
                 "timetable": _userIntrestTrash[index].timetable,
                 "meal": _userIntrestTrash[index].meal,
+                "mclass": intrestRange[index].mclass,
                 "date": _userIntrestTrash[index].date.toString(),
                 "checked": false
               }),

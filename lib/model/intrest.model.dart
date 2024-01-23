@@ -6,6 +6,7 @@ class IntrestModel {
     DateTime? createdAt;
     int? accountId;
     int? timetableId;
+    String? mclass;
 
     IntrestModel({
         this.id,
@@ -15,6 +16,7 @@ class IntrestModel {
         this.createdAt,
         this.accountId,
         this.timetableId,
+        this.mclass,
     });
 
     factory IntrestModel.fromJson(Map<String, dynamic> json) => IntrestModel(
@@ -25,6 +27,7 @@ class IntrestModel {
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         accountId: json["AccountId"],
         timetableId: json["TimetableId"],
+        mclass: json['mclass'],
     );
 
     Map<String, dynamic> toJson() => {
@@ -35,5 +38,6 @@ class IntrestModel {
         "createdAt": createdAt?.toIso8601String(),
         "AccountId": accountId,
         "TimetableId": timetableId,
+        "mclass": mclass
     };
 }

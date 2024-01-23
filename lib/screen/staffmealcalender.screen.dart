@@ -220,6 +220,7 @@ class _StaffMealCalenderScreenState extends State<StaffMealCalenderScreen> {
                                               timetable: eventListener.activeSchedule!.id,
                                               meal: eventListener.activeSchedule!.breakfast,
                                               date: eventListener.activeSchedule!.date,
+                                              mclass: "Breakfast"
                                               ));
                                     },
                                             eventListener.activeSchedule!
@@ -246,7 +247,8 @@ class _StaffMealCalenderScreenState extends State<StaffMealCalenderScreen> {
                                           IntrestModel(
                                               timetable: eventListener.activeSchedule!.id,
                                               meal: eventListener.activeSchedule!.lunch,
-                                              date: eventListener.activeSchedule!.date
+                                              date: eventListener.activeSchedule!.date,
+                                              mclass: "Lunch"
                                               ));
                                               },
                                             eventListener.activeSchedule!.lunch!,
@@ -271,7 +273,9 @@ class _StaffMealCalenderScreenState extends State<StaffMealCalenderScreen> {
                                               meal: eventListener
                                                   .activeSchedule!.dinner,
                                               date: eventListener
-                                                  .activeSchedule!.date));
+                                                  .activeSchedule!.date,
+                                               mclass: "Dinner"
+                                                  ));
                                     },
                                             eventListener
                                                     .activeSchedule!.dinner!,

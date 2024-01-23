@@ -4,6 +4,7 @@ import 'package:promeal/components/extrude.component.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
+import 'package:promeal/model/intrest.model.dart';
 import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
@@ -92,13 +93,25 @@ class _MealStatisticsState extends State<MealStatistics> {
           
               ...List.generate(
                   calenderScehudle.nextCalender!.length,
-                  (index) => SlideInUp(
+                  (index){
+
+                    List<IntrestModel> event = context.watch<EventProvider>().weeklyIntrest;
+
+                    String count(DateTime date){
+
+                      // event.where((element) => element.date!.isAtSameMomentAs(date) && element.meal == "breakfast")
+
+                      return "";
+                    }
+
+                    return SlideInUp(
                         duration:
                             Duration(milliseconds: animationDelay * index + 1),
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 20),
                           child: Extrude(
                             onPress: () {
+
 
                               //todo
 
@@ -191,7 +204,11 @@ class _MealStatisticsState extends State<MealStatistics> {
                             ),
                           ),
                         ),
-                      )),
+                      );
+                      
+                      
+                  }
+                      ),
               SizedBox(
                 height: AppSize.height(10),
               ),
