@@ -16,7 +16,7 @@ import 'package:promeal/screen/transfers_history.screen.dart';
 import 'package:promeal/screen/users.screen.dart';
 import 'package:promeal/screen/widgets/appbar.widget.dart';
 import 'package:promeal/services/socket.service.dart';
-import 'package:promeal/services/update_service.dart';
+import 'package:promeal/services/update.service.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatelessWidget {
