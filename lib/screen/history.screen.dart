@@ -7,12 +7,8 @@ import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
 import 'package:promeal/model/history.model.dart';
-import 'package:promeal/model/intrest.model.dart';
-import 'package:promeal/model/mealcaldender.model.dart';
-import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/historyreviews.screen.dart';
-import 'package:promeal/screen/statisticsdetails.screen.dart';
 import 'package:promeal/utils/dateformat.utils.dart';
 import 'package:provider/provider.dart';
 
@@ -76,18 +72,6 @@ class _MealHistoryState extends State<MealHistory> {
                 height: AppSize.height(2),
               ),
               ...List.generate(history.length, (index) {
-                List<IntrestModel> event =
-                    context.watch<EventProvider>().weeklyIntrest;
-
-                String count(DateTime date, {String mclass = "Breakfast"}) {
-                  List<IntrestModel> data = event
-                      .where((element) =>
-                          element.mclass == mclass &&
-                          element.date!.isAtSameMomentAs(date))
-                      .toList();
-
-                  return data.length.toString();
-                }
 
                 return SlideInUp(
                   duration: Duration(milliseconds: animationDelay * index + 1),

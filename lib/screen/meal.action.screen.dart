@@ -8,7 +8,6 @@ import 'package:promeal/config/route.config.dart';
 import 'package:promeal/config/size.config.dart';
 import 'package:promeal/config/style.config.dart';
 import 'package:promeal/constants.dart';
-import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
 import 'package:promeal/screen/scanClaim.screen.dart';

@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:promeal/model/app.model.dart';
+import 'package:promeal/services/api.service.dart';
 
 class AppProvider extends ChangeNotifier {
   bool _checked = true;
@@ -35,6 +38,31 @@ class AppProvider extends ChangeNotifier {
 
   int? _transferIndex;
   int? get transferIndex => _transferIndex;
+
+  AppModel? app;
+
+  bool initialized = false;
+
+  loadAppConfig(BuildContext context) async {
+  if(!initialized){
+    Response response = await APIRepo().appconfig(token:"");
+    AppModel appdata = AppModel.fromJson(response.data['data']);
+    app = appdata;
+    initialized = true;
+    notifyListeners();
+
+    }
+  }
+
+    toggleClaimApproach(BuildContext context) async {
+      int index = app!.claimMode! == 0 ? 1 : 0;
+      app!.claimMode = index;
+      notifyListeners();
+      Response response = await APIRepo().updateAppConfig({"claimMode": index} ,"");
+      AppModel appdata = AppModel.fromJson(response.data['data']);
+      app = appdata;
+      notifyListeners();
+  }
 
   toggleUser(int index) {
     if (index == _expandedUserId) {

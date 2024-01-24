@@ -66,10 +66,12 @@ class Dashboard extends StatelessWidget {
     } else {
       context.read<EventProvider>().adminMonitor(context);
     }
-
+    
     context.read<EventProvider>().initLoading(context);
-
     UpdateService().checkAppVersion(context);
+    context.read<AppProvider>().loadAppConfig(context);
+
+
 
 
     return Scaffold(
