@@ -39,7 +39,7 @@ class _HistoryReviewScreensState extends State<HistoryReviewScreens> {
     }
 
     List<String> mclass = ["All", "Breakfast", "Lunch", "Dinner"];
-    List<List<Review>> counts = [      
+    List<List<Review>> counts = [
       widget.reviews,
       widget.reviews.where((element) => element.mclass == "Breakfast").toList(),
       widget.reviews.where((element) => element.mclass == "Lunch").toList(),
@@ -145,6 +145,10 @@ class _HistoryReviewScreensState extends State<HistoryReviewScreens> {
             SizedBox(
               height: AppSize.height(2),
             ),
+
+            Column(
+              children: [
+
             ...List.generate(counts[selectedIndex].length, (index) {
               List<IntrestModel> event =
                   context.watch<EventProvider>().weeklyIntrest;
@@ -167,37 +171,45 @@ class _HistoryReviewScreensState extends State<HistoryReviewScreens> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                            Text("${counts[selectedIndex][index].name}", style: TextStyle(fontWeight: FontWeight.bold),),
-                           Row(
-                          
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${counts[selectedIndex][index].name}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Row(
                             children: [
                               ...List.generate(
                                   5,
                                   (xindex) => SlideInDown(
-                                     duration: Duration(milliseconds: 100 * xindex),
-                                    child: Icon(
-                                      Icons.star,
-                                      size: 19,
-                                      color: counts[selectedIndex][index].rating! <= xindex
-                                          ? Theme.of(context).hintColor
-                                          : Colors.deepOrangeAccent,
-                                    ),
-                                  ))
+                                        duration: Duration(
+                                            milliseconds: 100 * xindex),
+                                        child: Icon(
+                                          Icons.star,
+                                          size: 19,
+                                          color: counts[selectedIndex][index]
+                                                      .rating! <=
+                                                  xindex
+                                              ? Theme.of(context).hintColor
+                                              : Colors.deepOrangeAccent,
+                                        ),
+                                      ))
                             ],
-                      ),
-                         ],
-                       ),
-                                                 SizedBox(height: 5),
-
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("${counts[selectedIndex][index].review}"),
-                          SizedBox(height: 5),
+                          ),
                         ],
+                      ),
+                      SizedBox(height: 5),
+
+
+                      SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("${counts[selectedIndex][index].review}", style: AppStyle.apply(context, size: 15)),
+                            SizedBox(height: 5),
+                          ],
+                        ),
                       ),
                       Row(
                         children: [
@@ -210,8 +222,8 @@ class _HistoryReviewScreensState extends State<HistoryReviewScreens> {
                                 counts[selectedIndex][index].mclass!,
                                 style: TextStyle(color: Colors.white),
                               )),
-                              SizedBox(width: 5),
-                              Text("${counts[selectedIndex][index].meal}")
+                          SizedBox(width: 5),
+                          Text("${counts[selectedIndex][index].meal}")
                         ],
                       ),
                       Divider()
@@ -220,9 +232,10 @@ class _HistoryReviewScreensState extends State<HistoryReviewScreens> {
                 ),
               );
             }),
-            SizedBox(
-              height: AppSize.height(10),
-            ),
+        
+              ],
+            )
+
           ],
         ),
       )),
