@@ -10,6 +10,7 @@ import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/changepassword.screen.dart';
 import 'package:promeal/screen/mealcalender.screen.dart';
+import 'package:promeal/screen/mealhistory.screen.dart';
 import 'package:promeal/screen/mealstatistics.screen.dart';
 import 'package:provider/provider.dart';
 
@@ -180,6 +181,52 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
 
+                    GestureDetector(
+                onTap: () {
+                  AppRoutes.push(context, MealHistory());
+                },
+                child: FadeInUp(
+                  child: Visibility(
+                    visible: context.read<AccountProvider>().accountModel!.role != 'user' ? false : true,
+                    child: Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.history,
+                                color: Theme.of(context).textTheme.bodyLarge!.color,
+                              ),
+                              const SizedBox(width: 10),
+                              Text("Histories & Reviews", style: AppStyle.apply(context)),
+                              const Spacer(),
+                              const Extrude(
+                                  radius: 3,
+                                  primary: true,
+                                  child: SizedBox(
+                                      height: 25,
+                                      width: 25,
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 15,
+                                        color: Colors.white,
+                                      )))
+                            ],
+                          ),
+                          SizedBox(height: AppSize.height(0.8)),
+                          Divider(
+                            height: 10,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                          SizedBox(height: AppSize.height(1.5)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               FadeInUp(
                 delay: Duration(milliseconds: thisDelay),
                 child: Column(
@@ -192,6 +239,37 @@ class SettingScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Text("Notification Sound", style: AppStyle.apply(context)),
+                        const Spacer(),
+                        AppToggle(
+                            active: context.watch<AccountProvider>().allowNotification,
+                            onTap: () {
+                              context.read<AccountProvider>().toggleNotification();
+                            })
+                      ],
+                    ),
+                    SizedBox(height: AppSize.height(0.8)),
+                    Divider(
+                      height: 10,
+                      color: Theme.of(context).textTheme.bodyLarge!.color,
+                    ),
+                    SizedBox(height: AppSize.height(1.8)),
+                  ],
+                ),
+              ),
+
+
+               FadeInUp(
+                delay: Duration(milliseconds: thisDelay),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.thumb_up_alt_outlined,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
+                        ),
+                        const SizedBox(width: 10),
+                        Text("Indicate to claim", style: AppStyle.apply(context)),
                         const Spacer(),
                         AppToggle(
                             active: context.watch<AccountProvider>().allowNotification,

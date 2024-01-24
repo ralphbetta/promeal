@@ -22,7 +22,9 @@ class APIRoute {
   static String intrest = "$base/api/intrest";
   static String app = "$base/api/app";
 
-    static String review = "$base/api/review";
+  static String review = "$base/api/review";
+  static String history = "$base/api/history";
+
 
 
   static String adminfoods = "$base/api/food/dump?query=today";

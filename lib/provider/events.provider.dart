@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:promeal/components/modal.component.dart';
 import 'package:promeal/config/data.config.dart';
 import 'package:promeal/config/route.config.dart';
+import 'package:promeal/model/history.model.dart';
 import 'package:promeal/model/intrest.model.dart';
 import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/account.provider.dart';
@@ -58,6 +59,9 @@ class EventProvider extends ChangeNotifier {
 
   List<IntrestModel> _weeklyIntrest = [];
   List<IntrestModel> get weeklyIntrest => _weeklyIntrest;
+
+  List<HistoryModel> _history = [];
+  List<HistoryModel> get history => _history;
 
   bool edited = false;
 
@@ -381,10 +385,24 @@ class EventProvider extends ChangeNotifier {
 
   }
 
-  initLoading(BuildContext context) {
+
+  Future fetchHistory(BuildContext context) async {
+    Response response = await APIRepo().getHistory(context.read<AccountProvider>().token);
+    _history.clear();
+    for (var item in response.data['data']) {
+      HistoryModel instance = HistoryModel.fromJson(item);
+      _history.add(instance);
+    }
+    notifyListeners();
+
+    return true;
+  }
+
+  initLoading(BuildContext context) async {
     fetchSchedule(context);
     fetchUserIntrest(context);
     fetchWeeklyUserIntrest(context);
+    await fetchHistory(context);
   }
 
   // List<DateModel> dateTimeLineList = [];
