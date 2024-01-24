@@ -93,7 +93,7 @@ class MealCard extends StatelessWidget {
           onPress: () {
             context.read<EventProvider>().setMeal(index);
             context.read<EventProvider>().setSender();
-            AppRoutes.push(context, const MealActionScreen());
+            AppRoutes.push(context, MealActionScreen(meal: data[index], timetable: schedule.id ?? 0,));
           },
           child: SizedBox(
             height: AppSize.height(18),

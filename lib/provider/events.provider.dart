@@ -63,7 +63,6 @@ class EventProvider extends ChangeNotifier {
 
   final socket = SocketService.instance.socket;
 
-
   selectDay(int newIndex) {
     if (selectedIndex == newIndex) {
       selectedIndex = -1;
@@ -228,11 +227,11 @@ class EventProvider extends ChangeNotifier {
   }
 
   saveIntrest(BuildContext context) async {
-
     toggleBusy();
 
     DateTime startDate =
-        _mealCalender!.presentCalender!.first.date!.subtract(Duration(days: 1));;
+        _mealCalender!.presentCalender!.first.date!.subtract(Duration(days: 1));
+    ;
     DateTime endDate =
         _mealCalender!.presentCalender!.last.date!.add(Duration(days: 1));
 
@@ -262,8 +261,8 @@ class EventProvider extends ChangeNotifier {
               }),
     ];
 
-
-    Response response = await APIRepo().postIntrest(body, context.read<AccountProvider>().token);
+    Response response = await APIRepo()
+        .postIntrest(body, context.read<AccountProvider>().token);
 
     if (response.statusCode == 200) {
       intrestRange.clear();
@@ -283,7 +282,6 @@ class EventProvider extends ChangeNotifier {
   List<IntrestModel> _userIntrestTrash = [];
 
   markIntrest(BuildContext context, IntrestModel body) async {
-
     int intrestIndex = _userIntrest.indexWhere((element) =>
         element.meal == body.meal &&
         element.date == body.date &&
@@ -294,7 +292,6 @@ class EventProvider extends ChangeNotifier {
         element.date == body.date &&
         element.timetable == body.timetable);
     if (intrestIndex >= 0) {
-      
       print(_userIntrest[intrestIndex].toJson());
       print(body.toJson());
 
@@ -312,8 +309,8 @@ class EventProvider extends ChangeNotifier {
 
     edited = true;
 
-    print("intrestIndex $intrestIndex, trashIndex $trashintrestIndex userIntrest ${_userIntrest.length} trashedIntrest ${_userIntrestTrash.length}");
-
+    print(
+        "intrestIndex $intrestIndex, trashIndex $trashintrestIndex userIntrest ${_userIntrest.length} trashedIntrest ${_userIntrestTrash.length}");
 
     notifyListeners();
   }
@@ -332,7 +329,8 @@ class EventProvider extends ChangeNotifier {
   }
 
   fetchWeeklyUserIntrest(BuildContext context) async {
-    Response response =await APIRepo().weeklyIntrest(context.read<AccountProvider>().token);
+    Response response =
+        await APIRepo().weeklyIntrest(context.read<AccountProvider>().token);
     _weeklyIntrest.clear();
     for (var item in response.data['data']) {
       IntrestModel instance = IntrestModel.fromJson(item);
@@ -370,7 +368,20 @@ class EventProvider extends ChangeNotifier {
     return true;
   }
 
-  initLoading(BuildContext context){
+  postReview(BuildContext context, Map body) async {
+    toggleBusy();
+    Response response =
+        await APIRepo().postReview(body, context.read<AccountProvider>().token);
+    if (response.statusCode == 200) {
+      showToast(context, response.data['message']);
+    }else{
+       showToast(context, response.data['message']);
+    }
+    toggleBusy();
+
+  }
+
+  initLoading(BuildContext context) {
     fetchSchedule(context);
     fetchUserIntrest(context);
     fetchWeeklyUserIntrest(context);

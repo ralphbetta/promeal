@@ -9,6 +9,9 @@ TextEditingController confirmPasswordController = TextEditingController();
 TextEditingController websiteController = TextEditingController();
 TextEditingController subscriberController = TextEditingController();
 
+TextEditingController reviewController = TextEditingController();
+
+
 
 TextEditingController breakfastController = TextEditingController();
 TextEditingController luchController = TextEditingController();
