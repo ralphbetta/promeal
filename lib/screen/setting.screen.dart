@@ -10,8 +10,8 @@ import 'package:promeal/provider/account.provider.dart';
 import 'package:promeal/provider/theme.provider.dart';
 import 'package:promeal/screen/changepassword.screen.dart';
 import 'package:promeal/screen/mealcalender.screen.dart';
-import 'package:promeal/screen/mealhistory.screen.dart';
-import 'package:promeal/screen/mealstatistics.screen.dart';
+import 'package:promeal/screen/history.screen.dart';
+import 'package:promeal/screen/statistics.screen.dart';
 import 'package:provider/provider.dart';
 
 class SettingScreen extends StatelessWidget {

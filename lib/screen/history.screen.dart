@@ -11,7 +11,8 @@ import 'package:promeal/model/intrest.model.dart';
 import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
-import 'package:promeal/screen/statdetails.screen.dart';
+import 'package:promeal/screen/historyreviews.screen.dart';
+import 'package:promeal/screen/statisticsdetails.screen.dart';
 import 'package:promeal/utils/dateformat.utils.dart';
 import 'package:provider/provider.dart';
 
@@ -94,9 +95,7 @@ class _MealHistoryState extends State<MealHistory> {
                     padding: EdgeInsets.only(bottom: 20),
                     child: Extrude(
                       onPress: () {
-                        //todo
-
-                        // AppRoutes.push(context, MealStatisticsDetails(date: calenderScehudle.presentCalender![index].date!));
+                        AppRoutes.push(context, HistoryReviewScreens(reviews: history[index].reviews!));
                       },
                       child: Container(
                         width: double.infinity,

@@ -9,7 +9,7 @@ import 'package:promeal/model/intrest.model.dart';
 import 'package:promeal/model/mealcaldender.model.dart';
 import 'package:promeal/provider/app.provider.dart';
 import 'package:promeal/provider/events.provider.dart';
-import 'package:promeal/screen/statdetails.screen.dart';
+import 'package:promeal/screen/statisticsdetails.screen.dart';
 import 'package:promeal/utils/dateformat.utils.dart';
 import 'package:provider/provider.dart';
 
