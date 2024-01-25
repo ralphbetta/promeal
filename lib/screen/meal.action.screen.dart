@@ -82,152 +82,156 @@ class _MealActionScreenState extends State<MealActionScreen> {
           elevation: 0.9,
           shadowColor: Theme.of(context).colorScheme.background),
       body: SafeArea(
-          child: Column(
-        children: [
-          SizedBox(
-            height: AppSize.height(3),
-          ),
-          SlideInUp(
-            duration: Duration(milliseconds: delay),
-            child: mealActionCard(context, () {
-              AppRoutes.push(
-                  context,
-                  ScanClaimScreen(
-                    meal: context.read<EventProvider>().meal,
-                  ));
-            }, title: "Claim ${context.read<EventProvider>().meal}"),
-          ),
-          !widget.fromTransfered
-              ? SlideInUp(
-                  duration: Duration(milliseconds: delay * 2),
-                  child: mealActionCard(context, () {
-                    context.read<AppProvider>().toggleTransferOption();
-                  },
-                      title: "Transfer ${context.read<EventProvider>().meal}",
-                      icon: Icons.share,
-                      isOpen: appListener.transferIsOpen),
-                )
-              : Container(),
-          appListener.transferIsOpen
-              ? dropdownAction(context, appListener)
-              : const SizedBox(),
-          SlideInUp(
-            duration: Duration(milliseconds: delay * 3),
-            child: mealActionCard(context, () {
-              /*----------------------------------------------
-              INITIATE FORFIT ACTION
-              -----------------------------------------------*/
-
-              showConfirmTransfer(context, () {
-                Map body = {
-                  "meal": context.read<EventProvider>().meal,
-                  "forfeited": true
-                };
-                context
-                    .read<EventProvider>()
-                    .claim(context, body, forfeited: true);
-                Navigator.of(context).pop();
-              },
-                  message:
-                      "You are about to forfeit your ${context.read<EventProvider>().meal}");
-            },
-                title: "Forfeit ${context.read<EventProvider>().meal}",
-                icon: Icons.cancel_outlined),
-          ),
-          Visibility(
-            visible:  !widget.fromTransfered ? true: false,
-            child: SlideInUp(
+          child: SingleChildScrollView(
+            child: Column(
+                  children: [
+            SizedBox(
+              height: AppSize.height(3),
+            ),
+            SlideInUp(
+              duration: Duration(milliseconds: delay),
+              child: mealActionCard(context, () {
+                AppRoutes.push(
+                    context,
+                    ScanClaimScreen(
+                      meal: context.read<EventProvider>().meal,
+                    ));
+              }, title: "Claim ${context.read<EventProvider>().meal}"),
+            ),
+            !widget.fromTransfered
+                ? SlideInUp(
+                    duration: Duration(milliseconds: delay * 2),
+                    child: mealActionCard(context, () {
+                      context.read<AppProvider>().toggleTransferOption();
+                    },
+                        title: "Transfer ${context.read<EventProvider>().meal}",
+                        icon: Icons.share,
+                        isOpen: appListener.transferIsOpen),
+                  )
+                : Container(),
+            appListener.transferIsOpen
+                ? dropdownAction(context, appListener)
+                : const SizedBox(),
+            SlideInUp(
               duration: Duration(milliseconds: delay * 3),
               child: mealActionCard(context, () {
-                toggleRview();
                 /*----------------------------------------------
-                INITIATE REVIEW ACTION
+                INITIATE FORFIT ACTION
                 -----------------------------------------------*/
+          
+                showConfirmTransfer(context, () {
+                  Map body = {
+                    "meal": context.read<EventProvider>().meal,
+                    "forfeited": true
+                  };
+                  context
+                      .read<EventProvider>()
+                      .claim(context, body, forfeited: true);
+                  Navigator.of(context).pop();
+                },
+                    message:
+                        "You are about to forfeit your ${context.read<EventProvider>().meal}");
               },
-                  title: "Review ${context.read<EventProvider>().meal}",
-                  isOpen: review,
+                  title: "Forfeit ${context.read<EventProvider>().meal}",
                   icon: Icons.cancel_outlined),
             ),
-          ),
-          const Spacer(),
-          review
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.width(5)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Got any review for today's ${context.read<EventProvider>().meal.toLowerCase()}? Kindly submit your review below",
-                        style: TextStyle(color: Theme.of(context).hintColor),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ...List.generate(
-                              5,
-                              (index) => GestureDetector(
-                                  onTap: () {
-                                    rateMeal(index);
-                                  },
-                                  child: SlideInDown(
-                                     duration: Duration(milliseconds: delay * index),
-                                    child: Icon(
-                                      Icons.star,
-                                      color: rating + 1 <= index
-                                          ? Theme.of(context).hintColor
-                                          : Colors.amber,
-                                    ),
-                                  )))
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      FadeInLeft(
-                        child: Extrude(
-                          pressed: true,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            child: TextFormField(
-                              // keyboardType: TextInputType.multiline,
-                              // maxLines: 5,
-                              controller: reviewController,
-                              decoration: InputDecoration(
-                                hintText: "Enter Review",
-                                border: InputBorder.none,
+            Visibility(
+              visible:  !widget.fromTransfered ? true: false,
+              child: SlideInUp(
+                duration: Duration(milliseconds: delay * 3),
+                child: mealActionCard(context, () {
+                  toggleRview();
+                  /*----------------------------------------------
+                  INITIATE REVIEW ACTION
+                  -----------------------------------------------*/
+                },
+                    title: "Review ${context.read<EventProvider>().meal}",
+                    isOpen: review,
+                    icon: Icons.cancel_outlined),
+              ),
+            ),
+            // const Spacer(),
+
+            SizedBox(height: 60),
+            review
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.width(5)),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Got any review for today's ${context.read<EventProvider>().meal.toLowerCase()}? Kindly submit your review below",
+                          style: TextStyle(color: Theme.of(context).hintColor),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ...List.generate(
+                                5,
+                                (index) => GestureDetector(
+                                    onTap: () {
+                                      rateMeal(index);
+                                    },
+                                    child: SlideInDown(
+                                       duration: Duration(milliseconds: delay * index),
+                                      child: Icon(
+                                        Icons.star,
+                                        color: rating + 1 <= index
+                                            ? Theme.of(context).hintColor
+                                            : Colors.amber,
+                                      ),
+                                    )))
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        FadeInLeft(
+                          child: Extrude(
+                            pressed: true,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: TextFormField(
+                                // keyboardType: TextInputType.multiline,
+                                // maxLines: 5,
+                                controller: reviewController,
+                                decoration: InputDecoration(
+                                  hintText: "Enter Review",
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 25),
-                      BounceInDown(
-                        child: AppButton(
-                          pressed: context.watch<EventProvider>().processingTransfer,
-                          onPress: () {
-
-                            Map body = {
-                              "review": reviewController.text,
-                              "rating": rating + 1,
-                              "meal": widget.meal,
-                              "timetable": widget.timetable,
-                              "mclass": context.read<EventProvider>().meal
-                            };
-                           context.read<EventProvider>().postReview(context ,body); ;
-                           
-                          },
-                          title: "SUBMIT",
-                          primary: true,
+                        SizedBox(height: 25),
+                        BounceInDown(
+                          child: AppButton(
+                            pressed: context.watch<EventProvider>().processingTransfer,
+                            onPress: () {
+          
+                              Map body = {
+                                "review": reviewController.text,
+                                "rating": rating + 1,
+                                "meal": widget.meal,
+                                "timetable": widget.timetable,
+                                "mclass": context.read<EventProvider>().meal
+                              };
+                             context.read<EventProvider>().postReview(context ,body); ;
+                             
+                            },
+                            title: "SUBMIT",
+                            primary: true,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          SizedBox(
-            height: AppSize.height(8),
-          ),
-        ],
-      )),
+                      ],
+                    ),
+                  )
+                : SizedBox(),
+            SizedBox(
+              height: AppSize.height(8),
+            ),
+                  ],
+                ),
+          )),
     );
   }
 }
