@@ -9,29 +9,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  version:
-    name: Create version number
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
-        with:
-          versionSpec: "5.x"
-      - name: Use GitVersion
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.7
-      - name: Create version.txt with nuGetVersion
-        run: echo ${{ steps.gitversion.outputs.nuGetVersion  }} > version.txt
-      - name: Upload version.txt
-        uses: actions/upload-artifact@v2
-        with:
-          name: gitversion
-          path: version.txt
 
   build:
     name: Create Android Build
-    needs: version
     runs-on: ubuntu-latest
     # ------
     env:
@@ -41,45 +21,49 @@ jobs:
         KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     # -----
     steps:
-      - uses: actions/checkout@v3
-      - name: Get version.txt
-        uses: actions/download-artifact@v2
-        with:
-          name: gitversion
-      - name: Create new file without newline char from version.txt
-        run: tr -d '\n' < version.txt > version1.txt
-      - name: Read version
-        id: version
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: version1.txt
-      - name: Update version in YAML
-        run: sed -i 's/99.99.99+99/${{ steps.version.outputs.content }}+${{ github.run_number }}/g' pubspec.yaml
-      - name: Download Android keystore
-        id: android_keystore
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-          fileName: upload-keystore.jks
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-      - name: Create key.properties
-        run: |
-          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
-          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-      - uses: actions/setup-java@v3
+      - name: Export Release Timestamp
+        run: echo "APP_VERSION=v$(date +'%Y.%m.%d.%H.%M.%S')" >> $GITHUB_ENV
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: set up java
+        uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: "12.x"
-          cache: gradle
-      - uses: subosito/flutter-action@v2
+          java-version: '12.x'
+      - name: set up flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.7.12"
+          flutter-version: '3.7.11'
           channel: 'stable'
-        #   cache: true
-      
-      - name: Get dependencies
-        run: flutter pub get
+      - run: flutter pub get
+
+    #   - uses: actions/checkout@v3
+    #   - name: Get version.txt
+    #     uses: actions/download-artifact@v2
+    #     with:
+    #       name: gitversion
+    #   - name: Create new file without newline char from version.txt
+    #     run: tr -d '\n' < version.txt > version1.txt
+    #   - name: Read version
+    #     id: version
+    #     uses: juliangruber/read-file-action@v1
+    #     with:
+    #       path: version1.txt
+    #   - name: Update version in YAML
+    #     run: sed -i 's/99.99.99+99/${{ steps.version.outputs.content }}+${{ github.run_number }}/g' pubspec.yaml
+    #   - name: Download Android keystore
+    #     id: android_keystore
+    #     uses: timheuer/base64-to-file@v1.0.3
+    #     with:
+    #       fileName: upload-keystore.jks
+    #       encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+    #   - name: Create key.properties
+      - run: |
+          echo $KEYSTORE_BASE64 | base64 -d > "$GITHUB_WORKSPACE/mobile_keystore.jks"
+          echo "storeFile=$GITHUB_WORKSPACE/mobile_keystore.jks" >> android/key.properties
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties    
 
       - name: Start Android Release Build
         run: flutter build appbundle
