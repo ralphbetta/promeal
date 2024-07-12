@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 String formatDate(DateTime date) {
-  DateTime increasedDate = date.add(Duration(days: 1));
+  DateTime increasedDate = date; //date.add(Duration(days: 1));
   String formattedDate = DateFormat("EEEE d'th' MMM, y").format(increasedDate);
   return formattedDate;
 }

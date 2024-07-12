@@ -344,8 +344,7 @@ class EventProvider extends ChangeNotifier {
   }
 
   fetchSchedule(BuildContext context) async {
-    Response response =
-        await APIRepo().getMealCalender(context.read<AccountProvider>().token);
+    Response response = await APIRepo().getMealCalender(context.read<AccountProvider>().token);
 
     ScheduleModel instance = ScheduleModel.fromJson(response.data['data']);
 
@@ -356,10 +355,8 @@ class EventProvider extends ChangeNotifier {
     DateTime currentData = DateTime.now();
     // DateTime increasedDate = currentData.add(Duration(days: 1));
 
-    List<Schedule> value = _mealCalender!.schedules!
-        .where((element) =>
-            element.date!.add(Duration(days: 1)).day == currentData.day)
-        .toList();
+    // List<Schedule> value = _mealCalender!.schedules!.where((element) => element.date!.add(Duration(days: 1)).day == currentData.day).toList();
+    List<Schedule> value = _mealCalender!.schedules!.where((element) => element.date!.day == currentData.day).toList();
 
     if (value.isNotEmpty) {
       _schedule = value.first;
@@ -373,6 +370,8 @@ class EventProvider extends ChangeNotifier {
   }
 
   postReview(BuildContext context, Map body) async {
+  try {
+
     toggleBusy();
     Response response =
         await APIRepo().postReview(body, context.read<AccountProvider>().token);
@@ -382,6 +381,12 @@ class EventProvider extends ChangeNotifier {
        showToast(context, response.data['message']);
     }
     toggleBusy();
+  }catch(e){
+  toggleBusy();
+  print("this is the error");
+  
+   print(e);
+  }
 
   }
 

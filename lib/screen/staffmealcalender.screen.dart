@@ -50,6 +50,8 @@ class _StaffMealCalenderScreenState extends State<StaffMealCalenderScreen> {
       return true;
     }
 
+    print(calenderScehudle.toJson());
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

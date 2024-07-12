@@ -72,7 +72,7 @@ customAppBar(BuildContext context, {String title=""}) {
           // ),
           SizedBox(width: AppSize.width(4)),
         ],
-        elevation: 0.9,
+        elevation: 0.1,
         shadowColor: Theme.of(context).colorScheme.background);
   }
 

@@ -24,7 +24,6 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     const List<String> userTitle = [
       "DASHBOARD",
       "TRANSFERS",
@@ -66,13 +65,10 @@ class Dashboard extends StatelessWidget {
     } else {
       context.read<EventProvider>().adminMonitor(context);
     }
-    
+
     context.read<EventProvider>().initLoading(context);
     UpdateService().checkAppVersion(context);
     context.read<AppProvider>().loadAppConfig(context);
-
-
-
 
     return Scaffold(
         appBar: customAppBar(context,
@@ -81,12 +77,17 @@ class Dashboard extends StatelessWidget {
                 : adminTitle[appListener.bottomNavIndex]),
         body: RefreshIndicator(
           onRefresh: () async {
-            
-            SocketService.instance.initialize(userId: context.read<AccountProvider>().accountModel!.id.toString());
-            context.read<AccountProvider>().initLoading(context.read<AccountProvider>().token, context.read<AccountProvider>().accountModel!.role!);
+            SocketService.instance.initialize(
+                userId: context
+                    .read<AccountProvider>()
+                    .accountModel!
+                    .id
+                    .toString());
+            context.read<AccountProvider>().initLoading(
+                context.read<AccountProvider>().token,
+                context.read<AccountProvider>().accountModel!.role!);
             context.read<EventProvider>().initLoading(context);
             await Future.delayed(Duration(milliseconds: 2000));
-
           },
           child: context.read<AccountProvider>().accountModel!.role == "user"
               ? userScreens[appListener.bottomNavIndex]
@@ -210,7 +211,9 @@ class Dashboard extends StatelessWidget {
       height: 80,
       color: Theme.of(context).scaffoldBackgroundColor,
       shape: const CircularNotchedRectangle(), //shape of notch
-      elevation: 33,
+      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+      shadowColor: Theme.of(context).shadowColor,
+      elevation: 0.9,
       notchMargin: 6,
 
       child: Row(
@@ -279,7 +282,15 @@ class Dashboard extends StatelessWidget {
                                       top: 0,
                                       left: 0,
                                       child: Visibility(
-                                        visible: index == 3 ? context.read<AccountProvider>().accountModel!.role! == "user" ? true :false : false,
+                                        visible: index == 3
+                                            ? context
+                                                        .read<AccountProvider>()
+                                                        .accountModel!
+                                                        .role! ==
+                                                    "user"
+                                                ? true
+                                                : false
+                                            : false,
                                         child: Container(
                                             padding: EdgeInsets.all(5),
                                             decoration: BoxDecoration(
@@ -357,7 +368,15 @@ class Dashboard extends StatelessWidget {
                                     top: 0,
                                     left: 5,
                                     child: Visibility(
-                                         visible: index == 3 ? context.read<AccountProvider>().accountModel!.role! == "user" ? true :false : false,
+                                      visible: index == 3
+                                          ? context
+                                                      .read<AccountProvider>()
+                                                      .accountModel!
+                                                      .role! ==
+                                                  "user"
+                                              ? true
+                                              : false
+                                          : false,
                                       child: Container(
                                           padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(
